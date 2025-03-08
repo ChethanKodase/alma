@@ -40,3 +40,13 @@ python TC_vae_celebA_training.py \
     --checkpoint_storage your checkpoint storage directory
 ```
 </pre>
+
+### TO get condition number of TC-VAE and beta VAE : 
+
+<pre>
+```
+cd alma
+conda activate /home/luser/anaconda3/envs/inn
+python beta_tc_vaes/betaVAE_tcVAE_conditioning_analysis.py  --which_gpu 0 --beta_value 5.0 --which_model VAE --checkpoint_storage /home/luser/autoencoder_attacks/saved_celebA/checkpoints
+```
+</pre>

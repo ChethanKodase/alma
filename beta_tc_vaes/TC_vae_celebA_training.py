@@ -1,6 +1,23 @@
+'''
+conda deactivate
+conda deactivate
+cd autoencoder_attacks/
+cd train_aautoencoders/
+conda activate inn
+python tcvae_celebA_three_non_reduction_layers_THIS_ONE_New.py
+
+
+
+conda deactivate
+cd alma/beta_tc_vaes/
+conda activate /home/luser/anaconda3/envs/inn
+python TC_vae_celebA_training.py --which_gpu 0 --beta_value 5.0 --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --batch_size 64 --epochs 200 --lr 1e-6 --run_time_plot_dir /home/luser/autoencoder_attacks/a_training_runtime --checkpoint_storage /home/luser/autoencoder_attacks/train_aautoencoders/saved_model/checkpoints
+
+
+'''
+
 import matplotlib.pyplot as plt
 import numpy as np
-import random
 
 import torch
 from torch import nn, optim
@@ -17,44 +34,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from vae import VAE, VAE_big, VAE_big_b
+import torch.nn.functional as F
+from torch.distributions.normal import Normal
 
-
-'''
-
-
-conda deactivate
-cd alma/beta_tc_vaes/
-conda activate /home/luser/anaconda3/envs/inn
-python vae_celebA_training.py --which_gpu 0 --beta_value 5.0 --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --batch_size 64 --epochs 200 --lr 1e-6 --run_time_plot_dir /home/luser/autoencoder_attacks/a_training_runtime --checkpoint_storage /home/luser/autoencoder_attacks/train_aautoencoders/saved_model/checkpoints
-
-
-conda deactivate
-conda deactivate
-cd /home/luser/autoencoder_attacks/train_aautoencoders/
-conda activate /home/luser/anaconda3/envs/inn
-python vae_celebA_training.py --which_gpu 0 --beta_value 5.0
-
-
-conda deactivate
-conda deactivate
-cd /home/luser/autoencoder_attacks/train_aautoencoders/
-conda activate /home/luser/anaconda3/envs/inn
-python vae_celebA_training.py --which_gpu 0 --beta_value 10.0
-
-'''
-
-
-
-
-SEED = 42
-torch.manual_seed(SEED)
-np.random.seed(SEED)
-random.seed(SEED)
-if torch.cuda.is_available():
-    torch.cuda.manual_seed(SEED)
-    torch.cuda.manual_seed_all(SEED)
-torch.backends.cudnn.deterministic = True
-torch.backends.cudnn.benchmark = False
 
 
 import argparse
@@ -88,6 +70,42 @@ device = ("cuda:"+str(which_gpu)+"" if torch.cuda.is_available() else "cpu") # U
 
 
 
+def compute_marginal_entropy(z):
+    batch_size, z_dim = z.size()
+    z = z.view(-1, z_dim)
+    return torch.mean(z, dim=0)
+
+def compute_joint_entropy(mu, logvar):
+    batch_size, z_dim = mu.size()
+    z = mu + torch.exp(0.5 * logvar) * torch.randn_like(mu)
+    log_qz = Normal(mu, torch.exp(0.5 * logvar)).log_prob(z)
+    log_qz_sum = torch.sum(log_qz, dim=1)
+    return log_qz_sum
+
+def loss_fn(recon_x, x, mu, logvar):
+    # Reconstruction loss
+    BCE = F.binary_cross_entropy(recon_x, x, reduction='sum')
+
+    # KL Divergence
+    KLD = -0.5 * torch.mean(1 + logvar - mu.pow(2) - logvar.exp())
+
+    # Total Correlation
+    batch_size = x.size(0)
+    marginal_entropy = compute_marginal_entropy(mu + torch.exp(0.5 * logvar) * torch.randn_like(mu))
+    joint_entropy = compute_joint_entropy(mu, logvar)
+    TC = torch.mean(joint_entropy) - torch.sum(marginal_entropy)
+
+    # Total loss
+    beta = 6.0  # Hyperparameter for balancing TC
+    loss = BCE + beta * (KLD + TC)
+
+    return loss, BCE, KLD, TC
+
+
+#########################################################################
+
+
+
 data_directory1 = ''+data_directory+'/smile/'
 data_directory2 = ''+data_directory+'/no_smile/'
 img_list = os.listdir(data_directory1)
@@ -111,27 +129,29 @@ testLoader  = torch.utils.data.DataLoader(test_set, batch_size=batch_size, shuff
 model = VAE_big_b(device, image_channels=3).to(device)
 optimizer = torch.optim.Adam(model.parameters(), lr=lr) 
 
-def loss_fn(recon_x, x, mu, logvar):
-    BCE = F.binary_cross_entropy(recon_x, x, size_average=False)
-    KLD = -0.5 * torch.mean(1 + logvar - mu.pow(2) - logvar.exp())
-
-    return BCE + beta_value *  KLD, BCE, KLD
-
-
 
 train_loss = []
-for epoch in range(epochs):   
+
+for epoch in range(epochs):
+   
     total_train_loss = 0
+    # training our model
     for idx, (image, label) in enumerate(trainLoader):
         images, label = image.to(device), label.to(device)
 
         recon_images, mu, logvar = model(images.to(device))
-        loss, bce, kld = loss_fn(recon_images.to(device), images.to(device), mu.to(device), logvar.to(device))
+        loss, bce, kld, tc = loss_fn(recon_images.to(device), images.to(device), mu.to(device), logvar.to(device))
+
+        #loss, bce, kld, tc = loss_fn(recon_images, images, mu, logvar)
+
+
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        
+        break
     
+    print('loss', loss)
+    print("Epoch : ", epoch)
     with torch.no_grad():
         fig, ax = plt.subplots(1, 2, figsize=(10, 10))
         ax[0].imshow(images[0].permute(1, 2, 0).cpu().numpy())
@@ -143,10 +163,10 @@ for epoch in range(epochs):
         ax[1].axis('off')
 
         plt.show()
-        plt.savefig(""+run_time_plot_dir+"/betaVAE_epoch_"+str(epoch)+"_.png")
+        plt.savefig(""+run_time_plot_dir+"/tcVAE_epoch_"+str(epoch)+"_.png")
 
     print('loss', loss)
     print("Epoch : ", epoch)
 
+    torch.save(model.state_dict(), ''+checkpoint_storage+'/celebA_CNN_TCVAE'+str(beta_value)+'_big_trainSize'+str(train_data_size)+'_epochs'+str(epoch)+'.torch')
 
-    #torch.save(model.state_dict(), ''+checkpoint_storage+'/celebA_CNN_TCVAE'+str(beta_value)+'_big_trainSize'+str(train_data_size)+'_epochs'+str(epoch)+'.torch')
