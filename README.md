@@ -3,6 +3,10 @@ ALMA-Aggregated-Lipschitz-Maximization-Attack-for-Autoencoders
 
 #create the environment for adversarial attacks in beta-VAE and TC-VAE using yml file
 
+### install conda environment for adversarial attacks on beta-VAE and TC-VAE
+
+conda env create -f environment1.yml
+
 ### Training beta-VAE:
 
 Follow the commands and assign the locations of your data, checkpoints storage and run time plots as below: 
