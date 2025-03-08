@@ -5,7 +5,7 @@ ALMA-Aggregated-Lipschitz-Maximization-Attack-for-Autoencoders
 
 ### Training beta-VAEs and TC-VAEs:
 
-Follow the commands : 
+Follow the commands and assign the locations of your data, checkpoints storage and run time plots as below: 
 
 
 <pre>
