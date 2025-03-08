@@ -15,15 +15,15 @@ Follow the commands :
 
 
 <pre>
-```bash
+```
 python vae_celebA_training.py \
     --which_gpu 0 \
     --beta_value 5.0 \
-    --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 \
+    --data_directory location of yor data \
     --batch_size 64 \
     --epochs 200 \
     --lr 1e-6 \
-    --run_time_plot_dir /home/luser/autoencoder_attacks/a_training_runtime \
-    --checkpoint_storage /home/luser/autoencoder_attacks/train_aautoencoders/saved_model/checkpoints
+    --run_time_plot_dir your run time plot directory \
+    --checkpoint_storage your checkpoint storage directory
 ```
 </pre>
