@@ -7,12 +7,6 @@ ALMA-Aggregated-Lipschitz-Maximization-Attack-for-Autoencoders
 
 Follow the commands : 
 
-`conda deactivate`
-
-`cd alma/beta_tc_vaes/`
-
-`conda activate your_env`
-
 
 <pre>
 ```
