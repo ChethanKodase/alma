@@ -16,6 +16,8 @@ Follow the commands :
 
 <pre>
 ```
+cd alma/beta_tc_vaes/
+conda activate your_env
 python vae_celebA_training.py \
     --which_gpu 0 \
     --beta_value 5.0 \
