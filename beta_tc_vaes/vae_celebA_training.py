@@ -112,8 +112,9 @@ model = VAE_big_b(device, image_channels=3).to(device)
 optimizer = torch.optim.Adam(model.parameters(), lr=lr) 
 
 def loss_fn(recon_x, x, mu, logvar):
-    BCE = F.binary_cross_entropy(recon_x, x, reduction='sum')
+    BCE = F.binary_cross_entropy(recon_x, x, size_average=False)
     KLD = -0.5 * torch.mean(1 + logvar - mu.pow(2) - logvar.exp())
+
     return BCE + beta_value *  KLD, BCE, KLD
 
 
@@ -148,4 +149,4 @@ for epoch in range(epochs):
     print("Epoch : ", epoch)
 
 
-    torch.save(model.state_dict(), ''+checkpoint_storage+'/celebA_seeded_clipped_CNN_VAE'+str(beta_value)+'_big_trainSize'+str(train_data_size)+'_epochs'+str(epoch)+'.torch')
+    torch.save(model.state_dict(), ''+checkpoint_storage+'/celebA_CNN_TCVAE'+str(beta_value)+'_big_trainSize'+str(train_data_size)+'_epochs'+str(epoch)+'.torch')
