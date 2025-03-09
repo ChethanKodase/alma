@@ -54,3 +54,16 @@ conda activate /home/luser/anaconda3/envs/inn
 python beta_tc_vaes/betaVAE_tcVAE_conditioning_analysis.py  --which_gpu 0 --beta_value 5.0 --which_model VAE --checkpoint_storage /home/luser/autoencoder_attacks/saved_celebA/checkpoints
 ```
 </pre>
+
+
+### Maximum damage attack on beta-VAE and TC-VAE
+
+## universal attacks: 
+
+<pre>
+```
+cd alma
+conda activate /home/luser/anaconda3/envs/inn
+python beta_tc_vaes/betaVAE_all_kinds_of_attacks_universal.py  --which_gpu 0 --beta_value 5.0 --attck_type aclmd_l2a_cond --which_model VAE --desired_norm_l_inf 0.1
+```
+</pre>
