@@ -126,7 +126,7 @@ testLoader  = torch.utils.data.DataLoader(test_set, batch_size=batch_size, shuff
 
 
 
-model = VAE_big_b(device, image_channels=3).to(device)
+model = VAE_big(device, image_channels=3).to(device)
 optimizer = torch.optim.Adam(model.parameters(), lr=lr) 
 
 

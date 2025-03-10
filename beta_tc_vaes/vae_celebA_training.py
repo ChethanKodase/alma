@@ -23,9 +23,9 @@ from vae import VAE, VAE_big, VAE_big_b
 
 
 conda deactivate
-cd alma/beta_tc_vaes/
+cd alma
 conda activate /home/luser/anaconda3/envs/inn
-python vae_celebA_training.py --which_gpu 0 --beta_value 5.0 --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --batch_size 64 --epochs 200 --lr 1e-6 --run_time_plot_dir /home/luser/autoencoder_attacks/a_training_runtime --checkpoint_storage /home/luser/autoencoder_attacks/train_aautoencoders/saved_model/checkpoints
+python beta_tc_vaes/vae_celebA_training.py --which_gpu 1 --beta_value 5.0 --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --batch_size 64 --epochs 200 --lr 1e-4 --run_time_plot_dir /home/luser/alma/a_training_runtime --checkpoint_storage /home/luser/autoencoder_attacks/train_aautoencoders/saved_model/checkpoints
 
 
 conda deactivate
@@ -108,14 +108,16 @@ testLoader  = torch.utils.data.DataLoader(test_set, batch_size=batch_size, shuff
 
 
 
-model = VAE_big_b(device, image_channels=3).to(device)
+model = VAE_big(device, image_channels=3).to(device)
 optimizer = torch.optim.Adam(model.parameters(), lr=lr) 
 
 def loss_fn(recon_x, x, mu, logvar):
-    BCE = F.binary_cross_entropy(recon_x, x, size_average=False)
+    MSE = F.mse_loss(recon_x, x, reduction='sum')
+
+    #BCE = F.binary_cross_entropy(recon_x, x, size_average=False)
     KLD = -0.5 * torch.mean(1 + logvar - mu.pow(2) - logvar.exp())
 
-    return BCE + beta_value *  KLD, BCE, KLD
+    return MSE + beta_value *  KLD, MSE, KLD
 
 
 
@@ -143,7 +145,7 @@ for epoch in range(epochs):
         ax[1].axis('off')
 
         plt.show()
-        plt.savefig(""+run_time_plot_dir+"/betaVAE_epoch_"+str(epoch)+"_.png")
+        plt.savefig(""+run_time_plot_dir+"/lrrBCEbetaVAE_epoch_"+str(epoch)+"_.png")
 
     print('loss', loss)
     print("Epoch : ", epoch)

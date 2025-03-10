@@ -62,8 +62,6 @@ python beta_tc_vaes/betaVAE_tcVAE_conditioning_analysis.py  --which_gpu 0 --beta
 
 <pre>
 ```
-cd alma
-conda activate /home/luser/anaconda3/envs/inn
-python beta_tc_vaes/betaVAE_all_kinds_of_attacks_universal.py  --which_gpu 0 --beta_value 5.0 --attck_type aclmd_l2a_cond --which_model VAE --desired_norm_l_inf 0.1
+python beta_tc_vaes/betaVAE_all_kinds_of_attacks_universal.py  --which_gpu 1 --beta_value 5.0 --attck_type latent_l2 --which_model VAE --desired_norm_l_inf 0.1 --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --model_location /home/luser/autoencoder_attacks/saved_celebA/checkpoints  --num_steps 300
 ```
 </pre>
