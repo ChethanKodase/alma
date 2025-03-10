@@ -1,17 +1,10 @@
 '''
-conda deactivate
-conda deactivate
-cd autoencoder_attacks/
-cd train_aautoencoders/
-conda activate inn
-python tcvae_celebA_three_non_reduction_layers_THIS_ONE_New.py
-
 
 
 conda deactivate
 cd alma/beta_tc_vaes/
 conda activate /home/luser/anaconda3/envs/inn
-python TC_vae_celebA_training.py --which_gpu 0 --beta_value 5.0 --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --batch_size 64 --epochs 200 --lr 1e-6 --run_time_plot_dir /home/luser/autoencoder_attacks/a_training_runtime --checkpoint_storage /home/luser/autoencoder_attacks/train_aautoencoders/saved_model/checkpoints
+python TC_vae_celebA_training.py --which_gpu 0 --beta_value 5.0 --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --batch_size 64 --epochs 200 --lr 1e-4 --run_time_plot_dir /home/luser/autoencoder_attacks/a_training_runtime --checkpoint_storage /home/luser/autoencoder_attacks/train_aautoencoders/saved_model/checkpoints
 
 
 '''
