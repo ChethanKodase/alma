@@ -16,15 +16,8 @@ Follow the commands and assign the locations of your data, checkpoints storage a
 ```
 cd alma/beta_tc_vaes/
 conda activate your_env
-python vae_celebA_training.py \
-    --which_gpu 0 \
-    --beta_value 5.0 \
-    --data_directory location of yor data \
-    --batch_size 64 \
-    --epochs 200 \
-    --lr 1e-6 \
-    --run_time_plot_dir your run time plot directory \
-    --checkpoint_storage your checkpoint storage directory
+python beta_tc_vaes/vae_celebA_training.py --which_gpu 1 --beta_value 5.0 --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --batch_size 64 --epochs 200 --lr 1e-4 --run_time_plot_dir /home/luser/alma/a_training_runtime --checkpoint_storage /home/luser/autoencoder_attacks/train_aautoencoders/saved_model/checkpoints
+
 ```
 </pre>
 
@@ -33,15 +26,7 @@ python vae_celebA_training.py \
 
 <pre>
 ```
-python TC_vae_celebA_training.py \
-    --which_gpu 0 \
-    --beta_value 5.0 \
-    --data_directory location of yor data \
-    --batch_size 64 \
-    --epochs 200 \
-    --lr 1e-6 \
-    --run_time_plot_dir your run time plot directory \
-    --checkpoint_storage your checkpoint storage directory
+python TC_vae_celebA_training.py --which_gpu 0 --beta_value 5.0 --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --batch_size 64 --epochs 200 --lr 1e-6 --run_time_plot_dir /home/luser/autoencoder_attacks/a_training_runtime --checkpoint_storage /home/luser/autoencoder_attacks/train_aautoencoders/saved_model/checkpoints
 ```
 </pre>
 
