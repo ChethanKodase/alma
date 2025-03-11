@@ -3,9 +3,9 @@
 
 conda deactivate
 conda deactivate
-cd /home/luser/autoencoder_attacks/train_aautoencoders/
+cd /home/luser/alma
 conda activate /home/luser/anaconda3/envs/inn
-python analysis_universal_epsilon_variation.py
+python beta_tc_vaes/analysis_universal_epsilon_variation.py --which_gpu 1 --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --which_model TCVAE --model_location /home/luser/autoencoder_attacks/saved_celebA/checkpoints --uni_noise_directory /home/luser/autoencoder_attacks/robustness_eval_saves_univ/relevancy_test/layerwise_maximum_damage_attack --damage_distributions_address /home/luser/alma/damage_distributions_variation
 
 
 pending things : Output attack 3 metrics : Output attack for VQ-VAE is not feasible because of problems with discrete latent space and gradient calculation issues
@@ -26,41 +26,43 @@ import seaborn as sns
 from torchvision import datasets, transforms
 import os
 
-# 0, 2, 8, 32
-segment = 32
-which_gpu = 0
 
-#l_inf_bound = 0.12
+import argparse
 
-#l_inf_bound = 0.06
-l_inf_bound = 0.05
+parser = argparse.ArgumentParser(description='Adversarial attack on VAE')
+#parser.add_argument('--segment', type=int, default=3, help='Segment index')
+parser.add_argument('--which_gpu', type=int, default=3, help='Index of the GPU to use (0-N)')
+parser.add_argument('--data_directory', type=str, default=0, help='data directory')
+parser.add_argument('--which_model', type=str, default="TCVAE or VAE", help='model to attack')
+parser.add_argument('--model_location', type=str, default="model location", help='model to attack')
+parser.add_argument('--uni_noise_directory', type=str, default="noise location", help='model to attack')
+parser.add_argument('--damage_distributions_address', type=str, default="distributions location", help='model to attack')
 
+
+args = parser.parse_args()
+
+which_gpu = args.which_gpu
+data_directory = args.data_directory
+model_type = args.which_model
+model_location = args.model_location
+uni_noise_directory = args.uni_noise_directory
+damage_distributions_address = args.damage_distributions_address
 
 vae_beta_value = 5.0
 
-model_type = "TCVAE"
+#model_type = "TCVAE"
 #model_type = "VAE"
 device = ("cuda:"+str(which_gpu)+"" if torch.cuda.is_available() else "cpu") # Use GPU or CPU for training
 
-
-#model = VAE_big_b(device, image_channels=3).to(device)
 
 model = VAE_big(device, image_channels=3).to(device)
 
 
 train_data_size = 162079
 epochs = 199
-#model.load_state_dict(torch.load('/home/luser/autoencoder_attacks/train_aautoencoders/saved_model/checkpoints/celebA_seeded_CNN_VAE'+str(vae_beta_value)+'_big_trainSize'+str(train_data_size)+'_epochs'+str(epochs)+'.torch'))
 
-model.load_state_dict(torch.load('/home/luser/autoencoder_attacks/saved_celebA/checkpoints/celebA_CNN_'+model_type+''+str(vae_beta_value)+'_big_trainSize'+str(train_data_size)+'_epochs'+str(epochs)+'.torch'))
+model.load_state_dict(torch.load(''+model_location+'/celebA_CNN_'+model_type+''+str(vae_beta_value)+'_big_trainSize'+str(train_data_size)+'_epochs'+str(epochs)+'.torch'))
 
-#model.load_state_dict(torch.load('/home/luser/autoencoder_attacks/saved_celebA/checkpoints/celebA_CNN_'+model_type+''+str(4.0)+'_big_trainSize'+str(train_data_size)+'_epochs'+str(epochs)+'.torch'))
-
-#"/home/luser/autoencoder_attacks/saved_celebA/checkpoints/celebA_CNN_VAE5.0_big_trainSize162079_epochs199.torch"
-
-#attack_types = ["latent_l2", "latent_wasserstein", "latent_SKL", "latent_cosine", "output_attack_l2", "output_attack_wasserstein", "output_attack_SKL", "weighted_combi_k_eq_latent_l2", "weighted_combi_k_eq_latent_wasserstein", "weighted_combi_k_eq_latent_SKL", "weighted_combi_l2_enco", "weighted_combinations_wasserstein", "weighted_combinations_SKL", "weighted_combi_cosine_enco", "weighted_combi_l2_full", "test1", "aclm_l2", "aclmd_l2", "aclmr_l2"]
-
-#attack_types = ["latent_l2", "latent_wasserstein", "latent_SKL", "latent_cosine", "output_attack_l2", "output_attack_wasserstein", "output_attack_SKL", "output_attack_cosine", "weighted_combi_k_eq_latent_l2", "weighted_combi_k_eq_latent_wasserstein", "weighted_combi_k_eq_latent_SKL", "weighted_combi_k_eq_latent_cosine", "aclmd_l2f_cond", "aclmd_wasserstein_cond", "aclmd_SKL_cond", "aclmd_cosine_cond"] #, "acmld_sens_l2", "acmld_sens_l2_corr", "acmld_sens_l2_deco"]
 
 
 SEED = 42
@@ -73,34 +75,22 @@ if torch.cuda.is_available():
 torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
 
-root = 'data_faces/img_align_celeba'
-img_list = os.listdir(root)
-print(len(img_list))
-     
-
-
-df = pd.read_csv("list_attr_celeba.csv")
-df = df[['image_id', 'Smiling']]
-
-
-
-img_list = os.listdir('data_cel1/smile/')
-img_list.extend(os.listdir('data_cel1/no_smile/'))
-
-
+data_directory1 = ''+data_directory+'/smile/'
+data_directory2 = ''+data_directory+'/no_smile/'
+img_list = os.listdir(data_directory1)
+img_list.extend(os.listdir(data_directory2))
 transform = transforms.Compose([
           transforms.Resize((64, 64)),
           transforms.ToTensor()
           ])
-
-batch_size = 2000
-celeba_data = datasets.ImageFolder('data_cel1', transform=transform)
+celeba_data = datasets.ImageFolder(data_directory, transform=transform)
 
 train_set, test_set = torch.utils.data.random_split(celeba_data, [int(len(img_list) * 0.8), len(img_list) - int(len(img_list) * 0.8)])
 train_data_size = len(train_set)
 test_data_size = len(test_set)
 print('train_data_size', train_data_size)
 print('test_data_size', test_data_size)
+batch_size = 200    
 trainLoader = torch.utils.data.DataLoader(train_set,batch_size=batch_size, shuffle=True)
 testLoader  = torch.utils.data.DataLoader(test_set, batch_size=batch_size, shuffle=True)
 
@@ -137,7 +127,7 @@ with torch.no_grad():
 
         for l_inf_bound in all_perturbation_norms:
             #for i in range(len(attack_types)):
-            optimized_noise = torch.load("/home/luser/autoencoder_attacks/robustness_eval_saves_univ/relevancy_test/layerwise_maximum_damage_attack/"+model_type+"_beta_"+str(vae_beta_value)+"_attack_type"+str(attack_type)+"_norm_bound_"+str(l_inf_bound)+".pt").to(device) 
+            optimized_noise = torch.load(""+uni_noise_directory+"/"+model_type+"_beta_"+str(vae_beta_value)+"_attack_type"+str(attack_type)+"_norm_bound_"+str(l_inf_bound)+".pt").to(device) 
             attacked = (source_im + optimized_noise)
             normalized_attacked = (attacked-attacked.min())/(attacked.max()-attacked.min())
             adv_gen, adv_recon_loss, adv_kl_losses = model(normalized_attacked)
@@ -242,4 +232,4 @@ plt.tight_layout()
 
 
 plt.show()
-plt.savefig("/home/luser/autoencoder_attacks/perturbation_analysis/"+model_type+"_beta_"+str(vae_beta_value)+"_.png")
+plt.savefig(""+damage_distributions_address+"/"+model_type+"_beta_"+str(vae_beta_value)+"_.png")

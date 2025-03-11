@@ -5,7 +5,7 @@ conda deactivate
 conda deactivate
 cd alma
 conda activate /home/luser/anaconda3/envs/inn
-python beta_tc_vaes/analysis_universal_box_plots.py --beta_value 5.0 --which_gpu 1 --model_location /home/luser/autoencoder_attacks/saved_celebA/checkpoints --l_inf_bound 0.07 --which_model VAE --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --box_plots_directory /home/luser/alma/box_plots
+python beta_tc_vaes/analysis_universal_box_plots.py --beta_value 5.0 --which_gpu 1 --model_location /home/luser/autoencoder_attacks/saved_celebA/checkpoints --l_inf_bound 0.07 --which_model VAE --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --box_plots_directory /home/luser/alma/box_plots --uni_noise_directory /home/luser/autoencoder_attacks/robustness_eval_saves_univ/relevancy_test/layerwise_maximum_damage_attack
 
 
 pending things : Output attack 3 metrics : Output attack for VQ-VAE is not feasible because of problems with discrete latent space and gradient calculation issues
@@ -39,6 +39,7 @@ parser.add_argument('--model_location', type=str, default=0, help='model directo
 parser.add_argument('--l_inf_bound', type=float, default=0.07, help='Index of the GPU to use (0-N)')
 parser.add_argument('--data_directory', type=str, default=0, help='data directory')
 parser.add_argument('--box_plots_directory', type=str, default=0, help='data directory')
+parser.add_argument('--uni_noise_directory', type=str, default="noise location", help='model to attack')
 
 
 args = parser.parse_args()
@@ -50,6 +51,7 @@ model_type = args.which_model
 data_directory = args.data_directory
 box_plots_directory = args.box_plots_directory
 l_inf_bound = args.l_inf_bound
+uni_noise_directory = args.uni_noise_directory
 
 vae_beta_value = beta_value
 
@@ -107,7 +109,7 @@ with torch.no_grad():
 
     for i in range(len(attack_types)):
 
-        optimized_noise = torch.load("/home/luser/autoencoder_attacks/robustness_eval_saves_univ/relevancy_test/layerwise_maximum_damage_attack/"+model_type+"_beta_"+str(vae_beta_value)+"_attack_type"+str(attack_types[i])+"_norm_bound_"+str(l_inf_bound)+".pt").to(device) 
+        optimized_noise = torch.load(""+uni_noise_directory+"/"+model_type+"_beta_"+str(vae_beta_value)+"_attack_type"+str(attack_types[i])+"_norm_bound_"+str(l_inf_bound)+".pt").to(device) 
 
 
         attacked = (source_im + optimized_noise)

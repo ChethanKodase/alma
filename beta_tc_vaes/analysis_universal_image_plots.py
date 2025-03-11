@@ -5,7 +5,7 @@ conda deactivate
 conda deactivate
 cd alma
 conda activate /home/luser/anaconda3/envs/inn
-python beta_tc_vaes/analysis_universal_image_plots.py --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --model_location /home/luser/autoencoder_attacks/saved_celebA/checkpoints --qualitative_plots_directory /home/luser/alma/universal_qualitative
+python beta_tc_vaes/analysis_universal_image_plots.py --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --model_location /home/luser/autoencoder_attacks/saved_celebA/checkpoints --qualitative_plots_directory /home/luser/alma/universal_qualitative --uni_noise_directory /home/luser/autoencoder_attacks/robustness_eval_saves_univ/relevancy_test/layerwise_maximum_damage_attack
 
 
 pending things : Output attack 3 metrics : Output attack for VQ-VAE is not feasible because of problems with discrete latent space and gradient calculation issues
@@ -34,6 +34,7 @@ parser.add_argument('--model_location', type=str, default=0, help='model directo
 parser.add_argument('--l_inf_bound', type=float, default=0.07, help='Index of the GPU to use (0-N)')
 parser.add_argument('--data_directory', type=str, default=0, help='data directory')
 parser.add_argument('--qualitative_plots_directory', type=str, default=0, help='data directory')
+parser.add_argument('--uni_noise_directory', type=str, default="noise location", help='model to attack')
 
 
 args = parser.parse_args()
@@ -45,6 +46,7 @@ model_type = args.which_model
 data_directory = args.data_directory
 qualitative_plots_directory = args.qualitative_plots_directory
 l_inf_bound = args.l_inf_bound
+uni_noise_directory = args.uni_noise_directory
 
 
 
@@ -91,7 +93,7 @@ attack_types = ["latent_l2", "latent_wasserstein", "latent_SKL", "latent_cosine"
 
 row_one_ims = []
 row_two_ims = []
-source_im = torch.load("/home/luser/autoencoder_attacks/test_sets/celebA_test_set.pt")[segment].unsqueeze(0).to(device) 
+#source_im = torch.load("/home/luser/autoencoder_attacks/test_sets/celebA_test_set.pt")[segment].unsqueeze(0).to(device) 
 
 
 from torchvision import datasets, transforms
@@ -137,7 +139,7 @@ row_two_ims.append(just_recon)
 
 for i in range(len(attack_types)):
 
-    optimized_noise = torch.load("/home/luser/autoencoder_attacks/robustness_eval_saves_univ/relevancy_test/layerwise_maximum_damage_attack/"+model_type+"_beta_"+str(vae_beta_value)+"_attack_type"+str(attack_types[i])+"_norm_bound_"+str(l_inf_bound)+".pt").to(device) 
+    optimized_noise = torch.load(""+uni_noise_directory+"/"+model_type+"_beta_"+str(vae_beta_value)+"_attack_type"+str(attack_types[i])+"_norm_bound_"+str(l_inf_bound)+".pt").to(device) 
 
     #torch.save(optimized_noise, "/home/luser/autoencoder_attacks/robustness_eval_saves_univ/relevancy_test/layerwise_maximum_damage_attack/"+model_type+"_beta_"+str(beta_value)+"_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+".pt")
 
