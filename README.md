@@ -65,3 +65,12 @@ python beta_tc_vaes/betaVAE_all_kinds_of_attacks_universal.py  --which_gpu 1 --b
 python beta_tc_vaes/analysis_universal_box_plots.py --beta_value 5.0 --which_gpu 1 --model_location /home/luser/autoencoder_attacks/saved_celebA/checkpoints --l_inf_bound 0.07 --which_model VAE --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --box_plots_directory /home/luser/alma/box_plots
 ```
 </pre>
+
+
+## To get qualitative image plots comparing maximum damage attacks between different methods
+
+<pre>
+```
+python beta_tc_vaes/analysis_universal_image_plots.py --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --model_location /home/luser/autoencoder_attacks/saved_celebA/checkpoints --qualitative_plots_directory /home/luser/alma/universal_qualitative
+```
+</pre>
