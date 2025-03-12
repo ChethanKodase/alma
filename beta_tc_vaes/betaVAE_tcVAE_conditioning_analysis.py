@@ -22,7 +22,7 @@ conda deactivate
 conda deactivate
 cd alma
 conda activate /home/luser/anaconda3/envs/inn
-python beta_tc_vaes/betaVAE_tcVAE_conditioning_analysis.py  --which_gpu 0 --beta_value 5.0 --which_model VAE --checkpoint_storage /home/luser/autoencoder_attacks/saved_celebA/checkpoints
+python beta_tc_vaes/betaVAE_tcVAE_conditioning_analysis.py  --which_gpu 1 --beta_value 5.0 --which_model VAE --checkpoint_storage /home/luser/alma/vae_checkpoints
 
 
 #########################################################################################################################
@@ -32,7 +32,7 @@ conda deactivate
 conda deactivate
 cd alma
 conda activate /home/luser/anaconda3/envs/inn
-python beta_tc_vaes/betaVAE_tcVAE_conditioning_analysis.py  --which_gpu 1 --beta_value 5.0 --which_model TCVAE --checkpoint_storage /home/luser/autoencoder_attacks/saved_celebA/checkpoints
+python beta_tc_vaes/betaVAE_tcVAE_conditioning_analysis.py  --which_gpu 1 --beta_value 5.0 --which_model TCVAE --checkpoint_storage /home/luser/alma/vae_checkpoints
 
 ######################################################################################################################################################
 
@@ -76,6 +76,12 @@ model_type = which_model
 
 
 model.load_state_dict(torch.load(''+checkpoint_storage+'/celebA_CNN_'+model_type+''+str(beta_value)+'_big_trainSize'+str(train_data_size)+'_epochs'+str(epochs)+'.torch'))
+
+'''checkpoint_storage = '/home/luser/alma/vae_checkpoints'
+
+torch.save(model.state_dict(), ''+checkpoint_storage+'/celebA_CNN_'+model_type+''+str(beta_value)+'_big_trainSize'+str(train_data_size)+'_epochs'+str(epochs)+'.torch')
+
+model.load_state_dict(torch.load(''+checkpoint_storage+'/celebA_CNN_'+model_type+''+str(beta_value)+'_big_trainSize'+str(train_data_size)+'_epochs'+str(epochs)+'.torch'))'''
 
 model.eval()
 
