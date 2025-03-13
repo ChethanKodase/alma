@@ -2,9 +2,9 @@
 
 
 conda deactivate
-cd alma/beta_tc_vaes/
+cd alma
 conda activate /home/luser/anaconda3/envs/inn
-python TC_vae_celebA_training.py --which_gpu 0 --beta_value 5.0 --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --batch_size 64 --epochs 200 --lr 1e-4 --run_time_plot_dir /home/luser/autoencoder_attacks/a_training_runtime --checkpoint_storage /home/luser/autoencoder_attacks/train_aautoencoders/saved_model/checkpoints
+python beta_tc_vaes/TC_vae_celebA_training.py --which_gpu 1 --beta_value 5.0 --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --batch_size 64 --epochs 200 --lr 1e-6 --run_time_plot_dir a_training_runtime --checkpoint_storage vae_checkpoints
 
 
 '''
@@ -141,7 +141,7 @@ for epoch in range(epochs):
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        break
+        
     
     print('loss', loss)
     print("Epoch : ", epoch)
@@ -161,5 +161,5 @@ for epoch in range(epochs):
     print('loss', loss)
     print("Epoch : ", epoch)
 
-    torch.save(model.state_dict(), ''+checkpoint_storage+'/celebA_CNN_TCVAE'+str(beta_value)+'_big_trainSize'+str(train_data_size)+'_epochs'+str(epoch)+'.torch')
+    #torch.save(model.state_dict(), ''+checkpoint_storage+'/celebA_CNN_TCVAE'+str(beta_value)+'_big_trainSize'+str(train_data_size)+'_epochs'+str(epoch)+'.torch')
 

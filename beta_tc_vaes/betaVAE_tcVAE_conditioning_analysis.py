@@ -22,7 +22,7 @@ conda deactivate
 conda deactivate
 cd alma
 conda activate /home/luser/anaconda3/envs/inn
-python beta_tc_vaes/betaVAE_tcVAE_conditioning_analysis.py  --which_gpu 1 --beta_value 5.0 --which_model VAE --checkpoint_storage /home/luser/alma/vae_checkpoints
+python beta_tc_vaes/betaVAE_tcVAE_conditioning_analysis.py  --which_gpu 1 --beta_value 5.0 --which_model VAE --checkpoint_storage vae_checkpoints
 
 
 #########################################################################################################################
@@ -32,7 +32,7 @@ conda deactivate
 conda deactivate
 cd alma
 conda activate /home/luser/anaconda3/envs/inn
-python beta_tc_vaes/betaVAE_tcVAE_conditioning_analysis.py  --which_gpu 1 --beta_value 5.0 --which_model TCVAE --checkpoint_storage /home/luser/alma/vae_checkpoints
+python beta_tc_vaes/betaVAE_tcVAE_conditioning_analysis.py  --which_gpu 1 --beta_value 5.0 --which_model TCVAE --checkpoint_storage vae_checkpoints
 
 ######################################################################################################################################################
 

@@ -25,21 +25,8 @@ from vae import VAE, VAE_big, VAE_big_b
 conda deactivate
 cd alma
 conda activate /home/luser/anaconda3/envs/inn
-python beta_tc_vaes/vae_celebA_training.py --which_gpu 1 --beta_value 5.0 --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --batch_size 64 --epochs 200 --lr 1e-4 --run_time_plot_dir /home/luser/alma/a_training_runtime --checkpoint_storage /home/luser/autoencoder_attacks/train_aautoencoders/saved_model/checkpoints
-
-
-conda deactivate
-conda deactivate
-cd /home/luser/autoencoder_attacks/train_aautoencoders/
-conda activate /home/luser/anaconda3/envs/inn
-python vae_celebA_training.py --which_gpu 0 --beta_value 5.0
-
-
-conda deactivate
-conda deactivate
-cd /home/luser/autoencoder_attacks/train_aautoencoders/
-conda activate /home/luser/anaconda3/envs/inn
-python vae_celebA_training.py --which_gpu 0 --beta_value 10.0
+python beta_tc_vaes/vae_celebA_training.py --which_gpu 1 --beta_value 5.0 --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --batch_size 64 --epochs 200 --lr 1e-4 --run_time_plot_dir a_training_runtime --checkpoint_storage vae_checkpoints --model_type VAE
+python beta_tc_vaes/vae_celebA_training.py --which_gpu 1 --beta_value 5.0 --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --batch_size 64 --epochs 200 --lr 1e-4 --run_time_plot_dir a_training_runtime --checkpoint_storage vae_checkpoints --model_type TCVAE
 
 '''
 
@@ -69,6 +56,7 @@ parser.add_argument('--epochs', type=int, default=200, help='training batch size
 parser.add_argument('--lr', type=float, default=1e-6, help='Beta VAE beta value')
 parser.add_argument('--run_time_plot_dir', type=str, default="/home/luser/autoencoder_attacks/a_training_runtime", help='run time plots directory')
 parser.add_argument('--checkpoint_storage', type=str, default="/home/luser/autoencoder_attacks/train_aautoencoders/saved_model/checkpoints", help='run time plots directory')
+parser.add_argument('--model_type', type=str, default="VAE or TCVAE", help='run time plots directory')
 
 
 
@@ -82,7 +70,7 @@ epochs = args.epochs
 lr = args.lr
 run_time_plot_dir = args.run_time_plot_dir
 checkpoint_storage = args.checkpoint_storage
-
+model_type = args.model_type
 
 device = ("cuda:"+str(which_gpu)+"" if torch.cuda.is_available() else "cpu") # Use GPU or CPU for training
 
@@ -113,42 +101,86 @@ optimizer = torch.optim.Adam(model.parameters(), lr=lr)
 
 def loss_fn(recon_x, x, mu, logvar):
     MSE = F.mse_loss(recon_x, x, reduction='sum')
-
     #BCE = F.binary_cross_entropy(recon_x, x, size_average=False)
     KLD = -0.5 * torch.mean(1 + logvar - mu.pow(2) - logvar.exp())
-
     return MSE + beta_value *  KLD, MSE, KLD
 
 
+def loss_fn_tcvae(x, x_recon, mu, logvar, z, beta=5):
+    recon_loss = F.binary_cross_entropy(x_recon, x, reduction='sum')
+    kl_divergence = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
+    # Approximate TC loss using minibatch
+    log_qz = torch.logsumexp(-0.5 * ((z.unsqueeze(1) - z.unsqueeze(0)) ** 2).sum(-1), dim=1)
+    log_qz = log_qz.mean()
+    total_correlation = log_qz - kl_divergence / z.shape[0]
+    loss = recon_loss + beta * kl_divergence + total_correlation
+    return loss
 
-train_loss = []
-for epoch in range(epochs):   
-    total_train_loss = 0
-    for idx, (image, label) in enumerate(trainLoader):
-        images, label = image.to(device), label.to(device)
 
-        recon_images, mu, logvar = model(images.to(device))
-        loss, bce, kld = loss_fn(recon_images.to(device), images.to(device), mu.to(device), logvar.to(device))
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
+if(model_type == "VAE"):
+    train_loss = []
+    for epoch in range(epochs):   
+        total_train_loss = 0
+        for idx, (image, label) in enumerate(trainLoader):
+            images, label = image.to(device), label.to(device)
+
+            recon_images, mu, logvar, z = model(images.to(device))
+            loss, bce, kld = loss_fn(recon_images.to(device), images.to(device), mu.to(device), logvar.to(device))
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            
         
-    
-    with torch.no_grad():
-        fig, ax = plt.subplots(1, 2, figsize=(10, 10))
-        ax[0].imshow(images[0].permute(1, 2, 0).cpu().numpy())
-        ax[0].set_title('Input Image')
-        ax[0].axis('off')
+        with torch.no_grad():
+            fig, ax = plt.subplots(1, 2, figsize=(10, 10))
+            ax[0].imshow(images[0].permute(1, 2, 0).cpu().numpy())
+            ax[0].set_title('Input Image')
+            ax[0].axis('off')
 
-        ax[1].imshow(recon_images[0].cpu().detach().permute(1, 2, 0).cpu().numpy())
-        ax[1].set_title('Reconstructed Image')
-        ax[1].axis('off')
+            ax[1].imshow(recon_images[0].cpu().detach().permute(1, 2, 0).cpu().numpy())
+            ax[1].set_title('Reconstructed Image')
+            ax[1].axis('off')
 
-        plt.show()
-        plt.savefig(""+run_time_plot_dir+"/lrrBCEbetaVAE_epoch_"+str(epoch)+"_.png")
+            plt.show()
+            plt.savefig(""+run_time_plot_dir+"/lrrBCEbetaVAE_epoch_"+str(epoch)+"_.png")
 
-    print('loss', loss)
-    print("Epoch : ", epoch)
+        print('loss', loss)
+        print("Epoch : ", epoch)
 
 
-    #torch.save(model.state_dict(), ''+checkpoint_storage+'/celebA_CNN_TCVAE'+str(beta_value)+'_big_trainSize'+str(train_data_size)+'_epochs'+str(epoch)+'.torch')
+        #torch.save(model.state_dict(), ''+checkpoint_storage+'/celebA_CNN_VAE'+str(beta_value)+'_big_trainSize'+str(train_data_size)+'_epochs'+str(epoch)+'.torch')
+
+
+
+if(model_type == "TCVAE"):
+    train_loss = []
+    for epoch in range(epochs):   
+        total_train_loss = 0
+        for idx, (image, label) in enumerate(trainLoader):
+            images, label = image.to(device), label.to(device)
+
+            recon_images, mu, logvar, z = model(images.to(device))
+            loss = loss_fn_tcvae(images.to(device), recon_images.to(device), mu.to(device), logvar.to(device), z.to(device))
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            
+        
+        with torch.no_grad():
+            fig, ax = plt.subplots(1, 2, figsize=(10, 10))
+            ax[0].imshow(images[0].permute(1, 2, 0).cpu().numpy())
+            ax[0].set_title('Input Image')
+            ax[0].axis('off')
+
+            ax[1].imshow(recon_images[0].cpu().detach().permute(1, 2, 0).cpu().numpy())
+            ax[1].set_title('Reconstructed Image')
+            ax[1].axis('off')
+
+            plt.show()
+            plt.savefig(""+run_time_plot_dir+"/TCVAE_epoch_"+str(epoch)+"_.png")
+
+        print('loss', loss)
+        print("Epoch : ", epoch)
+
+
+        #torch.save(model.state_dict(), ''+checkpoint_storage+'/celebA_CNN_TCVAE'+str(beta_value)+'_big_trainSize'+str(train_data_size)+'_epochs'+str(epoch)+'.torch')
