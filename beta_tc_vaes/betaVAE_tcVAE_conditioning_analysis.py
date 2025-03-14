@@ -77,6 +77,12 @@ model_type = which_model
 
 model.load_state_dict(torch.load(''+checkpoint_storage+'/celebA_CNN_'+model_type+''+str(beta_value)+'_big_trainSize'+str(train_data_size)+'_epochs'+str(epochs)+'.torch'))
 
+
+
+# original locatioo
+#model.load_state_dict(torch.load('/home/luser/autoencoder_attacks/saved_celebA/checkpoints/celebA_CNN_'+model_type+''+str(beta_value)+'_big_trainSize'+str(train_data_size)+'_epochs'+str(epochs)+'.torch'))
+
+
 '''checkpoint_storage = '/home/luser/alma/vae_checkpoints'
 
 torch.save(model.state_dict(), ''+checkpoint_storage+'/celebA_CNN_'+model_type+''+str(beta_value)+'_big_trainSize'+str(train_data_size)+'_epochs'+str(epochs)+'.torch')

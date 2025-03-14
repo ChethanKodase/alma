@@ -106,7 +106,7 @@ def loss_fn(recon_x, x, mu, logvar):
     return MSE + beta_value *  KLD, MSE, KLD
 
 
-def loss_fn_tcvae(x, x_recon, mu, logvar, z, beta=5):
+def loss_fn_tcvae(x, x_recon, mu, logvar, z, beta=2):
     recon_loss = F.binary_cross_entropy(x_recon, x, reduction='sum')
     kl_divergence = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
     # Approximate TC loss using minibatch

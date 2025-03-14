@@ -5,6 +5,9 @@ conda deactivate
 conda deactivate
 cd alma
 conda activate /home/luser/anaconda3/envs/inn
+python beta_tc_vaes/analysis_universal_box_plots.py --beta_value 5.0 --which_gpu 1 --model_location vae_checkpoints --l_inf_bound 0.07 --which_model VAE --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --box_plots_directory box_plots --uni_noise_directory beta_tc_vaes/univ_attack_storage
+
+
 python beta_tc_vaes/analysis_universal_box_plots.py --beta_value 5.0 --which_gpu 1 --model_location vae_checkpoints --l_inf_bound 0.07 --which_model TCVAE --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --box_plots_directory box_plots --uni_noise_directory beta_tc_vaes/univ_attack_storage
 
 
@@ -116,7 +119,7 @@ with torch.no_grad():
 
         attacked = (source_im + optimized_noise)
         normalized_attacked = (attacked-attacked.min())/(attacked.max()-attacked.min())
-        adv_gen, adv_recon_loss, adv_kl_losses = model(normalized_attacked)
+        adv_gen, adv_recon_loss, adv_kl_losses, _ = model(normalized_attacked)
         print("adv_gen.shape", adv_gen.shape)
         print("normalized_attacked.shape)", normalized_attacked.shape)
 

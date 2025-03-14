@@ -63,8 +63,8 @@ l_inf_bound = 0.09
 
 vae_beta_value = 5.0
 
-#model_type = "TCVAE"
-model_type = "VAE"
+model_type = "TCVAE"
+#model_type = "VAE"
 device = ("cuda:"+str(which_gpu)+"" if torch.cuda.is_available() else "cpu") # Use GPU or CPU for training
 
 
@@ -133,7 +133,7 @@ for idx, (image, label) in enumerate(testLoader):
 
 
 
-just_recon, adv_recon_loss, adv_kl_losses = model(source_im)
+just_recon, adv_recon_loss, adv_kl_losses, _ = model(source_im)
 row_one_ims.append(source_im)
 row_two_ims.append(just_recon)
 
@@ -146,7 +146,7 @@ for i in range(len(attack_types)):
 
     attacked = (source_im + optimized_noise)
     normalized_attacked = (attacked-attacked.min())/(attacked.max()-attacked.min())
-    adv_gen, adv_recon_loss, adv_kl_losses = model(normalized_attacked)
+    adv_gen, adv_recon_loss, adv_kl_losses, _ = model(normalized_attacked)
 
     row_one_ims.append(normalized_attacked)
     row_two_ims.append(adv_gen)
