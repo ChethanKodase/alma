@@ -74,10 +74,11 @@ Change the arguments for `--attck_type` to `latent_l2, latent_wasserstein, laten
 
 <pre>
 ```
-python beta_tc_vaes/analysis_universal_box_plots.py --beta_value 5.0 --which_gpu 1 --model_location /home/luser/autoencoder_attacks/saved_celebA/checkpoints --l_inf_bound 0.07 --which_model VAE --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --box_plots_directory /home/luser/alma/box_plots --uni_noise_directory /home/luser/autoencoder_attacks/robustness_eval_saves_univ/relevancy_test/layerwise_maximum_damage_attack
+python beta_tc_vaes/analysis_universal_box_plots.py --beta_value 5.0 --which_gpu 1 --model_location vae_checkpoints --l_inf_bound 0.07 --which_model VAE --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --box_plots_directory box_plots --uni_noise_directory beta_tc_vaes/univ_attack_storage
 ```
 </pre>
 
+assign which_model -> TCVAE to plot the same for TCVAE
 
 ## To get qualitative image plots comparing maximum damage attacks between different methods
 
