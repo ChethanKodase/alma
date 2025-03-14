@@ -106,3 +106,6 @@ python beta_tc_vaes/analysis_universal_epsilon_variation.py --which_gpu 1 --data
 </pre>
 
 # Code for NVAE
+
+We consider the official implementation of NVAE from https://github.com/NVlabs/NVAE. We take the pretrained weights from  the oficial publishers and implement adversarial attacks
+
