@@ -109,3 +109,41 @@ python beta_tc_vaes/analysis_universal_epsilon_variation.py --which_gpu 1 --data
 
 We consider the official implementation of NVAE from https://github.com/NVlabs/NVAE. We take the pretrained weights from  the oficial publishers and implement adversarial attacks
 
+#### clone the nvae official repository using the code below: 
+
+git clone https://github.com/NVlabs/NVAE.git
+
+Follow the instructions from https://github.com/NVlabs/NVAE and download the checkpoints for celebA 64 dataset from https://drive.google.com/drive/folders/14DWGte1E7qnMTbAs6b87vtJrmEU9luKn 
+
+
+#### To create the environment and install dependencies for adversarial attacks on NVAAE
+
+<pre>
+```
+conda deactivate
+cd alma
+python -m venv nvaeenv
+source nvaeenv/bin/activate
+pipenv install -r requirements.txt
+```
+</pre>
+
+
+
+#### To run universal adversarial attacks on NVAE
+
+<pre>
+```
+cd alma/
+source nvaeenv1/bin/activate
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_l2" --desired_norm_l_inf 0.035 --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path /mdadm0/chethan_krishnamurth/NVAE/pretrained_checkpoint
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_wass" --desired_norm_l_inf 0.035 --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path /mdadm0/chethan_krishnamurth/NVAE/pretrained_checkpoint
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_skl" --desired_norm_l_inf 0.035 --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path /mdadm0/chethan_krishnamurth/NVAE/pretrained_checkpoint
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_cos" --desired_norm_l_inf 0.035 --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path /mdadm0/chethan_krishnamurth/NVAE/pretrained_checkpoint
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_l2" --desired_norm_l_inf 0.035 --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path /mdadm0/chethan_krishnamurth/NVAE/pretrained_checkpoint
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_wass" --desired_norm_l_inf 0.035 --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path /mdadm0/chethan_krishnamurth/NVAE/pretrained_checkpoint
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_skl" --desired_norm_l_inf 0.035 --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path /mdadm0/chethan_krishnamurth/NVAE/pretrained_checkpoint
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_cos" --desired_norm_l_inf 0.035 --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path /mdadm0/chethan_krishnamurth/NVAE/pretrained_checkpoint
+
+```
+</pre>
