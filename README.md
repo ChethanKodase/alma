@@ -129,21 +129,25 @@ pipenv install -r requirements.txt
 </pre>
 
 
+#### To get condition number plots for NVAE
+
+
+
 
 #### To run universal adversarial attacks on NVAE
 
 <pre>
 ```
 cd alma/
-source nvaeenv1/bin/activate
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_l2" --desired_norm_l_inf 0.035 --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path /mdadm0/chethan_krishnamurth/NVAE/pretrained_checkpoint
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_wass" --desired_norm_l_inf 0.035 --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path /mdadm0/chethan_krishnamurth/NVAE/pretrained_checkpoint
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_skl" --desired_norm_l_inf 0.035 --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path /mdadm0/chethan_krishnamurth/NVAE/pretrained_checkpoint
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_cos" --desired_norm_l_inf 0.035 --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path /mdadm0/chethan_krishnamurth/NVAE/pretrained_checkpoint
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_l2" --desired_norm_l_inf 0.035 --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path /mdadm0/chethan_krishnamurth/NVAE/pretrained_checkpoint
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_wass" --desired_norm_l_inf 0.035 --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path /mdadm0/chethan_krishnamurth/NVAE/pretrained_checkpoint
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_skl" --desired_norm_l_inf 0.035 --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path /mdadm0/chethan_krishnamurth/NVAE/pretrained_checkpoint
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_cos" --desired_norm_l_inf 0.035 --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path /mdadm0/chethan_krishnamurth/NVAE/pretrained_checkpoint
+source nvaeenv/bin/activate
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_l2" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_checkpoint_directory
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_wass" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_checkpoint_directory
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_skl" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_checkpoint_directory
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_cos" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_checkpoint_directory
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_l2" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_checkpoint_directory
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_wass" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_checkpoint_directory
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_skl" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_checkpoint_directory
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_cos" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_checkpoint_directory
 
 ```
 </pre>

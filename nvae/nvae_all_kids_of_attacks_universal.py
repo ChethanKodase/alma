@@ -25,14 +25,14 @@ cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
 cd alma/
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_l2" --desired_norm_l_inf 0.035 --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path /mdadm0/chethan_krishnamurth/NVAE/pretrained_checkpoint
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_wass" --desired_norm_l_inf 0.035 --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path /mdadm0/chethan_krishnamurth/NVAE/pretrained_checkpoint
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_skl" --desired_norm_l_inf 0.035 --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path /mdadm0/chethan_krishnamurth/NVAE/pretrained_checkpoint
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_cos" --desired_norm_l_inf 0.035 --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path /mdadm0/chethan_krishnamurth/NVAE/pretrained_checkpoint
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_l2" --desired_norm_l_inf 0.035 --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path /mdadm0/chethan_krishnamurth/NVAE/pretrained_checkpoint
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_wass" --desired_norm_l_inf 0.035 --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path /mdadm0/chethan_krishnamurth/NVAE/pretrained_checkpoint
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_skl" --desired_norm_l_inf 0.035 --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path /mdadm0/chethan_krishnamurth/NVAE/pretrained_checkpoint
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_cos" --desired_norm_l_inf 0.035 --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path /mdadm0/chethan_krishnamurth/NVAE/pretrained_checkpoint
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_l2" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_check_point_path
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_wass" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_check_point_path
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_skl" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_check_point_path
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_cos" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_check_point_path
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_l2" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_check_point_path
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_wass" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_check_point_path
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_skl" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_check_point_path
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_cos" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_check_point_path
 
 
 
@@ -249,17 +249,15 @@ def run_time_plots_and_saves(step, total_loss, l2_distortion, l_inf_distortion, 
         ax[2].set_title('Attack reconstruction')
         ax[2].axis('off')
         plt.show()
-        plt.savefig("/mdadm0/chethan_krishnamurth/alma/nvae/optimization_time_plots/NVAE_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_.png")
+        plt.savefig("nvae/optimization_time_plots/NVAE_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_.png")
 
     optimized_noise = scaled_noise
-    torch.save(optimized_noise, "/mdadm0/chethan_krishnamurth/alma/nvae/univ_attack_storage/NVAE_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_.pt")
-    #np.save("/mdadm0/chethan_krishnamurth/NVAE/attack_run_time_univ/adv_div_convergence/NVAE_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"feature_"+str(select_feature)+"_source_segment_"+str(source_segment)+"_.npy", adv_div_list)
-    #np.save("/mdadm0/chethan_krishnamurth/NVAE/attack_run_time_univ/adv_mse_convergence/NVAE_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"feature_"+str(select_feature)+"_source_segment_"+str(source_segment)+"_.npy", adv_mse_list)
+    torch.save(optimized_noise, "nvae/univ_attack_storage/NVAE_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_.pt")
 
 
 
 if(attck_type == "alma_l2"):
-    all_condition_nums = np.load('/mdadm0/chethan_krishnamurth/NVAE/a_cond_analysis/saved_cond_nums/nvae_cond_nums.npy')
+    all_condition_nums = np.load('nvae/saved_cond_nums/nvae_cond_nums.npy')
 
     print("before all_condition_nums.max(), all_condition_nums.max()", all_condition_nums.max(), all_condition_nums.min())
     #all_condition_nums[all_condition_nums>100.0]=100
@@ -392,7 +390,7 @@ if(attck_type == "combi_wasserstein"):
 
 if(attck_type == "alma_wass"):
 
-    all_condition_nums = np.load('/mdadm0/chethan_krishnamurth/NVAE/a_cond_analysis/saved_cond_nums/nvae_cond_nums.npy')
+    all_condition_nums = np.load('nvae/saved_cond_nums/nvae_cond_nums.npy')
 
     print("before all_condition_nums.max(), all_condition_nums.max()", all_condition_nums.max(), all_condition_nums.min())
     #all_condition_nums[all_condition_nums>100.0]=100
@@ -520,7 +518,7 @@ if(attck_type == "combi_SKL"):
 
 if(attck_type == "alma_skl"):
 
-    all_condition_nums = np.load('/mdadm0/chethan_krishnamurth/NVAE/a_cond_analysis/saved_cond_nums/nvae_cond_nums.npy')
+    all_condition_nums = np.load('nvae/saved_cond_nums/nvae_cond_nums.npy')
 
     print("before all_condition_nums.max(), all_condition_nums.max()", all_condition_nums.max(), all_condition_nums.min())
     #all_condition_nums[all_condition_nums>100.0]=100
@@ -647,7 +645,7 @@ if(attck_type == "combi_cos"):
 
 if(attck_type == "alma_cos"):
 
-    all_condition_nums = np.load('/mdadm0/chethan_krishnamurth/NVAE/a_cond_analysis/saved_cond_nums/nvae_cond_nums.npy')
+    all_condition_nums = np.load('nvae/saved_cond_nums/nvae_cond_nums.npy')
 
     print("before all_condition_nums.max(), all_condition_nums.max()", all_condition_nums.max(), all_condition_nums.min())
     #all_condition_nums[all_condition_nums>100.0]=100
