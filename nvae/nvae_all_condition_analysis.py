@@ -42,12 +42,12 @@ torch.backends.cudnn.benchmark = False
 
 
 # Replace the placeholder values with your actual checkpoint path and parameters
-checkpoint_path = '/mdadm0/chethan_krishnamurth/NVAE/pretrained_checkpoint/checkpoint.pt'
+checkpoint_path = '../NVAE/pretrained_checkpoint/checkpoint.pt'
 save_path = '/path/to/save'
 eval_mode = 'sample'  # Choose between 'sample', 'evaluate', 'evaluate_fid'
 batch_size = 0
 
-data_directory = 'address/of/your/data/directory'
+data_directory = 'data_cel1'
 
 # Load the model
 checkpoint = torch.load(checkpoint_path, map_location='cpu')
