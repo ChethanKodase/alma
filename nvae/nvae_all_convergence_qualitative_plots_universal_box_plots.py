@@ -23,9 +23,29 @@ cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
 cd alma/
-python nvae/nvae_all_convergence_qualitative_plots_universal_box_plots.py
+python nvae/nvae_all_convergence_qualitative_plots_universal_box_plots.py --data_directory data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint --uni_noise_path ../NVAE/attack_run_time_univ/attack_noise --desired_norm_l_inf 0.05
+
 
 '''
+
+
+
+import argparse
+
+parser = argparse.ArgumentParser(description='Adversarial attack on VAE')
+
+parser.add_argument('--data_directory', type=str, default=0, help='data directory')
+parser.add_argument('--nvae_checkpoint_path', type=str, default=0, help='nvae checkpoint directory')
+parser.add_argument('--uni_noise_path', type=str, default=0, help='nvae checkpoint directory')
+parser.add_argument('--desired_norm_l_inf', type=float, default=0, help='L-inf norm bound')
+
+
+args = parser.parse_args()
+
+data_directory = args.data_directory
+nvae_checkpoint_path = args.nvae_checkpoint_path
+uni_noise_path = args.uni_noise_path
+desired_norm_l_inf = args.desired_norm_l_inf
 
 
 all_features = ["youngmen", "oldmen", "youngwomen", "oldwomen" ]
@@ -35,7 +55,7 @@ source_segment = 0
 select_feature = all_features[feature_no]
 
 
-checkpoint_path = '../NVAE/pretrained_checkpoint/checkpoint.pt'
+checkpoint_path = ''+nvae_checkpoint_path+'/checkpoint.pt'
 
 save_path = '/path/to/save'
 eval_mode = 'sample'  # Choose between 'sample', 'evaluate', 'evaluate_fid'
@@ -63,7 +83,6 @@ model.eval()
 xts = []
 for i in range(100):
     xts.append(i*10000)
-desired_norm_l_inf = 0.05  # Worked very well
 
 #attck_types = ["combi_l2", "combi_wasserstein", "combi_SKL", "combi_cos", "hlatent_l2", "hlatent_wasserstein", "hlatent_SKL", "hlatent_cos"]
 
@@ -77,19 +96,16 @@ attck_types = ["hlatent_l2", "hlatent_wasserstein", "hlatent_SKL", "hlatent_cos"
 #df = pd.read_csv("/home/luser/autoencoder_attacks/train_aautoencoders/list_attr_celeba.csv")
 #df = df[['image_id', 'Smiling']]
 
-img_list = os.listdir('data_cel1/smile/')
-img_list.extend(os.listdir('data_cel1/no_smile/'))
+batch_size = 400
+img_list = os.listdir(''+data_directory+'/smile/')
+img_list.extend(os.listdir(''+data_directory+'/no_smile/'))
 
 transform = transforms.Compose([
           transforms.Resize((64, 64)),
           transforms.ToTensor()
           ])
-batch_size = 400
-celeba_data = datasets.ImageFolder('data_cel1', transform=transform)
-
-
+celeba_data = datasets.ImageFolder(data_directory, transform=transform)
 split_train_frac = 0.95
-
 train_set, test_set = torch.utils.data.random_split(celeba_data, [int(len(img_list) * split_train_frac), len(img_list) - int(len(img_list) * split_train_frac)])
 train_data_size = len(train_set)
 test_data_size = len(test_set)
@@ -97,7 +113,8 @@ test_data_size = len(test_set)
 print('train_data_size', train_data_size)
 print('test_data_size', test_data_size)
 
-trainLoader = torch.utils.data.DataLoader(train_set,batch_size=batch_size, shuffle=True)
+trainLoader = torch.utils.data.DataLoader(train_set,batch_size=batch_size, shuffle=True, drop_last=True)
+testLoader  = torch.utils.data.DataLoader(test_set, batch_size=batch_size, shuffle=True, drop_last=True)
 testLoader  = torch.utils.data.DataLoader(test_set, batch_size=batch_size, shuffle=True)
 del trainLoader
 
@@ -126,7 +143,7 @@ with torch.no_grad():
 
     for i in range(len(attck_types)):
 
-        optimized_noise = torch.load("../NVAE/attack_run_time_univ/attack_noise/NVAE_attack_type"+str(attck_types[i])+"_norm_bound_"+str(desired_norm_l_inf)+"feature_"+str(select_feature)+"_source_segment_"+str(source_segment)+"_.pt")
+        optimized_noise = torch.load(""+uni_noise_path+"/NVAE_attack_type"+str(attck_types[i])+"_norm_bound_"+str(desired_norm_l_inf)+"feature_"+str(select_feature)+"_source_segment_"+str(source_segment)+"_.pt")
 
         print("before optimized_noise.max(), optimized_noise.min()", optimized_noise.max(), optimized_noise.min())
         #optimized_noise =optimized_noise.clamp(-0.032, 0.032)

@@ -131,6 +131,11 @@ pipenv install -r requirements.txt
 
 #### To get condition number plots for NVAE
 
+<pre>
+```
+python nvae/nvae_all_condition_analysis.py --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
+```
+</pre>
 
 
 
@@ -149,5 +154,21 @@ python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_wass" --desir
 python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_skl" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_checkpoint_directory
 python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_cos" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_checkpoint_directory
 
+```
+</pre>
+
+#### To plot distributions of maximum damage attacks using all attacks methods for a given perturbation norms
+
+<pre>
+```
+python nvae/nvae_all_convergence_qualitative_plots_universal_box_plots.py --data_directory data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint --uni_noise_path ../NVAE/attack_run_time_univ/attack_noise --desired_norm_l_inf 0.05```
+</pre>
+
+
+#### To plot distributions of maximum damage attacks using all attacks methods for different perturbation norms
+
+<pre>
+```
+python nvae/nvae_all_convergence_epsilon_variation.py --data_directory data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint --uni_noise_path ../NVAE/attack_run_time_univ/attack_noise
 ```
 </pre>

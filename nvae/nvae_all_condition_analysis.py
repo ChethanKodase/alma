@@ -20,12 +20,12 @@ import matplotlib.ticker as ticker
 conda deactivate
 conda deactivate
 conda deactivate
-export CUDA_VISIBLE_DEVICES=3
+export CUDA_VISIBLE_DEVICES=1
 cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
 cd alma/
-python nvae/nvae_all_condition_analysis.py
+python nvae/nvae_all_condition_analysis.py --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
 
 
 '''
@@ -41,8 +41,22 @@ torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
 
 
+
+import argparse
+
+parser = argparse.ArgumentParser(description='Adversarial attack on VAE')
+
+parser.add_argument('--nvae_checkpoint_path', type=str, default=0, help='nvae checkpoint directory')
+
+
+args = parser.parse_args()
+
+
+nvae_checkpoint_path = args.nvae_checkpoint_path
+
+
 # Replace the placeholder values with your actual checkpoint path and parameters
-checkpoint_path = '../NVAE/pretrained_checkpoint/checkpoint.pt'
+checkpoint_path = ''+nvae_checkpoint_path+'/checkpoint.pt'
 save_path = '/path/to/save'
 eval_mode = 'sample'  # Choose between 'sample', 'evaluate', 'evaluate_fid'
 batch_size = 0
