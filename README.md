@@ -172,3 +172,12 @@ python nvae/nvae_all_convergence_qualitative_plots_universal_box_plots.py --data
 python nvae/nvae_all_convergence_epsilon_variation.py --data_directory data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint --uni_noise_path ../NVAE/attack_run_time_univ/attack_noise
 ```
 </pre>
+
+
+#### To train Adversarial Filter Plugin(AFP) for NVAE
+
+<pre>
+```
+python nvae/nvae_all_filtration.py --feature_no 2 --source_segment 0 --attck_type "combi_l2_cond" --nvae_checkpoint_path ../NVAE/pretrained_checkpoint --data_directory data_cel1  --uni_noise_path ../NVAE/attack_run_time_univ/attack_noise --desired_norm_l_inf 0.05 --filter_location nvae/filter_storage
+```
+</pre>
