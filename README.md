@@ -189,11 +189,12 @@ python nvae/nvae_all_filtration_analysis.py --feature_no 2 --source_segment 0 --
 
 Arguments for commands: 
 1. `desired_norm_l_inf`:  L-infinity bound on the added adversarial noise
-2. `attck_type` : Choose the attack method from `la_l2, la_wass, la_skl, la_skl, la_cos, alma_l2, alma_wass, alma_skl, alma_cos`. Descriptions for these methods are given in our paper.
+2. `attck_type` : Choose the attack method from `la_l2, la_wass, la_skl, la_skl, la_cos, alma_l2, alma_wass, alma_skl, alma_cos`. Descriptions for these methods are given in our paper
 3. `diffae_checkpoint` : Address of the downloaded trained DiffAE model weights from the publishers of https://arxiv.org/pdf/2111.15640 , code: https://github.com/phizaz/diffae 
 4. `ffhq_images_directory` : address of the FFHQ images directory
-5. `noise_directory` : Directory where the optimized noise is saved.
+5. `noise_directory` : Directory where the optimized noise is saved
 6. `which_gpu` : Enter the index of the GPU you want to use 
+7. `epsilon_list` : Give the norm bound values separated by space
 
 
 #### Install the conda environment required and activate:
