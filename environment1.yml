@@ -376,4 +376,3 @@ dependencies:
       - tzdata==2023.3
       - vedo==2024.5.2
       - vtk==9.3.0
-prefix: /home/luser/anaconda3/envs/inn

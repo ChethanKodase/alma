@@ -186,14 +186,37 @@ python nvae/nvae_all_filtration_analysis.py --feature_no 2 --source_segment 0 --
 
 # Code of DiffAE attacks
 
-#### Install the conda environment required:
+
+Arguments for commands: 
+1. `desired_norm_l_inf`:  L-infinity bound on the added adversarial noise
+2. `attck_type` : Choose the attack method from `la_l2, la_wass, la_skl, la_skl, la_cos, alma_l2, alma_wass, alma_skl, alma_cos`. Descriptions for these methods are given in our paper.
+3. `diffae_checkpoint` : Address of the downloaded trained DiffAE model weights from the publishers of https://arxiv.org/pdf/2111.15640 , code: https://github.com/phizaz/diffae 
+4. `ffhq_images_directory` address of the FFHQ images directory
+
+
+#### Install the conda environment required and activate:
 
 
 <pre>
 ```
 conda env create -f environment2.yml
+cd alma
+conda activate your_diffae_environment
 ```
 </pre>
+
+
+#### To get layerwise condition numbers plots for DiffAE:
+
+
+<pre>
+```
+python diffae/autoencoding_diffAE_conditioning_analysis.py --which_gpu 5 --diffae_checkpoint ../diffae/checkpoints
+```
+</pre>
+
+Layerwise condition number chart will be saved to `alma/conditioning_analysis`
+
 
 #### To optimize universal adversarial attacks on DiffAE:
 
@@ -202,15 +225,11 @@ Follow https://github.com/phizaz/diffae to download the checkpoints and FFHQ dat
 
 <pre>
 ```
-cd alma
-conda activate your_diffae_environment
 python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.35 --attck_type alma_cos --which_gpu 7 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
 ```
 </pre>
+Optimized noise will be saved in `alma/diffae/noise_storage`
 
 
-Arguments : 
-1. `desired_norm_l_inf`:  L-infinity bound on the added adversarial noise
-2. `attck_type` : Choose the attack method from `la_l2, la_wass, la_skl, la_skl, la_cos, alma_l2, alma_wass, alma_skl, alma_cos`. Descriptions for these methods are given in our paper.
-3. `diffae_checkpoint` : Address of the downloaded trained DiffAE model weights from the publishers of https://arxiv.org/pdf/2111.15640 , code: https://github.com/phizaz/diffae 
-4. `ffhq_images_directory` address of the FFHQ images directory
+
+
