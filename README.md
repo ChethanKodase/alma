@@ -242,7 +242,6 @@ Optimized noise will be saved in `alma/diffae/noise_storage`
 ```
 python diffae/attack_universal_quantitative.py --desired_norm_l_inf 0.31 --which_gpu 7 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad --noise_directory ../diffae/attack_run_time_univ/attack_noise
 python diffae/attack_convergence_compare_universal_quantitative_box_plots.py  --desired_norm_l_inf 0.31 --which_gpu 7 
-
 ```
 </pre>
 
