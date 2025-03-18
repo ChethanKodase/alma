@@ -1,7 +1,7 @@
 # alma
 ALMA-Aggregated-Lipschitz-Maximization-Attack-for-Autoencoders
 
-# Code for beta-VAE and TC-VAE
+# Code for beta-VAE and TC-VAE attacks
 
 ##### Install conda environment for adversarial attacks on beta-VAE and TC-VAE
 
@@ -105,7 +105,7 @@ python beta_tc_vaes/analysis_universal_epsilon_variation.py --which_gpu 1 --data
 ```
 </pre>
 
-# Code for NVAE
+# Code for NVAE attacks
 
 We consider the official implementation of NVAE from https://github.com/NVlabs/NVAE. We take the pretrained weights from  the oficial publishers and implement adversarial attacks
 
@@ -190,3 +190,46 @@ python nvae/nvae_all_filtration.py --feature_no 2 --source_segment 0 --attck_typ
 python nvae/nvae_all_filtration_analysis.py --feature_no 2 --source_segment 0 --attck_type "combi_l2_cond" --data_directory data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint --afp_plugin_location ../NVAE/filtration/filter_model --uni_noise_path ../NVAE/attack_run_time_univ/attack_noise --compare_plots_storage nvae/filter_storage/analysis_comparision
 ```
 </pre>
+
+
+# Code of DiffAE attacks
+
+#### Install the conda environment required:
+
+
+<pre>
+```
+conda env create -f environment2.yml
+```
+</pre>
+
+#### To optimize universal adversarial attacks on DiffAE:
+
+
+Follow https://github.com/phizaz/diffae to download the checkpoints and FFHQ dataset 
+
+<pre>
+```
+cd alma
+conda activate your_diffae_environment
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.35 --attck_type alma_cos --which_gpu 7 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+```
+</pre>
+
+
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.31 --attck_type la_l2 --which_gpu 3 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.31 --attck_type la_wass --which_gpu 5 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.31 --attck_type la_skl --which_gpu 6 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.32 --attck_type la_cos --which_gpu 2 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.31 --attck_type alma_l2 --which_gpu 7 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.27 --attck_type alma_wass --which_gpu 1 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.27 --attck_type alma_skl --which_gpu 2 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.35 --attck_type alma_cos --which_gpu 7 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+
+
+Arguments : 
+1. `desired_norm_l_inf`:  L-infinity bound on the added adversarial noise
+2. `attck_type` : Choose the attack method from `la_l2, la_wass, la_skl, la_skl, la_cos, alma_l2, alma_wass, alma_skl, alma_cos`. Description of these methods is given in our paper
+3. `diffae_checkpoint` : Address of the downloaded trained DiffAE model weights from the publishers of https://arxiv.org/pdf/2111.15640 , code: https://github.com/phizaz/diffae 
+4. `ffhq_images_directory` address of the FFHQ images directory
