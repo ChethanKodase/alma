@@ -217,17 +217,6 @@ python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.35 --attck
 </pre>
 
 
-python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.31 --attck_type la_l2 --which_gpu 3 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
-python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.31 --attck_type la_wass --which_gpu 5 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
-python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.31 --attck_type la_skl --which_gpu 6 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
-python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.32 --attck_type la_cos --which_gpu 2 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
-
-python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.31 --attck_type alma_l2 --which_gpu 7 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
-python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.27 --attck_type alma_wass --which_gpu 1 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
-python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.27 --attck_type alma_skl --which_gpu 2 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
-python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.35 --attck_type alma_cos --which_gpu 7 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
-
-
 Arguments : 
 1. `desired_norm_l_inf`:  L-infinity bound on the added adversarial noise
 2. `attck_type` : Choose the attack method from `la_l2, la_wass, la_skl, la_skl, la_cos, alma_l2, alma_wass, alma_skl, alma_cos`. Description of these methods is given in our paper
