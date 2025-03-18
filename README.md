@@ -146,14 +146,6 @@ python nvae/nvae_all_condition_analysis.py --nvae_checkpoint_path ../NVAE/pretra
 cd alma/
 source nvaeenv/bin/activate
 python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_l2" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_checkpoint_directory
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_wass" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_checkpoint_directory
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_skl" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_checkpoint_directory
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_cos" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_checkpoint_directory
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_l2" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_checkpoint_directory
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_wass" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_checkpoint_directory
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_skl" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_checkpoint_directory
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_cos" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_checkpoint_directory
-
 ```
 </pre>
 
@@ -219,6 +211,6 @@ python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.35 --attck
 
 Arguments : 
 1. `desired_norm_l_inf`:  L-infinity bound on the added adversarial noise
-2. `attck_type` : Choose the attack method from `la_l2, la_wass, la_skl, la_skl, la_cos, alma_l2, alma_wass, alma_skl, alma_cos`. Description of these methods is given in our paper
+2. `attck_type` : Choose the attack method from `la_l2, la_wass, la_skl, la_skl, la_cos, alma_l2, alma_wass, alma_skl, alma_cos`. Descriptions for these methods are given in our paper.
 3. `diffae_checkpoint` : Address of the downloaded trained DiffAE model weights from the publishers of https://arxiv.org/pdf/2111.15640 , code: https://github.com/phizaz/diffae 
 4. `ffhq_images_directory` address of the FFHQ images directory
