@@ -72,11 +72,12 @@ import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
 
-all_metric_types = ["adv_recons", "adv_divs", "adv_divs_wass", "adv_divs_abs", "adv_divs_wass", "ssim", "psnr"]
+#all_metric_types = ["adv_recons", "adv_divs", "adv_divs_wass", "adv_divs_abs", "adv_divs_wass", "ssim", "psnr"]
+all_metric_types = ["adv_divs"]
 
 #all_metric_types = ["adv_recons", "adv_divs", "adv_divs_abs", "ssim", "psnr"]
 
-metric_type = all_metric_types[1]
+#metric_type = all_metric_types[1]
 
 for metric_type in all_metric_types:
 
@@ -156,7 +157,7 @@ for metric_type in all_metric_types:
 
     plt.tight_layout()  # Adjust layout to prevent cutoff of labels
 
-    plt.savefig("../diffae/attack_qualitative_untargeted_univ_quantitative/box_plots/"+metric_type+"_diff_ae_box_plots_universal_compare_methods_norm_bound_"+str(desired_norm_l_inf)+"_.png")
+    plt.savefig("box_plots/DiffAE_box_plots_"+str(desired_norm_l_inf)+"_.png")
     plt.show()
 
 
