@@ -270,6 +270,13 @@ python diffae/attack_convergence_compare_universal_quantitative_box_plots.py  --
 ```
 </pre>
 
+
+![DiffAE Qualitative](diffae/showcase/diffAE_al.png)
+*Comparison of universal adversarial attacks on NVAE under 0.27 ≤ c ≤ 0.33*
+
+
+
+
 #### To plot adversrial reconstruction loss distribution for all attack methods for a set of L-infinity norms 
 
 <pre>
