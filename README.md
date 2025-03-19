@@ -80,6 +80,14 @@ python beta_tc_vaes/analysis_universal_box_plots.py --beta_value 5.0 --which_gpu
 
 assign which_model -> TCVAE to plot the same for TCVAE
 
+
+![beta-VAE Qualitative](beta_tc_vaes/showcase/beta_VAE_all.png)
+*Comparison of universal adversarial attacks on β-VAE under 0.04 ≤ c ≤ 0.07*
+
+![beta-VAE Qualitative](beta_tc_vaes/showcase/tc_VAE_all.png)
+*Comparison of universal adversarial attacks on TC-VAE under 0.04 ≤ c ≤ 0.07*
+
+
 ##### To get qualitative image plots comparing maximum damage attacks between different methods
 
 <pre>
@@ -253,3 +261,4 @@ python diffae/attack_convergence_compare_universal_quantitative_box_plots.py  --
 python diffae/attack_convergence_epsilon_variation.py --epsilon_list 0.27 0.28 0.29 0.3 0.31 0.32 0.33
 ```
 </pre>
+

@@ -86,9 +86,9 @@ for i in considered_attack_inds:
         #print("ar0",ar0)
         ar0_mean  = np.mean(ar0)
         ar0_std = np.std(ar0)
-        if(attack_types[i]=="combi_wasserstein"):
-            if(desired_norm_l_inf==0.3):
-                ar0_mean=45.32
+        #if(attack_types[i]=="combi_wasserstein"):
+            #if(desired_norm_l_inf==0.3):
+                #ar0_mean=45.32
 
         print("desired_norm_l_inf", desired_norm_l_inf)
         print("ar0_mean", ar0_mean)
