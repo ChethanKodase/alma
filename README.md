@@ -167,7 +167,7 @@ python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_l2" --desir
 </pre>
 
 ![NVAE Qualitative](sample_specific_show/paper_NVAE_attacks_norm_bound_0.05feature_youngmen_source_segment_1.png)
-*Comparison of universal adversarial attacks on NVAE under 0.03 ≤ c ≤ 0.05*
+*Qualitative comparision of NVAE, c = 0.05*
 
 
 #### To plot distributions of maximum damage attacks using all attacks methods for a given perturbation norms
@@ -259,7 +259,7 @@ Optimized noise will be saved in `alma/diffae/noise_storage`
 
 
 ![DiffAE Qualitative](diffae/showcase/paperDiffAE_all_attacks_norm_bound_0.08_segment_3.png)
-*Qualitative comparison of DiffAE reconstructions of adversarial examples crafted from  different attacks methods*
+*Qualitative comparision of DiffAE, c = 0.05*
 
 #### To get a comparative box plot of all the adversarial attack methods for fiven perturbation norm run : 
 
