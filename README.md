@@ -42,16 +42,16 @@ python beta_tc_vaes/vae_celebA_training.py --which_gpu 1 --beta_value 5.0 --data
 Command Arguments: 
 1. `desired_norm_l_inf`:  L-infinity bound on the added adversarial noise
 2. `attck_type` : Choose the attack method from `la_l2, la_wass, la_skl, la_skl, la_cos, alma_l2, alma_wass, alma_skl, alma_cos`. Descriptions for these methods are given in our paper
-4. `data_directory` : address of the CelebA images directory
-5. `attack_store_location` : Directory where the optimized noise is saved
-6. `which_gpu` : Enter the index of the GPU you want to use 
-7. `epsilon_list` : Give the norm bound values separated by space
-8. `beta_value` : inidcates the importance given to the KL-Divergence term in the training Loss
-9. `batch_size` : Batch size during training
-10. `epochs`: traiining epochs
-11. `lr` : learning rate
-12. `run_time_plot_dir` : directory to save plots during model training
-13. `runtime_plots_location` : directory to save plots during attack optimization
+3. `data_directory` : address of the CelebA images directory
+4. `attack_store_location` : Directory where the optimized noise is saved
+5. `which_gpu` : Enter the index of the GPU you want to use 
+6. `epsilon_list` : Give the norm bound values separated by space
+7. `beta_value` : inidcates the importance given to the KL-Divergence term in the training Loss
+8. `batch_size` : Batch size during training
+9. `epochs`: traiining epochs
+10. `lr` : learning rate
+11. `run_time_plot_dir` : directory to save plots during model training
+12. `runtime_plots_location` : directory to save plots during attack optimization
 13. `checkpoint_storage` : directory to save VAE traiining checkpoints
 14. `model_type` or `which_model` : input `VAE` if you want to train or attack `Beta-VAE`, `TCVAE` in case you want to train or attack TC-VAE
 15. `num_steps` : Number of epochs during attack optimization. 
@@ -154,6 +154,15 @@ git clone https://github.com/NVlabs/NVAE.git
 
 
 Follow the instructions from https://github.com/NVlabs/NVAE and download the checkpoints for celebA 64 dataset from https://drive.google.com/drive/folders/14DWGte1E7qnMTbAs6b87vtJrmEU9luKn 
+
+Command Arguments: 
+1. `desired_norm_l_inf`:  L-infinity bound on the added adversarial noise
+2. `attck_type` : Choose the attack method from `la_l2, la_wass, la_skl, la_skl, la_cos, alma_l2, alma_wass, alma_skl, alma_cos`. Descriptions for these methods are given in our paper
+3. `nvae_checkpoint_path` : Address of the downloaded trained NVAE model weights from the publishers of https://arxiv.org/abs/2007.03898 , code: https://github.com/NVlabs/NVAE
+4. `your_data_directory` : address of the FFHQ images directory
+5. `uni_noise_path` : Directory where the optimized noise is saved
+6. `which_gpu` : Enter the index of the GPU you want to use 
+
 
 
 #### To create the environment and install dependencies for adversarial attacks on NVAAE
