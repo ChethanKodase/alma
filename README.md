@@ -32,12 +32,23 @@ conda activate your_env
 
 Follow the commands and assign the locations of your data, checkpoints storage and run time plots as below: 
 
-
+Training Beta-VAE
 <pre>
 ```
-python beta_tc_vaes/vae_celebA_training.py --which_gpu 1 --beta_value 5.0 --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --batch_size 64 --epochs 200 --lr 1e-4 --run_time_plot_dir a_training_runtime --checkpoint_storage vae_checkpoints --model_type VAE
+python beta_tc_vaes/beta_vae_celebA_training.py --which_gpu 1 --beta_value 5.0 --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --batch_size 64 --epochs 200 --lr 1e-4 --run_time_plot_dir a_training_runtime --checkpoint_storage vae_checkpoints
 ```
 </pre>
+
+
+Training TC-VAE
+<pre>
+```
+python beta_tc_vaes/TC_vae_celebA_training.py  --which_gpu 1 --beta_value 5.0 --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --batch_size 64 --epochs 200 --lr 1e-4 --run_time_plot_dir a_training_runtime --checkpoint_storage vae_checkpoints
+```
+</pre>
+
+
+
 
 Command Arguments: 
 1. `desired_norm_l_inf`:  L-infinity bound on the added adversarial noise
