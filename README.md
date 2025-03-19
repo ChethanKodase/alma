@@ -39,6 +39,23 @@ python beta_tc_vaes/vae_celebA_training.py --which_gpu 1 --beta_value 5.0 --data
 ```
 </pre>
 
+Command Arguments: 
+1. `desired_norm_l_inf`:  L-infinity bound on the added adversarial noise
+2. `attck_type` : Choose the attack method from `la_l2, la_wass, la_skl, la_skl, la_cos, alma_l2, alma_wass, alma_skl, alma_cos`. Descriptions for these methods are given in our paper
+4. `data_directory` : address of the CelebA images directory
+5. `attack_store_location` : Directory where the optimized noise is saved
+6. `which_gpu` : Enter the index of the GPU you want to use 
+7. `epsilon_list` : Give the norm bound values separated by space
+8. `beta_value` : inidcates the importance given to the KL-Divergence term in the training Loss
+9. `batch_size` : Batch size during training
+10. `epochs`: traiining epochs
+11. `lr` : learning rate
+12. `run_time_plot_dir` : directory to save plots during model training
+13. `runtime_plots_location` : directory to save plots during attack optimization
+13. `checkpoint_storage` : directory to save VAE traiining checkpoints
+14. `model_type` or `which_model` : input `VAE` if you want to train or attack `Beta-VAE`, `TCVAE` in case you want to train or attack TC-VAE
+15. `num_steps` : Number of epochs during attack optimization. 
+16. `model_location` : Location where the trained model is stored
 
 ##### Training TC-VAE:
 
@@ -217,7 +234,7 @@ python nvae/nvae_all_filtration_analysis.py --feature_no 2 --source_segment 0 --
 # Code of DiffAE attacks
 
 
-Arguments for commands: 
+Command Arguments: 
 1. `desired_norm_l_inf`:  L-infinity bound on the added adversarial noise
 2. `attck_type` : Choose the attack method from `la_l2, la_wass, la_skl, la_skl, la_cos, alma_l2, alma_wass, alma_skl, alma_cos`. Descriptions for these methods are given in our paper
 3. `diffae_checkpoint` : Address of the downloaded trained DiffAE model weights from the publishers of https://arxiv.org/pdf/2111.15640 , code: https://github.com/phizaz/diffae 
