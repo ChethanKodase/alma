@@ -166,6 +166,10 @@ python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_l2" --desir
 ```
 </pre>
 
+![NVAE Qualitative](sample_specific_show/paper_NVAE_attacks_norm_bound_0.05feature_youngmen_source_segment_1.png)
+*Comparison of universal adversarial attacks on NVAE under 0.03 ≤ c ≤ 0.05*
+
+
 #### To plot distributions of maximum damage attacks using all attacks methods for a given perturbation norms
 
 <pre>
