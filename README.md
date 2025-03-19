@@ -26,30 +26,6 @@ conda activate your_env
 ```
 </pre>
 
-
-
-##### Training beta-VAE:
-
-Follow the commands and assign the locations of your data, checkpoints storage and run time plots as below: 
-
-Training Beta-VAE
-<pre>
-```
-python beta_tc_vaes/beta_vae_celebA_training.py --which_gpu 1 --beta_value 5.0 --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --batch_size 64 --epochs 200 --lr 1e-4 --run_time_plot_dir a_training_runtime --checkpoint_storage vae_checkpoints
-```
-</pre>
-
-
-Training TC-VAE
-<pre>
-```
-python beta_tc_vaes/TC_vae_celebA_training.py  --which_gpu 1 --beta_value 5.0 --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --batch_size 64 --epochs 200 --lr 1e-4 --run_time_plot_dir a_training_runtime --checkpoint_storage vae_checkpoints
-```
-</pre>
-
-
-
-
 Command Arguments: 
 1. `desired_norm_l_inf`:  L-infinity bound on the added adversarial noise
 2. `attck_type` : Choose the attack method from `la_l2, la_wass, la_skl, la_skl, la_cos, alma_l2, alma_wass, alma_skl, alma_cos`. Descriptions for these methods are given in our paper
@@ -68,11 +44,22 @@ Command Arguments:
 15. `num_steps` : Number of epochs during attack optimization. 
 16. `model_location` : Location where the trained model is stored
 
-##### Training TC-VAE:
+Follow the below commands and instructions: 
+
+##### Training beta-VAE:
 
 <pre>
 ```
-python beta_tc_vaes/vae_celebA_training.py --which_gpu 1 --beta_value 5.0 --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --batch_size 64 --epochs 200 --lr 1e-4 --run_time_plot_dir a_training_runtime --checkpoint_storage vae_checkpoints --model_type TCVAE
+python beta_tc_vaes/beta_vae_celebA_training.py --which_gpu 1 --beta_value 5.0 --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --batch_size 64 --epochs 200 --lr 1e-4 --run_time_plot_dir a_training_runtime --checkpoint_storage vae_checkpoints
+```
+</pre>
+
+##### Training TC-VAE:
+
+Training TC-VAE
+<pre>
+```
+python beta_tc_vaes/TC_vae_celebA_training.py  --which_gpu 1 --beta_value 5.0 --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --batch_size 64 --epochs 200 --lr 1e-4 --run_time_plot_dir a_training_runtime --checkpoint_storage vae_checkpoints
 ```
 </pre>
 
@@ -118,13 +105,6 @@ python beta_tc_vaes/analysis_universal_box_plots.py --beta_value 5.0 --which_gpu
 assign which_model -> TCVAE to plot the same for TCVAE
 
 
-![beta-VAE Qualitative](beta_tc_vaes/showcase/beta_VAE_all.png)
-*Comparison of universal adversarial attacks on β-VAE under 0.04 ≤ c ≤ 0.07*
-
-![beta-VAE Qualitative](beta_tc_vaes/showcase/tc_VAE_all.png)
-*Comparison of universal adversarial attacks on TC-VAE under 0.04 ≤ c ≤ 0.07*
-
-
 ##### To get qualitative image plots comparing maximum damage attacks between different methods
 
 <pre>
@@ -133,6 +113,11 @@ python beta_tc_vaes/analysis_universal_image_plots.py --data_directory /home/lus
 ```
 </pre>
 
+![beta-VAE Qualitative](beta_tc_vaes/showcase/beta_VAE_all.png)
+*Comparison of universal adversarial attacks on β-VAE under 0.04 ≤ c ≤ 0.07*
+
+![beta-VAE Qualitative](beta_tc_vaes/showcase/tc_VAE_all.png)
+*Comparison of universal adversarial attacks on TC-VAE under 0.04 ≤ c ≤ 0.07*
 
 ##### To train adversarial filter plugin
 
