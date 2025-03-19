@@ -128,7 +128,13 @@ We consider the official implementation of NVAE from https://github.com/NVlabs/N
 
 #### clone the nvae official repository using the code below: 
 
+<pre>
+```
 git clone https://github.com/NVlabs/NVAE.git
+```
+</pre>
+
+
 
 Follow the instructions from https://github.com/NVlabs/NVAE and download the checkpoints for celebA 64 dataset from https://drive.google.com/drive/folders/14DWGte1E7qnMTbAs6b87vtJrmEU9luKn 
 
