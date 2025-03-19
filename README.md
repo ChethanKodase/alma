@@ -70,6 +70,15 @@ python beta_tc_vaes/betaVAE_all_kinds_of_attacks_universal.py  --which_gpu 1 --b
 Change `--desired_norm_l_inf` value to required L-inf norm bound on the perturbation 
 Change the arguments for `--attck_type` to `latent_l2, latent_wasserstein, latent_SKL, latent_cosine, output_attack_l2, output_attack_wasserstein, output_attack_SKL, output_attack_cosine, lma_l2, lma_wass, lma_skl, lma_cos, alma_l2, alma_wass, alma_skl, alma_cos` to run attacks using rest of all the methods
 
+
+![beta-VAE Qualitative](sample_specific_show/paperVAE_beta5.0_norm_bound_0.05_segment_2.png)
+*Qualitative comparision of β-VAE, c = 0.05*
+
+
+![TC-VAE Qualitative](sample_specific_show/paperTCVAE_beta5.0_norm_bound_0.05_segment_0.png)
+*Qualitative comparision of TC-VAE, c = 0.05*
+
+
 ##### To compare the different adversarial objectives for universal attacks for a given L_infinity norm bound:
 
 <pre>
