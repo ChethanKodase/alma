@@ -183,6 +183,9 @@ python nvae/nvae_all_convergence_epsilon_variation.py --data_directory data_cel1
 </pre>
 
 
+![NVAE Qualitative](nvae/showcase/nvae_all.png)
+*Comparison of universal adversarial attacks on NVAE under 0.03 ≤ c ≤ 0.05*
+
 #### To train Adversarial Filter Plugin(AFP) for NVAE
 
 <pre>
