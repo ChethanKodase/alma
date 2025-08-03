@@ -1,5 +1,6 @@
-# alma
-ALMA-Aggregated-Lipschitz-Maximization-Attack-for-Autoencoders
+# grill
+Gradient Signal Restoration in Ill-Conditioned Layers to Enhance
+Adversarial Attacks on Autoencoders
 
 # Code for beta-VAE and TC-VAE attacks
 
