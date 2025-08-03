@@ -29,7 +29,7 @@ conda activate your_env
 
 Command Arguments: 
 1. `desired_norm_l_inf`:  L-infinity bound on the added adversarial noise
-2. `attck_type` : Choose the attack method from `la_l2, la_wass, la_skl, la_skl, la_cos, alma_l2, alma_wass, alma_skl, alma_cos`. Descriptions for these methods are given in our paper
+2. `attck_type` : Choose the attack method from `la_l2, la_wass, la_cos, grill_l2, grill_wass, grill_cos`. Descriptions for these methods are given in our paper
 3. `data_directory` : address of the CelebA images directory
 4. `attack_store_location` : Directory where the optimized noise is saved
 5. `which_gpu` : Enter the index of the GPU you want to use 
@@ -84,7 +84,7 @@ python beta_tc_vaes/betaVAE_all_kinds_of_attacks_universal.py  --which_gpu 1 --b
 ```
 </pre>
 Change `--desired_norm_l_inf` value to required L-inf norm bound on the perturbation 
-Change the arguments for `--attck_type` to `latent_l2, latent_wasserstein, latent_SKL, latent_cosine, output_attack_l2, output_attack_wasserstein, output_attack_SKL, output_attack_cosine, lma_l2, lma_wass, lma_skl, lma_cos, alma_l2, alma_wass, alma_skl, alma_cos` to run attacks using rest of all the methods
+Change the arguments for `--attck_type` to `latent_l2, latent_wasserstein, latent_cosine, output_attack_l2, output_attack_wasserstein, output_attack_cosine, lma_l2, lma_wass, lma_cos, grill_l2, grill_wass, grill_cos` to run attacks using rest of all the methods
 
 
 ![beta-VAE Qualitative](sample_specific_show/paperVAE_beta5.0_norm_bound_0.05_segment_2.png)
@@ -154,7 +154,7 @@ Follow the instructions from https://github.com/NVlabs/NVAE and download the che
 
 Command Arguments: 
 1. `desired_norm_l_inf`:  L-infinity bound on the added adversarial noise
-2. `attck_type` : Choose the attack method from `la_l2, la_wass, la_skl, la_skl, la_cos, alma_l2, alma_wass, alma_skl, alma_cos`. Descriptions for these methods are given in our paper
+2. `attck_type` : Choose the attack method from `la_l2, la_wass, la_cos, grill_l2, grill_wass, grill_cos`. Descriptions for these methods are given in our paper
 3. `nvae_checkpoint_path` : Address of the downloaded trained NVAE model weights from the publishers of https://arxiv.org/abs/2007.03898 , code: https://github.com/NVlabs/NVAE
 4. `your_data_directory` : address of the FFHQ images directory
 5. `uni_noise_path` : Directory where the optimized noise is saved
@@ -191,7 +191,7 @@ python nvae/nvae_all_condition_analysis.py --nvae_checkpoint_path ../NVAE/pretra
 ```
 cd alma/
 source nvaeenv/bin/activate
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "alma_l2" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_checkpoint_directory
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_checkpoint_directory
 ```
 </pre>
 
@@ -242,7 +242,7 @@ python nvae/nvae_all_filtration_analysis.py --feature_no 2 --source_segment 0 --
 
 Command Arguments: 
 1. `desired_norm_l_inf`:  L-infinity bound on the added adversarial noise
-2. `attck_type` : Choose the attack method from `la_l2, la_wass, la_skl, la_skl, la_cos, alma_l2, alma_wass, alma_skl, alma_cos`. Descriptions for these methods are given in our paper
+2. `attck_type` : Choose the attack method from `la_l2, la_wass, la_cos, grill_l2, grill_wass, grill_cos`. Descriptions for these methods are given in our paper
 3. `diffae_checkpoint` : Address of the downloaded trained DiffAE model weights from the publishers of https://arxiv.org/pdf/2111.15640 , code: https://github.com/phizaz/diffae 
 4. `ffhq_images_directory` : address of the FFHQ images directory
 5. `noise_directory` : Directory where the optimized noise is saved
@@ -265,6 +265,8 @@ conda activate your_diffae_environment
 #### To get layerwise condition numbers plots for DiffAE:
 
 
+Follow https://github.com/phizaz/diffae to download the checkpoints and FFHQ dataset. Replace `../diffae/checkpoints` with the location of your saved DiffAE checkpoints. 
+
 <pre>
 ```
 python diffae/autoencoding_diffAE_conditioning_analysis.py --which_gpu 5 --diffae_checkpoint ../diffae/checkpoints
@@ -276,12 +278,9 @@ Layerwise condition number chart will be saved to `alma/conditioning_analysis`
 
 #### To optimize universal adversarial attacks on DiffAE:
 
-
-Follow https://github.com/phizaz/diffae to download the checkpoints and FFHQ dataset 
-
 <pre>
 ```
-python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.35 --attck_type alma_cos --which_gpu 7 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.35 --attck_type grill_cos --which_gpu 7 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
 ```
 </pre>
 Optimized noise will be saved in `alma/diffae/noise_storage`
