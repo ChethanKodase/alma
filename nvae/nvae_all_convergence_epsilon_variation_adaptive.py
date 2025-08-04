@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from model import AutoEncoder
+from model_with_defense import AutoEncoder
 import utils
 import matplotlib.pyplot as plt
 import numpy as np
@@ -18,12 +18,12 @@ import os
 conda deactivate
 conda deactivate
 conda deactivate
-export CUDA_VISIBLE_DEVICES=2
+export CUDA_VISIBLE_DEVICES=7
 cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
 cd alma/
-python nvae/nvae_all_convergence_epsilon_variation.py --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint --uni_noise_path ../NVAE/attack_run_time_univ/attack_noise
+python nvae/nvae_all_convergence_epsilon_variation_adaptive.py --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint --uni_noise_path nvae/univ_attack_storage/
 
 
 '''
@@ -89,9 +89,12 @@ desired_norm_l_inf = 0.03  # Worked very well
 
 #attck_types = ["combi_l2", "combi_wasserstein", "combi_SKL", "combi_cos", "hlatent_l2", "hlatent_wasserstein", "hlatent_SKL", "hlatent_cos"]
 
-#attck_types = ["hlatent_l2", "hlatent_wasserstein", "hlatent_SKL", "hlatent_cos", "combi_l2_cond", "combi_wasserstein_cond", "combi_SKL_cond", "combi_cos_cond", ]  # names I used 
+#attck_types = ["la_skl_mcmc", "alma_l2_mcmc"]
 
-attck_types = ["la_l2", "la_wass", "la_skl", "la_cos", "grill_l2", "grill_wass", "grill_skl", "grill_cos"]   ########### attack names 
+
+#attck_types = ["alma_l2_mcmc", "alma_wass_mcmc"]
+
+attck_types = ["la_wass_mcmc", "grill_l2_mcmc"]
 
 
 #root = '/home/luser/autoencoder_attacks/train_aautoencoders/data_faces/img_align_celeba'
@@ -101,7 +104,7 @@ attck_types = ["la_l2", "la_wass", "la_skl", "la_cos", "grill_l2", "grill_wass",
 #df = pd.read_csv("/home/luser/autoencoder_attacks/train_aautoencoders/list_attr_celeba.csv")
 #df = df[['image_id', 'Smiling']]
 
-batch_size = 400
+batch_size = 10
 img_list = os.listdir(''+data_directory+'/smile/')
 img_list.extend(os.listdir(''+data_directory+'/no_smile/'))
 
@@ -125,45 +128,52 @@ del trainLoader
 
 
 
-desired_norm_l_infs = [0.03, 0.035, 0.04, 0.05]
+#desired_norm_l_infs = [0.03, 0.035, 0.04, 0.05]
+desired_norm_l_infs = [0.035, 0.04, 0.05]
+
+
 ############# plotting for paper ######################
-with torch.no_grad():
 
-    row_one_ims = []
-    row_two_ims = []
-    #source_im = torch.load("/mdadm0/chethan_krishnamurth/NVAE/a_mixed_data/"+str(select_feature)+"_d/images.pt")[:50].unsqueeze(0).cuda()  
-    #source_im = torch.load("/mdadm0/chethan_krishnamurth/NVAE/a_mixed_data/"+str(select_feature)+"_d/images.pt")[:200].cuda()  
+row_one_ims = []
+row_two_ims = []
 
-    for idx, (source_im, _) in enumerate(testLoader):
-        source_im, _ = source_im.cuda(), _
-        break
-    del testLoader
 
-    rec_logits, log_q, log_p, kl_all, kl_diag, adv_latent_reps = model(source_im)
-    reconstructed_output = model.decoder_output(rec_logits)
-    rec_gen = reconstructed_output.sample()
+'''for idx, (source_im, _) in enumerate(testLoader):
+    source_im, _ = source_im.cuda(), _
+    break
+del testLoader
+print("source_im.shape", source_im.shape)
+#source_im[:10]
+rec_logits, log_q, log_p, kl_all, kl_diag, adv_latent_reps = model(source_im)
+reconstructed_output = model.decoder_output(rec_logits)
+rec_gen = reconstructed_output.sample()'''
 
-    row_one_ims.append(source_im)
-    row_two_ims.append(rec_gen)
-    all_mse_lists = []
-    all_l2_dist_lists = []
+#row_one_ims.append(source_im)
+#row_two_ims.append(rec_gen)
+all_mse_lists = []
+all_l2_dist_lists = []
 
-    all_method_means = []
-    all_method_stds = []
-    for i in range(len(attck_types)):
-        
-        mean_per_per_accum = []
-        std_per_per_accum = []
+all_method_means = []
+all_method_stds = []
+for i in range(len(attck_types)):
+    
+    mean_per_per_accum = []
+    std_per_per_accum = []
 
-        for desired_norm_l_inf in desired_norm_l_infs:
+    for desired_norm_l_inf in desired_norm_l_infs:
 
-            optimized_noise = torch.load(""+uni_noise_path+"/NVAE_attack_type"+str(attck_types[i])+"_norm_bound_"+str(desired_norm_l_inf)+"feature_"+str(select_feature)+"_source_segment_"+str(source_segment)+"_.pt")
+        optimized_noise = torch.load(""+uni_noise_path+"/NVAE_attack_type"+str(attck_types[i])+"_norm_bound_"+str(desired_norm_l_inf)+"_.pt")
 
-            #print("before optimized_noise.max(), optimized_noise.min()", optimized_noise.max(), optimized_noise.min())
-            #optimized_noise =optimized_noise.clamp(-0.032, 0.032)
-            #optimized_noise =optimized_noise * 0.09
+        #print("before optimized_noise.max(), optimized_noise.min()", optimized_noise.max(), optimized_noise.min())
+        #optimized_noise =optimized_noise.clamp(-0.032, 0.032)
+        #optimized_noise =optimized_noise * 0.09
 
-            #print("after optimized_noise.max(), optimized_noise.min()", optimized_noise.max(), optimized_noise.min())
+        #print("after optimized_noise.max(), optimized_noise.min()", optimized_noise.max(), optimized_noise.min())
+
+        l2_distance_per_image_aggre = []
+        for idx, (source_im, _) in enumerate(testLoader):
+            source_im, _ = source_im.cuda(), _
+
             attacked = (source_im + optimized_noise)
             normalized_attacked = (attacked-attacked.min())/(attacked.max()-attacked.min())
             #print("normalized_attacked.shape", normalized_attacked.shape)
@@ -180,23 +190,37 @@ with torch.no_grad():
 
             l2_distance_per_image = torch.norm(normalized_attacked - adv_gen, p=2, dim=[1, 2, 3])  # Shape: [50]
 
-            # Compute total average L2 loss across all images
-            l2_distance_per_image_mean = l2_distance_per_image.mean().item()
-            l2_distance_per_image_std = l2_distance_per_image.std().item()
-            print("attck_types[i]", attck_types[i])
-            print("desired_norm_l_inf", desired_norm_l_inf)
-            print("l2_distance_per_image_mean", l2_distance_per_image_mean)
-            print("l2_distance_per_image_std", l2_distance_per_image_std)
+            for value in l2_distance_per_image:
+                l2_distance_per_image_aggre.append(value.item())
+
+            #print("l2_distance_per_image", l2_distance_per_image)
+            #print("l2_distance_per_image_aggre", l2_distance_per_image_aggre)
+            #print("idx", idx)
+            #print()
+            if(idx==50):
+                break
+        # Compute total average L2 loss across all images
+        '''l2_distance_per_image_mean = l2_distance_per_image.mean().item()
+        l2_distance_per_image_std = l2_distance_per_image.std().item()'''
+        l2_distance_per_image_aggre = np.array(l2_distance_per_image_aggre)
+        l2_distance_per_image_mean = l2_distance_per_image_aggre.mean().item()
+        l2_distance_per_image_std = l2_distance_per_image_aggre.std().item()
+
+        print()
+        print("attck_types[i]", attck_types[i])
+        print("desired_norm_l_inf", desired_norm_l_inf)
+        print("l2_distance_per_image_mean", l2_distance_per_image_mean)
+        print("l2_distance_per_image_std", l2_distance_per_image_std)
 
 
-            mean_per_per_accum.append(l2_distance_per_image_mean)
-            std_per_per_accum.append(l2_distance_per_image_std)
+        mean_per_per_accum.append(l2_distance_per_image_mean)
+        std_per_per_accum.append(l2_distance_per_image_std)
 
-        mean_per_per_accum = np.array(mean_per_per_accum)
-        std_per_per_accum = np.array(std_per_per_accum)
+    mean_per_per_accum = np.array(mean_per_per_accum)
+    std_per_per_accum = np.array(std_per_per_accum)
 
-        all_method_means.append(mean_per_per_accum)
-        all_method_stds.append(std_per_per_accum)
+    all_method_means.append(mean_per_per_accum)
+    all_method_stds.append(std_per_per_accum)
 
 
 
@@ -211,7 +235,8 @@ epsilon = desired_norm_l_infs
 
 
 
-objective_names = ["LA,l-2", "LA, wasserst.", "LA, SKL", "LA, cosine", "GRILL, l-2", "GRILL, wasserst.", "GRILL, SKL", "GRILL, cosine"]
+#objective_names = ["LA,l-2", "LA, wasserst.", "LA, SKL", "LA, cosine", "ALMA, l-2", "ALMA, wasserst.", "ALMA, SKL", "ALMA, cosine"]
+objective_names = ["LA, SKL", "GRILL, l-2"]
 
 
 
@@ -224,10 +249,13 @@ objective_names = ["LA,l-2", "LA, wasserst.", "LA, SKL", "LA, cosine", "GRILL, l
     'brown', 'pink', 'gray', 'olive', 'lime', 'teal', 'indigo', 'gold'
 ]'''
 
+#color_list = ['blue', 'orange', 'green', 'red', 'lime', 'teal', 'indigo', 'gold']
+#color_list = ['blue', 'orange', 'green', 'red', 'lime', 'teal', 'indigo', 'gold']
 
-color_list = ['blue', 'orange', 'green', 'red', 'lime', 'teal', 'indigo', 'gold']
 
-plt.figure(figsize=(12, 8))  # Adjust the width and height as needed
+color_list = ['orange',  'lime']
+
+plt.figure(figsize=(6, 5))  # Adjust the width and height as needed
 
 
 for i in range(len(all_method_means)):
@@ -247,16 +275,28 @@ for i in range(len(all_method_means)):
     plt.fill_between(epsilon, lower_bound, upper_bound, color=color_list[i], alpha=0.2)
 
 # Labels and legend
-plt.xlabel(r'$c$', fontsize=24)
-plt.ylabel('L-2 distance', fontsize=24)
+plt.xlabel(r'$c$', fontsize=28)
+plt.ylabel('L-2 distance', fontsize=28)
 plt.gca().yaxis.set_major_formatter(mticker.FormatStrFormatter('%.2f'))
 
 #plt.xticks(rotation=45, fontsize=24)
-plt.xticks(rotation=45, fontsize=24)
+plt.xticks(rotation=45, fontsize=28)
 
-plt.yticks(fontsize=24)
+plt.yticks(fontsize=28)
 #plt.title("Distribution Change with Epsilon")
 plt.grid(True)
+
+# Get legend handles and labels
+handles, labels = plt.gca().get_legend_handles_labels()
+
+# Increase line thickness in the legend
+for handle in handles:
+    handle.set_linewidth(4)
+
+#plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
+# Adjust layout to fit the legend
+plt.tight_layout()
+
 #plt.legend()
 #plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
 # Adjust layout to fit the legend
@@ -264,4 +304,4 @@ plt.tight_layout()
 
 
 plt.show()
-plt.savefig("damage_distributions_variation/NVAE_.png")
+plt.savefig("damage_distributions_variation/very_new_NVAE_adaptive.png")

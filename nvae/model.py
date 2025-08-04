@@ -335,42 +335,17 @@ class AutoEncoder(nn.Module):
         return nn.Sequential(nn.ELU(),
                              Conv2D(C_in, C_out, 3, padding=1, bias=True))
 
-    def forward(self, x):
-        #print("self.stem", self.stem)
-        s = self.stem(2 * x - 1.0)
-        # perform pre-processing
-        #print("self.pre_process", self.pre_process)
-        for cell in self.pre_process:
+    def decode_to_logits(self, s):
+        for cell in self.post_process:
             s = cell(s)
+        logits = self.image_conditional(s)
+        decoded = DiscMixLogistic(logits, self.num_mix_output, num_bits=self.num_bits)
+        return decoded.sample()
 
-        # run the main encoder tower
-        combiner_cells_enc = []
-        combiner_cells_s = []
-        #print("self.enc_tower", self.enc_tower)
-        for cell in self.enc_tower:
-            #print("cell.cell_type", cell.cell_type)
-            if cell.cell_type == 'combiner_enc':
-                #print("cell.cell_type", cell.cell_type)
-                #print("cell", cell)
-                combiner_cells_enc.append(cell)
-                #print("s.shape", s.shape)
-                combiner_cells_s.append(s)
-            else:
-                s = cell(s)
-        #print("len(combiner_cells_enc)", len(combiner_cells_enc))
-        #print("what happened here combiner_cells_s.shape", len(combiner_cells_s))
 
-        # reverse combiner cells and their input for decoder
-        combiner_cells_enc.reverse()
-        combiner_cells_s.reverse()
-
-        idx_dec = 0
-        ftr = self.enc0(s)                            # this reduces the channel dimension
-        param0 = self.enc_sampler[idx_dec](ftr)
+    def decode_to_logits2(self, z, combiner_cells_enc, combiner_cells_s, dist, ftr):
         
-        mu_q, log_sig_q = torch.chunk(param0, 2, dim=1)
-        dist = Normal(mu_q, log_sig_q)   # for the first approx. posterior
-        z, _ = dist.sample()
+
         log_q_conv = dist.log_p(z)
         # apply normalizing flows
         nf_offset = 0
@@ -418,7 +393,7 @@ class AutoEncoder(nn.Module):
 
                     dist = Normal(mu_p + mu_q, log_sig_p + log_sig_q) if self.res_dist else Normal(mu_q, log_sig_q)
                     z, _ = dist.sample()
-
+                    #print("z.shape", z.shape)
                     log_q_conv = dist.log_p(z)
 
                     # apply NF
@@ -447,8 +422,261 @@ class AutoEncoder(nn.Module):
             else:
 
                 s = cell(s)
+        #print("is it here ?")
+        #s = self.get_hmc_lat1(s, x) #* 1e6        ######## this is the defender
+        #print("z.shape", z.shape)
+        #print("s.shape", s.shape)
+        if self.vanilla_vae:
+            s = self.stem_decoder(z)
 
+
+        for cell in self.post_process:
+            s = cell(s)
+        logits = self.image_conditional(s)
+        decoded = DiscMixLogistic(logits, self.num_mix_output, num_bits=self.num_bits)
+        return decoded.sample()
+
+
+    def get_hmc_lat1(self, z1, normalized_attacked):
+        z_shape = z1.shape
+        z = z1.requires_grad_(True)  #.clone().detach().requires_grad_(True)  # Start point for MCMC
+        x = normalized_attacked#.detach()              # Adversarial input
+        #step_size = 0.0000005   # 0.0002
+        step_size = 0.000005   # 0.0002
+
+        n_steps = 200
+        leapfrog_steps = 150
+
+        #samples = []
+        for i in range(n_steps):
+            p = torch.randn_like(z)  # Sample momentum
+            z_new = z.clone()
+            p_new = p.clone()
+
+            x_mean = self.decode_to_logits(z_new)
+            x_flat, x_mean_flat = x.view(x.size(0), -1), x_mean.view(x.size(0), -1)
+            log_p_x = -((x_flat - x_mean_flat) ** 2).sum(dim=1) / 2  # assuming Gaussian decoder
+            log_p_z = -0.5 * (z_new.view(x.size(0), -1) ** 2).sum(dim=1)                # standard normal prior
+            log_post = (log_p_x + log_p_z).sum()
+            grad = torch.autograd.grad(log_post, z_new)[0]
+
+            # Leapfrog integration
+            p_new = p_new + 0.5 * step_size * grad
+            #print("p_new.shape", p_new.shape)
+            for _ in range(leapfrog_steps):
+                z_new = z_new + step_size * p_new
+                z_new = z_new.requires_grad_(True) #.detach().requires_grad_(True)
+                x_mean = self.decode_to_logits(z_new)
+                #x_mean = model.decoder(model.fc3(z_new))
+                x_flat, x_mean_flat = x.view(x.size(0), -1), x_mean.view(x.size(0), -1)
+                log_p_x = -((x_flat - x_mean_flat) ** 2).sum(dim=1) / 2
+                log_p_z = -0.5 * (z_new.view(x.size(0), -1) ** 2).sum(dim=1)
+                log_post = (log_p_x + log_p_z).sum()
+                grad = torch.autograd.grad(log_post, z_new)[0]
+                p_new = p_new + step_size * grad
+            p_new = p_new + 0.5 * step_size * grad
+            p_new = -p_new  # Make symmetric
+
+            #with torch.no_grad():
+            logp_current = -0.5 * (z.view(x.size(0), -1) ** 2).sum(dim=1) - ((x.view(x.size(0), -1) - self.decode_to_logits(z).view(x.size(0), -1)) ** 2).sum(dim=1) / 2
+            logp_new = -0.5 * (z_new.view(x.size(0), -1) ** 2).sum(dim=1) - ((x.view(x.size(0), -1) - self.decode_to_logits(z_new).view(x.size(0), -1)) ** 2).sum(dim=1) / 2
             
+            accept_ratio = torch.exp(logp_new - logp_current).clamp(max=1.0)
+            mask = torch.rand_like(accept_ratio) < accept_ratio
+            #print("mask", mask)
+            z = torch.where(mask.unsqueeze(1), z_new.view(x.size(0), -1), z.view(x.size(0), -1))
+            z = z.view(z_shape).requires_grad_(True)#.detach().requires_grad_(True)  # Prepare for next iteration
+
+        z_mcmc = z#.detach()  # Final robust latent sample
+
+        return z_mcmc
+
+
+    def get_hmc_lat2(self, z1, normalized_attacked, combiner_cells_enc, combiner_cells_s, dist, ftr):
+        #print("z1", z1)
+        z_shape = z1.shape
+        z = z1.requires_grad_(True)#.clone().detach().requires_grad_(True)  # Start point for MCMC
+        x = normalized_attacked#.detach()              # Adversarial input
+        #step_size = 0.0000005   # 0.0002
+        #step_size = 0.0000000005   # 0.0002
+        step_size = 0.05   # 0.0002
+
+        n_steps = 20
+        leapfrog_steps = 15
+
+        #samples = []
+        for i in range(n_steps):
+            p = torch.randn_like(z)  # Sample momentum
+            z_new = z.clone()
+            p_new = p.clone()
+
+            x_mean = self.decode_to_logits2(z_new, combiner_cells_enc, combiner_cells_s, dist, ftr)
+            x_flat, x_mean_flat = x.view(x.size(0), -1), x_mean.view(x.size(0), -1)
+            log_p_x = -((x_flat - x_mean_flat) ** 2).sum(dim=1) / 2  # assuming Gaussian decoder
+            log_p_z = -0.5 * (z_new.view(x.size(0), -1) ** 2).sum(dim=1)                # standard normal prior
+            log_post = (log_p_x + log_p_z).sum()
+            grad = torch.autograd.grad(log_post, z_new)[0]
+
+            # Leapfrog integration
+            p_new = p_new + 0.5 * step_size * grad
+            #print("p_new.shape", p_new.shape)
+            for _ in range(leapfrog_steps):
+                z_new = z_new + step_size * p_new
+                z_new = z_new.requires_grad_(True)#.detach().requires_grad_(True)
+                x_mean = self.decode_to_logits2(z_new, combiner_cells_enc, combiner_cells_s, dist, ftr)
+                #x_mean = model.decoder(model.fc3(z_new))
+                x_flat, x_mean_flat = x.view(x.size(0), -1), x_mean.view(x.size(0), -1)
+                log_p_x = -((x_flat - x_mean_flat) ** 2).sum(dim=1) / 2
+                log_p_z = -0.5 * (z_new.view(x.size(0), -1) ** 2).sum(dim=1)
+                log_post = (log_p_x + log_p_z).sum()
+                grad = torch.autograd.grad(log_post, z_new)[0]
+                p_new = p_new + step_size * grad
+            p_new = p_new + 0.5 * step_size * grad
+            p_new = -p_new  # Make symmetric
+
+            #with torch.no_grad():
+            logp_current = -0.5 * (z.view(x.size(0), -1) ** 2).sum(dim=1) - ((x.view(x.size(0), -1) - self.decode_to_logits2(z, combiner_cells_enc, combiner_cells_s, dist, ftr).view(x.size(0), -1)) ** 2).sum(dim=1) / 2
+            logp_new = -0.5 * (z_new.view(x.size(0), -1) ** 2).sum(dim=1) - ((x.view(x.size(0), -1) - self.decode_to_logits2(z_new, combiner_cells_enc, combiner_cells_s, dist, ftr).view(x.size(0), -1)) ** 2).sum(dim=1) / 2
+            
+            accept_ratio = torch.exp(logp_new - logp_current).clamp(max=1.0)
+            #accept_ratio = torch.rand_like(accept_ratio)*100.0
+            mask = torch.rand_like(accept_ratio) < accept_ratio
+            print("mask", mask)
+            z = torch.where(mask.unsqueeze(1), z_new.view(x.size(0), -1), z.view(x.size(0), -1))
+            #print("z.shape", z.shape)
+            #print("z_new.shape", z_new.shape)
+            #print("z", z)
+            #zk = z.view(z.size(0), -1)           # shape [10, 1280]
+            #z_new_k = z_new.view(z_new.size(0), -1)  # shape [10, 1280]
+            #div = torch.norm(zk - z_new_k, p=2, dim=1)  # shape [10], per-sample L2 norm           
+            #print("div", div)
+            z = z.view(z_shape).requires_grad_(True)#.detach().requires_grad_(True)  # Prepare for next iteration
+
+        z_mcmc = z#.detach()  # Final robust latent sample
+
+        return z_mcmc
+
+
+    def forward(self, x):
+        #print("self.stem", self.stem)
+        s = self.stem(2 * x - 1.0)
+        # perform pre-processing
+        #print("self.pre_process", self.pre_process)
+        for cell in self.pre_process:
+            s = cell(s)
+
+        # run the main encoder tower
+        combiner_cells_enc = []
+        combiner_cells_s = []
+        #print("self.enc_tower", self.enc_tower)
+        for cell in self.enc_tower:
+            #print("cell.cell_type", cell.cell_type)
+            if cell.cell_type == 'combiner_enc':
+                #print("cell.cell_type", cell.cell_type)
+                #print("cell", cell)
+                combiner_cells_enc.append(cell)
+                #print("s.shape", s.shape)
+                combiner_cells_s.append(s)
+            else:
+                s = cell(s)
+        #print("len(combiner_cells_enc)", len(combiner_cells_enc))
+        #print("what happened here combiner_cells_s.shape", len(combiner_cells_s))
+
+        # reverse combiner cells and their input for decoder
+        combiner_cells_enc.reverse()
+        combiner_cells_s.reverse()
+
+        idx_dec = 0
+        ftr = self.enc0(s)                            # this reduces the channel dimension
+        param0 = self.enc_sampler[idx_dec](ftr)
+        
+        mu_q, log_sig_q = torch.chunk(param0, 2, dim=1)
+        dist = Normal(mu_q, log_sig_q)   # for the first approx. posterior
+        z, _ = dist.sample()
+
+        #z = self.get_hmc_lat2(z, x, combiner_cells_enc, combiner_cells_s, dist, ftr) #* 1e6        ######## this is the defender actual positioining
+
+
+        log_q_conv = dist.log_p(z)
+        # apply normalizing flows
+        nf_offset = 0
+        #print('self.num_flows', self.num_flows)
+        #print("self.nf_cells", self.nf_cells)
+        for n in range(self.num_flows):
+            z, log_det = self.nf_cells[n](z, ftr)
+            log_q_conv -= log_det
+        nf_offset += self.num_flows
+        all_q = [dist]
+        all_lat_rep = [z]
+
+        all_log_q = [log_q_conv]
+
+
+        # To make sure we do not pass any deterministic features from x to decoder.
+        s = 0
+
+        # prior for z0
+        dist = Normal(mu=torch.zeros_like(z), log_sigma=torch.zeros_like(z))
+        log_p_conv = dist.log_p(z)
+        all_p = [dist]
+        all_log_p = [log_p_conv]
+
+
+        idx_dec = 0
+
+        s = self.prior_ftr0.unsqueeze(0) # random tensor of shape of the encoder tower output
+        batch_size = z.size(0)
+        s = s.expand(batch_size, -1, -1, -1)
+        #print("what is self.dec_sampler", self.dec_sampler) # They are neural nets
+        #print("What is self.nf_cells", self.nf_cells) # They are again neural nets
+        for cell in self.dec_tower:
+            if cell.cell_type == 'combiner_dec':
+                if idx_dec > 0:
+                    # form prior
+                    param = self.dec_sampler[idx_dec - 1](s)
+                    mu_p, log_sig_p = torch.chunk(param, 2, dim=1)
+
+                    # form encoder
+                    ftr = combiner_cells_enc[idx_dec - 1](combiner_cells_s[idx_dec - 1], s)
+                    param = self.enc_sampler[idx_dec](ftr)
+
+                    mu_q, log_sig_q = torch.chunk(param, 2, dim=1)
+
+                    dist = Normal(mu_p + mu_q, log_sig_p + log_sig_q) if self.res_dist else Normal(mu_q, log_sig_q)
+                    z, _ = dist.sample()
+                    #print("z.shape", z.shape)
+                    log_q_conv = dist.log_p(z)
+
+                    # apply NF
+
+                    for n in range(self.num_flows):
+                        z, log_det = self.nf_cells[nf_offset + n](z, ftr)
+
+                        log_q_conv -= log_det
+
+                    nf_offset += self.num_flows
+
+                    all_log_q.append(log_q_conv)
+
+                    all_lat_rep.append(z)
+                    all_q.append(dist)
+
+                    # evaluate log_p(z)
+                    dist = Normal(mu_p, log_sig_p)
+                    log_p_conv = dist.log_p(z)
+                    all_p.append(dist)
+                    all_log_p.append(log_p_conv)
+
+                # 'combiner_dec'
+                s = cell(s, z)
+                idx_dec += 1
+            else:
+
+                s = cell(s)
+        #print("is it here ?")
+        #s = self.get_hmc_lat1(s, x) #* 1e6        ######## this is the defender
+        #print("z.shape", z.shape)
+        #print("s.shape", s.shape)
         if self.vanilla_vae:
             s = self.stem_decoder(z)
 
@@ -456,7 +684,7 @@ class AutoEncoder(nn.Module):
             s = cell(s)
 
         logits = self.image_conditional(s)
-
+        #print("logits.shape", logits.shape)
         # compute kl
         kl_all = []
         kl_diag = []
@@ -520,9 +748,18 @@ class AutoEncoder(nn.Module):
         elif self.dataset in {'stacked_mnist', 'cifar10', 'celeba_64', 'celeba_256', 'imagenet_32', 'imagenet_64', 'ffhq',
                               'lsun_bedroom_128', 'lsun_bedroom_256', 'lsun_church_64', 'lsun_church_128'}:
             if self.num_mix_output == 1:
+                decoded = NormalDecoder(logits, num_bits=self.num_bits)
+                #print("decoded.shape", decoded.shape)
                 return NormalDecoder(logits, num_bits=self.num_bits)
             else:
+                decoded = DiscMixLogistic(logits, self.num_mix_output, num_bits=self.num_bits)
+                #decoded = decoded.sample()
+                #print("decoded", decoded)
+                #print("len(decoded)", len(decoded))
+                #print("or here ? decoded.shape", decoded.shape)
                 return DiscMixLogistic(logits, self.num_mix_output, num_bits=self.num_bits)
+
+
         else:
             raise NotImplementedError
 

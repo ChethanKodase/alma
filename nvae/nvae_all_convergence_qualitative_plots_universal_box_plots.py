@@ -86,7 +86,10 @@ for i in range(100):
 
 #attck_types = ["combi_l2", "combi_wasserstein", "combi_SKL", "combi_cos", "hlatent_l2", "hlatent_wasserstein", "hlatent_SKL", "hlatent_cos"]
 
-attck_types = ["hlatent_l2", "hlatent_wasserstein", "hlatent_SKL", "hlatent_cos", "combi_l2_cond", "combi_wasserstein_cond", "combi_SKL_cond", "combi_cos_cond", ]
+#attck_types = ["hlatent_l2", "hlatent_wasserstein", "hlatent_SKL", "hlatent_cos", "combi_l2_cond", "combi_wasserstein_cond", "combi_SKL_cond", "combi_cos_cond", ]   ########### attack names I used
+
+attck_types = ["la_l2", "la_wass", "la_skl", "la_cos", "grill_l2", "grill_wass", "grill_skl", "grill_cos"]   ########### attack names 
+
 
 
 #root = '/home/luser/autoencoder_attacks/train_aautoencoders/data_faces/img_align_celeba'
@@ -183,10 +186,10 @@ with torch.no_grad():
         "LA, \n wasserstein": all_mse_lists[1],
         "LA, \nSKL": all_mse_lists[2],
         "LA, \ncosine": all_mse_lists[3],
-        "ALMA, \nl-2": all_mse_lists[4],
-        "ALMA, \nwasserstein": all_mse_lists[5],
-        "ALMA, \nSKL": all_mse_lists[6],
-        "ALMA, \ncosine": all_mse_lists[7],
+        "GRILL, \nl-2": all_mse_lists[4],
+        "GRILL, \nwasserstein": all_mse_lists[5],
+        "GRILL, \nSKL": all_mse_lists[6],
+        "GRILL, \ncosine": all_mse_lists[7],
     })
 
     '''data = pd.DataFrame({
@@ -235,10 +238,10 @@ with torch.no_grad():
         "LA, \n wasserstein": all_l2_dist_lists[1],
         "LA, \nSKL": all_l2_dist_lists[2],
         "LA, \ncosine": all_l2_dist_lists[3],
-        "ALMA, \nl-2": all_l2_dist_lists[4],
-        "ALMA, \nwasserstein": all_l2_dist_lists[5],
-        "ALMA, \nSKL": all_l2_dist_lists[6],
-        "ALMA, \ncosine": all_l2_dist_lists[7],
+        "GRILL, \nl-2": all_l2_dist_lists[4],
+        "GRILL, \nwasserstein": all_l2_dist_lists[5],
+        "GRILL, \nSKL": all_l2_dist_lists[6],
+        "GRILL, \ncosine": all_l2_dist_lists[7],
     })
 
     '''data = pd.DataFrame({

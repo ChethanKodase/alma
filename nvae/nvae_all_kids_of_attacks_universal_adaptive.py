@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from model import AutoEncoder
+from model_with_defense import AutoEncoder
 import utils
 import matplotlib.pyplot as plt
 import numpy as np
@@ -16,159 +16,6 @@ import torch.optim as optim
 '''
 
 0, 1, 2, 3
-
-
-
-conda deactivate
-conda deactivate
-conda deactivate
-export CUDA_VISIBLE_DEVICES=6
-cd NVAE/
-source nvaeenv1/bin/activate
-cd ..
-cd alma/
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2_dir_cap" --desired_norm_l_inf 0.04 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
-
-
-conda deactivate
-conda deactivate
-conda deactivate
-export CUDA_VISIBLE_DEVICES=1
-cd NVAE/
-source nvaeenv1/bin/activate
-cd ..
-cd alma/
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2_dir_cap_2" --desired_norm_l_inf 0.04 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
-
-
-
-conda deactivate
-conda deactivate
-conda deactivate
-export CUDA_VISIBLE_DEVICES=0
-cd NVAE/
-source nvaeenv1/bin/activate
-cd ..
-cd alma/
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2_dir_cap_1" --desired_norm_l_inf 0.04 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
-
-
-conda deactivate
-conda deactivate
-conda deactivate
-export CUDA_VISIBLE_DEVICES=6
-cd NVAE/
-source nvaeenv1/bin/activate
-cd ..
-cd alma/
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2" --desired_norm_l_inf 0.04 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
-
-
-conda deactivate
-conda deactivate
-conda deactivate
-export CUDA_VISIBLE_DEVICES=0
-cd NVAE/
-source nvaeenv1/bin/activate
-cd ..
-cd alma/
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2_rcom" --desired_norm_l_inf 0.04 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
-
-
-
-
-conda deactivate
-conda deactivate
-conda deactivate
-export CUDA_VISIBLE_DEVICES=5
-cd NVAE/
-source nvaeenv1/bin/activate
-cd ..
-cd alma/
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2_rand" --desired_norm_l_inf 0.04 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
-
-
-conda deactivate
-conda deactivate
-conda deactivate
-export CUDA_VISIBLE_DEVICES=4
-cd NVAE/
-source nvaeenv1/bin/activate
-cd ..
-cd alma/
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2_eq" --desired_norm_l_inf 0.04 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
-
-
-
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_wass" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_check_point_path
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_skl" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_check_point_path
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_cos" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_check_point_path
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_l2" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_check_point_path
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_wass" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_check_point_path
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_skl" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_check_point_path
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_cos" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_check_point_path
-
-
-
-
-
-
-post_reviews
-
-
-
-conda deactivate
-conda deactivate
-conda deactivate
-export CUDA_VISIBLE_DEVICES=7
-cd NVAE/
-source nvaeenv1/bin/activate
-cd ..
-cd alma/
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2_pr" --desired_norm_l_inf 0.05 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
-
-
-
-
-
-conda deactivate
-conda deactivate
-conda deactivate
-export CUDA_VISIBLE_DEVICES=6
-cd NVAE/
-source nvaeenv1/bin/activate
-cd ..
-cd alma/
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_l2_pr" --desired_norm_l_inf 0.05 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
-
-
-conda deactivate
-conda deactivate
-conda deactivate
-export CUDA_VISIBLE_DEVICES=7
-cd NVAE/
-source nvaeenv1/bin/activate
-cd ..
-cd alma/
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_skl_pr" --desired_norm_l_inf 0.05 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
-
-
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_skl_cl" --desired_norm_l_inf 0.04 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_skl_cl" --desired_norm_l_inf 0.035 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
-
-next step
-
-conda deactivate
-conda deactivate
-conda deactivate
-export CUDA_VISIBLE_DEVICES=4
-cd NVAE/
-source nvaeenv1/bin/activate
-cd ..
-cd alma/
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2_grad" --desired_norm_l_inf 0.05 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
-
-
 
 ########################### adaptive attacks ###########################
 
@@ -194,9 +41,9 @@ cd ..
 cd alma/
 python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2_mcmc" --desired_norm_l_inf 0.035 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
 
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2_mcmc_eqwts" --desired_norm_l_inf 0.035 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2_mcmc1" --desired_norm_l_inf 0.035 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
 
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2_mcmc_rndwts" --desired_norm_l_inf 0.035 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2_mcmc2" --desired_norm_l_inf 0.035 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
 
 la_wass_mcmc
 
@@ -208,8 +55,14 @@ cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
 cd alma/
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2_mcmc" --desired_norm_l_inf 0.035 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_wass_mcmc" --desired_norm_l_inf 0.035 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
+python nvae/nvae_all_kids_of_attacks_universal_adaptive.py --attck_type "grill_l2_mcmc" --desired_norm_l_inf 0.035 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
+python nvae/nvae_all_kids_of_attacks_universal_adaptive.py --attck_type "grill_l2_mcmc" --desired_norm_l_inf 0.04 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
+python nvae/nvae_all_kids_of_attacks_universal_adaptive.py --attck_type "grill_l2_mcmc" --desired_norm_l_inf 0.05 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
+
+
+python nvae/nvae_all_kids_of_attacks_universal_adaptive.py --attck_type "la_wass_mcmc" --desired_norm_l_inf 0.035 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
+python nvae/nvae_all_kids_of_attacks_universal_adaptive.py --attck_type "la_wass_mcmc" --desired_norm_l_inf 0.04 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
+python nvae/nvae_all_kids_of_attacks_universal_adaptive.py --attck_type "la_wass_mcmc" --desired_norm_l_inf 0.05 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
 
 ########################### adaptive attacks ###########################
 
@@ -541,6 +394,10 @@ if(attck_type == "grill_l2_mcmc"):
     adv_mse_list = []
     for step in range(100):
         for source_im in big_tensor:
+            #source_im, label = source_im.cuda(), label
+            #print("source_im.shape", source_im.shape)
+            #current_L_inf_norm = torch.norm(noise_addition, p=float('inf'))
+            #scaled_noise = noise_addition * (desired_norm_l_inf / torch.norm(noise_addition, p=float('inf')))
 
             normalized_attacked = (source_im + (noise_addition * (desired_norm_l_inf / torch.norm(noise_addition, p=float('inf')))))
             normalized_attacked = (normalized_attacked-normalized_attacked.min())/(normalized_attacked.max()-normalized_attacked.min())
@@ -600,7 +457,7 @@ if(attck_type == "grill_l2_mcmc"):
             get_em = run_time_plots_and_saves(step, loss, l2_distortion, l_inf_distortion, deviation, mase_dev, normalized_attacked, scaled_noise, adv_gen)
 
 
-if(attck_type == "grill_l2_mcmc_eqwts"):
+if(attck_type == "grill_l2_mcmc1"):
     all_condition_nums = np.full((1084,), 1 / 1084)
 
     print(all_condition_nums)
@@ -683,7 +540,7 @@ if(attck_type == "grill_l2_mcmc_eqwts"):
 
 
 
-if(attck_type == "grill_l2_mcmc_rndwts"):
+if(attck_type == "grill_l2_mcmc2"):
 
     all_condition_nums = np.random.rand(1084) 
 

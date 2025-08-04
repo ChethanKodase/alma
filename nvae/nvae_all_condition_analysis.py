@@ -20,7 +20,7 @@ import matplotlib.ticker as ticker
 conda deactivate
 conda deactivate
 conda deactivate
-export CUDA_VISIBLE_DEVICES=1
+export CUDA_VISIBLE_DEVICES=2
 cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
@@ -214,6 +214,42 @@ def get_symmetric_KLDivergence_agg(input1, input2):
     return symmetric_kl
 
 
+def conv2d_condition_number(kernel, input_size):
+    """
+    kernel: torch.Tensor of shape [kH, kW, in_channels, out_channels]
+    input_size: tuple of (H, W) specifying the spatial size of the input image
+    """
+    kH, kW, in_ch, out_ch = kernel.shape
+    H, W = input_size
+
+    # Move channels to axes=2 and 3: shape becomes [kH, kW, out_ch, in_ch]
+    kernel = kernel.permute(0, 1, 3, 2)  # [kH, kW, out_ch, in_ch]
+
+    # Zero-pad the kernel to input size
+    pad = (0, H - kH, 0, W - kW)  # pad height and width
+    kernel_padded = torch.nn.functional.pad(kernel, pad, mode='constant', value=0)
+
+    # Perform 2D FFT over the first two axes (height and width)
+    # Result shape: [H, W, out_ch, in_ch] (complex numbers)
+    kernel_fft = torch.fft.fft2(kernel_padded, dim=(0, 1))
+
+    # Compute SVD of each [out_ch x in_ch] matrix at each frequency location
+    kernel_fft_np = kernel_fft.permute(2, 3, 0, 1).cpu().numpy()  # [out_ch, in_ch, H, W]
+    max_sv = 0.0
+    min_sv = float('inf')
+
+    for i in range(H):
+        for j in range(W):
+            mat = kernel_fft_np[:, :, i, j]  # shape: [out_ch, in_ch], complex
+            s = np.linalg.svd(mat, compute_uv=False)
+            max_sv = max(max_sv, s[0])
+            min_sv = min(min_sv, s[-1])
+
+    cond_number = max_sv / (min_sv + 1e-12)  # Add epsilon to avoid divide-by-zero
+    return cond_number
+
+
+
 def encoder_hook_fn(module, input, output):
     layerwise_outputs[module] = output
     layerwise_modules[module] = module  # Store actual module
@@ -240,6 +276,8 @@ for step in range(100):
         layerwise_outputs.clear()
         layerwise_modules.clear()
         _, _, _, _, _, adv_latent_reps = model(normalized_attacked)
+
+        print("normalized_attacked.shape")
 
         adv_layerwise_outputs = layerwise_outputs.copy()
         print("len(adv_layerwise_outputs)", len(adv_layerwise_outputs))
@@ -277,8 +315,12 @@ for step in range(100):
                             condition_number = 1.0
                             intra_param_ind+=1
                         else:
+
                             W_matrix = param.view(param.shape[0], -1)  # Flatten kernels into a 2D matrix
-                            #print("W_matrix.shape", W_matrix.shape)
+                            print("W_matrix.shape", W_matrix.shape)
+
+                            print("param.shape", param.shape)
+
                             U, S, Vt = torch.linalg.svd(W_matrix, full_matrices=False)
                             condition_number = (S.max() / S.min()).item()
                             #print("condition_number", condition_number)
