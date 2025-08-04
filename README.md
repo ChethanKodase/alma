@@ -310,7 +310,7 @@ python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.35 --attck
 Optimized noise will be saved in `alma/diffae/noise_storage`
 
 
-![DiffAE Qualitative](diffae/showcase/paperDiffAE_all_attacks_norm_bound_0.08_segment_3.png)
+![DiffAE Qualitative](diffae/showcase/diffAE_qual.png)
 *Qualitative comparision of DiffAE, c = 0.33*
 
 #### To plot adversrial reconstruction loss distribution for all attack methods for a set of L-infinity norms 
