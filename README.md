@@ -201,8 +201,14 @@ python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_cos" --desire
 ```
 </pre>
 
-![NVAE Qualitative](sample_specific_show/paper_NVAE_attacks_norm_bound_0.05feature_youngmen_source_segment_1.png)
-*Qualitative comparision of NVAE, c = 0.05*
+
+
+<p align="center">
+  <img src="nvae/showcase/nvaevar1.png" alt="NVAE Distortion distribution" width="400"/>
+  <img src="nvae/showcase/nvaecond1.png" alt="NVAE Layerwise condition numbers" width="400"/>
+</p>
+
+<p align="center"><em>Qualitative comparision of NVAE, c = 0.035 to 0.05</em></p>
 
 
 #### To plot distributions of maximum damage attacks using all attacks methods for a given perturbation norms
@@ -223,7 +229,7 @@ python nvae/nvae_all_convergence_epsilon_variation.py --data_directory ../data_c
 </pre>
 
 
-![NVAE Qualitative](nvae/showcase/nvae_all.png)
+![NVAE Qualitative](nvae/showcase/nvae_qual.png)
 *Comparison of universal adversarial attacks on NVAE under 0.03 ≤ c ≤ 0.05*
 
 
