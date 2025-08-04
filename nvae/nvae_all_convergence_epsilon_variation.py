@@ -131,8 +131,6 @@ with torch.no_grad():
 
     row_one_ims = []
     row_two_ims = []
-    #source_im = torch.load("/mdadm0/chethan_krishnamurth/NVAE/a_mixed_data/"+str(select_feature)+"_d/images.pt")[:50].unsqueeze(0).cuda()  
-    #source_im = torch.load("/mdadm0/chethan_krishnamurth/NVAE/a_mixed_data/"+str(select_feature)+"_d/images.pt")[:200].cuda()  
 
     for idx, (source_im, _) in enumerate(testLoader):
         source_im, _ = source_im.cuda(), _

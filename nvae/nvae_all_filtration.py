@@ -241,9 +241,7 @@ def run_time_plots_and_saves(step, total_loss, deviation, mase_dev, normalized_a
         plt.savefig(""+filter_location+"/run_time/NVAE_attack_.png")
 
     optimized_noise = scaled_noise
-    #torch.save(optimized_noise, "/mdadm0/chethan_krishnamurth/NVAE/attack_run_time_univ/attack_noise/NVAE_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"feature_"+str(select_feature)+"_source_segment_"+str(source_segment)+"_.pt")
-    #np.save("/mdadm0/chethan_krishnamurth/NVAE/attack_run_time_univ/adv_div_convergence/NVAE_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"feature_"+str(select_feature)+"_source_segment_"+str(source_segment)+"_.npy", adv_div_list)
-    #np.save("/mdadm0/chethan_krishnamurth/NVAE/attack_run_time_univ/adv_mse_convergence/NVAE_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"feature_"+str(select_feature)+"_source_segment_"+str(source_segment)+"_.npy", adv_mse_list)
+
     torch.save(inter_model.state_dict(), ""+filter_location+"/nvae_filter_norm_bound_"+str(desired_norm_l_inf)+".torch")
 
 
@@ -473,14 +471,7 @@ for step in range(100):
 
         reconstructions = model.decoder_output(logits)
         reconstructions = reconstructions.sample()
-        #both_recons.append(reconstructions)
 
-    
-
-        #print("reconstructions.shape", reconstructions.shape)
-
-        #save_images_in_row(both_recons[0], "/mdadm0/chethan_krishnamurth/NVAE/filtration/trial_plots/reconstructed_row1.png")
-        #save_images_in_row(both_recons[1], "/mdadm0/chethan_krishnamurth/NVAE/filtration/trial_plots/reconstructed_row2.png")
 
         #total_loss = criterion(both_recons[0], both_recons[1])
         total_loss = filter_loss
@@ -508,5 +499,4 @@ for step in range(100):
 
         #get_em = run_time_plots_and_saves(step, total_loss, l2_distortion, l_inf_distortion, deviation, mase_dev, normalized_attacked, scaled_noise, adv_gen)
         get_em = run_time_plots_and_saves(step, total_loss, deviation, mase_dev, normalized_attacked, noise_addition, reconstructions)
-        #save_images_in_row(both_recons[0], "/mdadm0/chethan_krishnamurth/NVAE/filtration/trial_plots/reconstructed_row1.png")
 

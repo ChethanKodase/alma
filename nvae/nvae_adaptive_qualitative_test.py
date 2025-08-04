@@ -23,11 +23,11 @@ cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
 cd alma/
-python nvae/nvae_adaptive_qualitative_test.py --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint --uni_noise_path nvae/univ_attack_storage/
+python nvae/nvae_adaptive_qualitative_test.py --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint --uni_noise_path nvae/univ_attack_storage/
 
 
 old::
-python nvae/nvae_adaptive_qualitative_test.py --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint --uni_noise_path ../NVAE/attack_run_time_univ/attack_noise
+python nvae/nvae_adaptive_qualitative_test.py --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint --uni_noise_path ../NVAE/attack_run_time_univ/attack_noise
 
 '''
 
@@ -145,21 +145,7 @@ desired_norm_l_infs = [0.05]
 
 row_one_ims = []
 row_two_ims = []
-#source_im = torch.load("/mdadm0/chethan_krishnamurth/NVAE/a_mixed_data/"+str(select_feature)+"_d/images.pt")[:50].unsqueeze(0).cuda()  
-#source_im = torch.load("/mdadm0/chethan_krishnamurth/NVAE/a_mixed_data/"+str(select_feature)+"_d/images.pt")[:200].cuda()  
 
-'''for idx, (source_im, _) in enumerate(testLoader):
-    source_im, _ = source_im.cuda(), _
-    break
-del testLoader
-print("source_im.shape", source_im.shape)
-#source_im[:10]
-rec_logits, log_q, log_p, kl_all, kl_diag, adv_latent_reps = model(source_im)
-reconstructed_output = model.decoder_output(rec_logits)
-rec_gen = reconstructed_output.sample()'''
-
-#row_one_ims.append(source_im)
-#row_two_ims.append(rec_gen)
 all_mse_lists = []
 all_l2_dist_lists = []
 
@@ -212,7 +198,7 @@ for kk in range(len(attck_types)):
 
             plt.tight_layout()
             print("adv_gen.shape", adv_gen.shape)
-            plt.savefig('/mdadm0/chethan_krishnamurth/alma/nvae/a_test_qual_mcmc/'+attck_types[kk]+'test.png')
+            plt.savefig('nvae/a_test_qual_mcmc/'+attck_types[kk]+'test.png')
             plt.close()
             break
 

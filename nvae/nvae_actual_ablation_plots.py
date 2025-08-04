@@ -65,6 +65,6 @@ plt.tight_layout()
 
 
 #plt.legend()
-plt.savefig("/mdadm0/chethan_krishnamurth/alma/nvae/weighting_strategy_study/nvae_ablation_l_inf_norm_"+str(desired_norm_l_inf)+"_plots.png")
+plt.savefig("nvae/weighting_strategy_study/nvae_ablation_l_inf_norm_"+str(desired_norm_l_inf)+"_plots.png")
 plt.close()
 

@@ -22,15 +22,15 @@ from matplotlib.ticker import MaxNLocator
 
 
 # Attack types
-attck_type1 = "alma_l2_pr"
+attck_type1 = "grill_l2_pr"
 attck_type2 = "la_l2_pr"
 
 desired_norm_l_inf = 0.05 
 step = 99
 
 # Load the gradient norms
-all_grad_norms1 = np.load(f"/mdadm0/chethan_krishnamurth/alma/nvae/grad_distribution/grad_norms_list_{attck_type1}_norm_bound_{desired_norm_l_inf}_step_{step}.npy")
-all_grad_norms2 = np.load(f"/mdadm0/chethan_krishnamurth/alma/nvae/grad_distribution/grad_norms_list_{attck_type2}_norm_bound_{desired_norm_l_inf}_step_{step}.npy")
+all_grad_norms1 = np.load(f"nvae/grad_distribution/grad_norms_list_{attck_type1}_norm_bound_{desired_norm_l_inf}_step_{step}.npy")
+all_grad_norms2 = np.load(f"nvae/grad_distribution/grad_norms_list_{attck_type2}_norm_bound_{desired_norm_l_inf}_step_{step}.npy")
 
 # Plotting
 
@@ -66,7 +66,7 @@ for handle in handles:
 plt.tight_layout()
 
 # Save and show
-plt.savefig(f"/mdadm0/chethan_krishnamurth/alma/nvae/address_reviews/GradL2Norm_vs_Steps_compare_norm_bound_{desired_norm_l_inf}_step_{step}_bp.png")
+plt.savefig(f"nvae/address_reviews/GradL2Norm_vs_Steps_compare_norm_bound_{desired_norm_l_inf}_step_{step}_bp.png")
 plt.show()
 plt.close()
 
@@ -77,7 +77,7 @@ plt.close()
 #hist_step = 20
 
 for hist_step in range(100): 
-    grad_values = np.load("/mdadm0/chethan_krishnamurth/alma/nvae/grad_distribution/grad_values_"+str(attck_type1)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(hist_step)+".npy")
+    grad_values = np.load("nvae/grad_distribution/grad_values_"+str(attck_type1)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(hist_step)+".npy")
 
     plt.figure(figsize=(6, 4))
     #plt.hist(grad_values, bins=100, range=(-0.1, 0.1), density=False, alpha=0.75)
@@ -113,12 +113,12 @@ for hist_step in range(100):
     plt.tight_layout()  # Adjust layout to avoid overlap
 
     plt.show()
-    plt.savefig("/mdadm0/chethan_krishnamurth/alma/nvae/address_reviews/Histogram_attack_type"+str(attck_type1)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(hist_step)+"_.png")   #####this
+    plt.savefig("nvae/address_reviews/Histogram_attack_type"+str(attck_type1)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(hist_step)+"_.png")   #####this
     plt.close()
 
 
 for hist_step in range(100): 
-    grad_values = np.load("/mdadm0/chethan_krishnamurth/alma/nvae/grad_distribution/grad_values_"+str(attck_type2)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(hist_step)+".npy")
+    grad_values = np.load("nvae/grad_distribution/grad_values_"+str(attck_type2)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(hist_step)+".npy")
 
     plt.figure(figsize=(6, 4))
     #plt.hist(grad_values, bins=100, range=(-0.1, 0.1), density=False, alpha=0.75)
@@ -155,5 +155,5 @@ for hist_step in range(100):
     plt.tight_layout()  # Adjust layout to avoid overlap
 
     plt.show()
-    plt.savefig("/mdadm0/chethan_krishnamurth/alma/nvae/address_reviews/Histogram_attack_type"+str(attck_type2)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(hist_step)+"_.png")   #####this
+    plt.savefig("nvae/address_reviews/Histogram_attack_type"+str(attck_type2)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(hist_step)+"_.png")   #####this
     plt.close()

@@ -517,6 +517,4 @@ if(attck_type == "combi_l2_cond"):
                 plt.savefig(""+compare_plots_storage+"/nvae_attacked_attack_type"+str(attck_types[chosen_att_ind])+"_norm_bound_"+str(desired_norm_l_inf)+"_"+str(count)+"_.png", bbox_inches='tight')
                 plt.close()
 
-                #get_em = run_time_plots_and_saves(step, 0, deviation, mase_dev, normalized_attacked, reconstructions_unfil, reconstructions_filt)
-                #save_images_in_row(both_recons[0], "/mdadm0/chethan_krishnamurth/NVAE/filtration/trial_plots/reconstructed_row1.png")
 

@@ -181,7 +181,7 @@ for ch in range(15):
         #plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
         plt.show()
         plt.show()
-        plt.savefig("/mdadm0/chethan_krishnamurth/alma/all_universal_qualitative/paperInd_"+str(ch)+"_universal_NVAE_attacks_norm_bound_"+str(desired_norm_l_inf)+"feature_"+str(select_feature_dd)+"_source_segment_.png", bbox_inches='tight')
+        plt.savefig("all_universal_qualitative/paperInd_"+str(ch)+"_universal_NVAE_attacks_norm_bound_"+str(desired_norm_l_inf)+"feature_"+str(select_feature_dd)+"_source_segment_.png", bbox_inches='tight')
         plt.close()
         break
 

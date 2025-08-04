@@ -40,7 +40,7 @@ cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
 cd alma/
-python nvae/all_qualitative_plots_univ_classic_univ_adaptive.py --data_directory /mdadm0/chethan_krishnamurth/data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint --uni_noise_path nvae/univ_attack_storage/
+python nvae/all_qualitative_plots_univ_classic_univ_adaptive.py --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint --uni_noise_path nvae/univ_attack_storage/
 
 
 '''
@@ -155,21 +155,8 @@ desired_norm_l_infs = [0.04]
 
 row_one_ims = []
 row_two_ims = []
-#source_im = torch.load("/mdadm0/chethan_krishnamurth/NVAE/a_mixed_data/"+str(select_feature)+"_d/images.pt")[:50].unsqueeze(0).cuda()  
-#source_im = torch.load("/mdadm0/chethan_krishnamurth/NVAE/a_mixed_data/"+str(select_feature)+"_d/images.pt")[:200].cuda()  
 
-'''for idx, (source_im, _) in enumerate(testLoader):
-    source_im, _ = source_im.cuda(), _
-    break
-del testLoader
-print("source_im.shape", source_im.shape)
-#source_im[:10]
-rec_logits, log_q, log_p, kl_all, kl_diag, adv_latent_reps = model(source_im)
-reconstructed_output = model.decoder_output(rec_logits)
-rec_gen = reconstructed_output.sample()'''
 
-#row_one_ims.append(source_im)
-#row_two_ims.append(rec_gen)
 all_mse_lists = []
 all_l2_dist_lists = []
 
@@ -192,7 +179,7 @@ for idx, (source_im, _) in enumerate(testLoader):
                 optimized_noise = torch.load(""+uni_noise_path+"/NVAE_attack_type"+str(attck_types[i])+"_norm_bound_"+str(desired_norm_l_inf)+"_.pt")
             else:
                 #optimized_noise = torch.load(""+uni_noise_path+"/NVAE_attack_type"+str(attck_types[i])+"_norm_bound_"+str(desired_norm_l_inf)+"feature_"+str(select_feature)+"_source_segment_"+str(source_segment)+"_.pt")
-                optimized_noise = torch.load("/mdadm0/chethan_krishnamurth/NVAE/attack_run_time_univ/attack_noise/NVAE_attack_type"+str(attck_types[i])+"_norm_bound_"+str(desired_norm_l_inf)+"feature_"+str(select_feature)+"_source_segment_"+str(source_segment)+"_.pt")
+                optimized_noise = torch.load("../NVAE/attack_run_time_univ/attack_noise/NVAE_attack_type"+str(attck_types[i])+"_norm_bound_"+str(desired_norm_l_inf)+"feature_"+str(select_feature)+"_source_segment_"+str(source_segment)+"_.pt")
 
 
             #print("before optimized_noise.max(), optimized_noise.min()", optimized_noise.max(), optimized_noise.min())
@@ -224,21 +211,21 @@ for idx, (source_im, _) in enumerate(testLoader):
             #plt.set_title('Attacked Image')
             plt.axis('off')
             plt.show()
-            plt.savefig("/mdadm0/chethan_krishnamurth/alma/all_universal_qualitative/normalized_attacked_type"+str(attck_types[i])+"_norm_bound_"+str(desired_norm_l_inf)+"_.png")
+            plt.savefig("all_universal_qualitative/normalized_attacked_type"+str(attck_types[i])+"_norm_bound_"+str(desired_norm_l_inf)+"_.png")
             plt.close()
 
             plt.imshow(source_im[0].cpu().detach().permute(1, 2, 0).cpu().numpy())
             #plt.set_title('Noise')
             plt.axis('off')
             plt.show()
-            plt.savefig("/mdadm0/chethan_krishnamurth/alma/all_universal_qualitative/source_im"+str(attck_types[i])+"_norm_bound_"+str(desired_norm_l_inf)+"_.png")
+            plt.savefig("all_universal_qualitative/source_im"+str(attck_types[i])+"_norm_bound_"+str(desired_norm_l_inf)+"_.png")
             plt.close()
 
             plt.imshow(adv_gen[0].cpu().detach().permute(1, 2, 0).cpu().numpy())
             #plt.set_title('Attack reconstruction')
             plt.axis('off')
             plt.show()
-            plt.savefig("/mdadm0/chethan_krishnamurth/alma/all_universal_qualitative/adv_gen_"+str(attck_types[i])+"_norm_bound_"+str(desired_norm_l_inf)+"_.png")
+            plt.savefig("all_universal_qualitative/adv_gen_"+str(attck_types[i])+"_norm_bound_"+str(desired_norm_l_inf)+"_.png")
             plt.close()
 
 
@@ -246,7 +233,7 @@ for idx, (source_im, _) in enumerate(testLoader):
             #plt.set_title('Attack reconstruction')
             plt.axis('off')
             plt.show()
-            plt.savefig("/mdadm0/chethan_krishnamurth/alma/all_universal_qualitative/normal_recon_"+str(attck_types[i])+"_norm_bound_"+str(desired_norm_l_inf)+"_.png")
+            plt.savefig("all_universal_qualitative/normal_recon_"+str(attck_types[i])+"_norm_bound_"+str(desired_norm_l_inf)+"_.png")
             plt.close()
 
 

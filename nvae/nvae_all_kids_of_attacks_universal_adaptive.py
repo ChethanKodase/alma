@@ -1273,7 +1273,7 @@ if(attck_type == "grill_l2_pr"):
                 grad_l2_norm = torch.norm(noise_addition.grad, p=2)
                 print("grad_l2_norm", grad_l2_norm)
                 all_grad_norms.append(grad_l2_norm.item())
-                np.save("/mdadm0/chethan_krishnamurth/alma/nvae/grad_distribution/grad_norms_list_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", all_grad_norms)
+                np.save("nvae/grad_distribution/grad_norms_list_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", all_grad_norms)
                 print("grad_l2_norm", grad_l2_norm)
                 plt.figure(figsize=(8, 5))
                 plt.plot(all_grad_norms, marker='o', linestyle='-')
@@ -1282,7 +1282,7 @@ if(attck_type == "grill_l2_pr"):
                 plt.ylabel("L2 Norm of ∇(loss) w.r.t noise_addition")
                 plt.grid(True)
                 plt.tight_layout()
-                plt.savefig("/mdadm0/chethan_krishnamurth/alma/nvae/grad_distribution/GradL2Norm_vs_Steps_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".png")
+                plt.savefig("nvae/grad_distribution/GradL2Norm_vs_Steps_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".png")
                 plt.show()
                 plt.close()
 
@@ -1291,7 +1291,7 @@ if(attck_type == "grill_l2_pr"):
             ###########################   svd components along epoch   ################################################
 
                 grad_values = noise_addition.grad.detach().cpu().numpy().flatten()
-                np.save("/mdadm0/chethan_krishnamurth/alma/nvae/grad_distribution/grad_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", grad_values)
+                np.save("nvae/grad_distribution/grad_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", grad_values)
 
                 grad_matrix = noise_addition.grad.view(256, -1).detach().cpu().numpy()  # shape (3, 256*256)
                 U, S, Vt = np.linalg.svd(grad_matrix, full_matrices=False)
@@ -1303,10 +1303,10 @@ if(attck_type == "grill_l2_pr"):
                 plt.ylabel("Singular Value (log scale)")
                 plt.grid(True)
                 plt.show()
-                plt.savefig("/mdadm0/chethan_krishnamurth/alma/nvae/grad_distribution/SVD_stretch_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
+                plt.savefig("nvae/grad_distribution/SVD_stretch_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
                 plt.close()
 
-                np.save("/mdadm0/chethan_krishnamurth/alma/nvae/grad_distribution/stretch_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", S)
+                np.save("nvae/grad_distribution/stretch_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", S)
 
                 plt.figure(figsize=(8, 5))
                 plt.hist(grad_values, bins=100, range=(-0.1, 0.1), density=False, alpha=0.75)
@@ -1323,7 +1323,7 @@ if(attck_type == "grill_l2_pr"):
                 plt.tight_layout()  # Adjust layout to avoid overlap
 
                 plt.show()
-                plt.savefig("/mdadm0/chethan_krishnamurth/alma/nvae/grad_distribution/Histogram_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
+                plt.savefig("nvae/grad_distribution/Histogram_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
                 plt.close()
 
             ###########################   svd components along epoch   ################################################
@@ -1910,7 +1910,7 @@ if(attck_type == "la_l2_pr"):
                 grad_l2_norm = torch.norm(noise_addition.grad, p=2)
                 print("grad_l2_norm", grad_l2_norm)
                 all_grad_norms.append(grad_l2_norm.item())
-                np.save("/mdadm0/chethan_krishnamurth/alma/nvae/grad_distribution/grad_norms_list_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", all_grad_norms)
+                np.save("nvae/grad_distribution/grad_norms_list_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", all_grad_norms)
                 print("grad_l2_norm", grad_l2_norm)
                 plt.figure(figsize=(8, 5))
                 plt.plot(all_grad_norms, marker='o', linestyle='-')
@@ -1919,7 +1919,7 @@ if(attck_type == "la_l2_pr"):
                 plt.ylabel("L2 Norm of ∇(loss) w.r.t noise_addition")
                 plt.grid(True)
                 plt.tight_layout()
-                plt.savefig("/mdadm0/chethan_krishnamurth/alma/nvae/grad_distribution/GradL2Norm_vs_Steps_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".png")
+                plt.savefig("nvae/grad_distribution/GradL2Norm_vs_Steps_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".png")
                 plt.show()
                 plt.close()
 
@@ -1928,7 +1928,7 @@ if(attck_type == "la_l2_pr"):
             ###########################   svd components along epoch   ################################################
 
                 grad_values = noise_addition.grad.detach().cpu().numpy().flatten()
-                np.save("/mdadm0/chethan_krishnamurth/alma/nvae/grad_distribution/grad_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", grad_values)
+                np.save("nvae/grad_distribution/grad_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", grad_values)
 
                 grad_matrix = noise_addition.grad.view(256, -1).detach().cpu().numpy()  # shape (3, 256*256)
                 U, S, Vt = np.linalg.svd(grad_matrix, full_matrices=False)
@@ -1940,10 +1940,10 @@ if(attck_type == "la_l2_pr"):
                 plt.ylabel("Singular Value (log scale)")
                 plt.grid(True)
                 plt.show()
-                plt.savefig("/mdadm0/chethan_krishnamurth/alma/nvae/grad_distribution/SVD_stretch_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
+                plt.savefig("nvae/grad_distribution/SVD_stretch_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
                 plt.close()
 
-                np.save("/mdadm0/chethan_krishnamurth/alma/nvae/grad_distribution/stretch_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", S)
+                np.save("nvae/grad_distribution/stretch_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", S)
 
                 plt.figure(figsize=(8, 5))
                 plt.hist(grad_values, bins=100, range=(-0.1, 0.1), density=False, alpha=0.75)
@@ -1960,7 +1960,7 @@ if(attck_type == "la_l2_pr"):
                 plt.tight_layout()  # Adjust layout to avoid overlap
 
                 plt.show()
-                plt.savefig("/mdadm0/chethan_krishnamurth/alma/nvae/grad_distribution/Histogram_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
+                plt.savefig("nvae/grad_distribution/Histogram_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
                 plt.close()
 
             ###########################   svd components along epoch   ################################################
@@ -2029,7 +2029,7 @@ if(attck_type == "la_skl_pr"):
                 grad_l2_norm = torch.norm(noise_addition.grad, p=2)
                 print("grad_l2_norm", grad_l2_norm)
                 all_grad_norms.append(grad_l2_norm.item())
-                np.save("/mdadm0/chethan_krishnamurth/alma/nvae/grad_distribution/grad_norms_list_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", all_grad_norms)
+                np.save("nvae/grad_distribution/grad_norms_list_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", all_grad_norms)
                 print("grad_l2_norm", grad_l2_norm)
                 plt.figure(figsize=(8, 5))
                 plt.plot(all_grad_norms, marker='o', linestyle='-')
@@ -2038,7 +2038,7 @@ if(attck_type == "la_skl_pr"):
                 plt.ylabel("L2 Norm of ∇(loss) w.r.t noise_addition")
                 plt.grid(True)
                 plt.tight_layout()
-                plt.savefig("/mdadm0/chethan_krishnamurth/alma/nvae/grad_distribution/GradL2Norm_vs_Steps_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".png")
+                plt.savefig("nvae/grad_distribution/GradL2Norm_vs_Steps_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".png")
                 plt.show()
                 plt.close()
 
@@ -2047,7 +2047,7 @@ if(attck_type == "la_skl_pr"):
             ###########################   svd components along epoch   ################################################
 
                 grad_values = noise_addition.grad.detach().cpu().numpy().flatten()
-                np.save("/mdadm0/chethan_krishnamurth/alma/nvae/grad_distribution/grad_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", grad_values)
+                np.save("nvae/grad_distribution/grad_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", grad_values)
 
                 grad_matrix = noise_addition.grad.view(256, -1).detach().cpu().numpy()  # shape (3, 256*256)
                 U, S, Vt = np.linalg.svd(grad_matrix, full_matrices=False)
@@ -2059,10 +2059,10 @@ if(attck_type == "la_skl_pr"):
                 plt.ylabel("Singular Value (log scale)")
                 plt.grid(True)
                 plt.show()
-                plt.savefig("/mdadm0/chethan_krishnamurth/alma/nvae/grad_distribution/SVD_stretch_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
+                plt.savefig("nvae/grad_distribution/SVD_stretch_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
                 plt.close()
 
-                np.save("/mdadm0/chethan_krishnamurth/alma/nvae/grad_distribution/stretch_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", S)
+                np.save("nvae/grad_distribution/stretch_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", S)
 
                 plt.figure(figsize=(8, 5))
                 plt.hist(grad_values, bins=100, range=(-0.1, 0.1), density=False, alpha=0.75)
@@ -2079,7 +2079,7 @@ if(attck_type == "la_skl_pr"):
                 plt.tight_layout()  # Adjust layout to avoid overlap
 
                 plt.show()
-                plt.savefig("/mdadm0/chethan_krishnamurth/alma/nvae/grad_distribution/Histogram_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
+                plt.savefig("nvae/grad_distribution/Histogram_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
                 plt.close()
 
             ###########################   svd components along epoch   ################################################
