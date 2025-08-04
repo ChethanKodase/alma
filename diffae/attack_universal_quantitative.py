@@ -4,8 +4,10 @@
 
 
 cd ../diffae
+
+cd alma
 conda activate dt2
-python diffae/attack_universal_quantitative.py --desired_norm_l_inf 0.31 --which_gpu 7 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad --noise_directory ../diffae/attack_run_time_univ/attack_noise
+python diffae/attack_universal_quantitative.py --desired_norm_l_inf 0.33 --which_gpu 1 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad --noise_directory ../diffae/attack_run_time_univ/attack_noise
 
 '''
 
@@ -117,7 +119,7 @@ for i in range(100):
 
 #attack_types = ["latent_l2", "latent_wasserstein", "latent_SKL", "latent_cosine", "combi_l2", "combi_wasserstein", "combi_SKL", "combi_cos", "combi_cos_lw"]
 #attack_types = [ "latent_cosine", "combi_cos_cond_corr", "combi_cos_cond_corr_cap", "combi_cos_cond_dir", "combi_cos_cond_dir_cap" ]
-attack_types = ["latent_l2", "latent_wasserstein", "latent_SKL", "latent_cosine", "combi_l2", "combi_wasserstein", "combi_SKL", "combi_cos_cond_dir_cap"]
+#attack_types = ["latent_l2", "latent_wasserstein", "latent_SKL", "latent_cosine", "combi_l2", "combi_wasserstein", "combi_SKL", "combi_cos_cond_dir_cap"] ####################### the names I used before
 
 
 conf = ffhq256_autoenc()
@@ -161,9 +163,11 @@ num_features = 3 * 256 * 256  # Flattened input size
 projections = torch.randn(num_features, n_projections).to(device)
 
 
-attack_types = ["latent_l2", "latent_wasserstein", "latent_SKL", "combi_l2", "combi_wasserstein", "combi_SKL"]
+#attack_types = ["latent_l2", "latent_wasserstein", "latent_SKL", "combi_l2", "combi_wasserstein", "combi_SKL"]
 #attack_types = ["la_l2", "la_wass", "la_skl", "la_cos", "alma_l2", "alma_wass", "alma_skl", "alma_cos"]
 
+
+attack_types = ["la_l2", "la_wass", "la_cos", "grill_l2", "grill_wass", "grill_cos"]
 
 with torch.no_grad():
 
@@ -246,12 +250,12 @@ with torch.no_grad():
             k+=1
             if(k==400):
                 break
-        '''np.save("../diffae/attack_qualitative_untargeted_univ_quantitative/deviations_p/adv_divs_DiffAE_attack_type"+str(attack_types[j])+"_norm_bound_"+str(desired_norm_l_inf)+"_segment_"+str(source_segment)+".npy", all_divs_for_attack)
+        np.save("../diffae/attack_qualitative_untargeted_univ_quantitative/deviations_p/adv_divs_DiffAE_attack_type"+str(attack_types[j])+"_norm_bound_"+str(desired_norm_l_inf)+"_segment_"+str(source_segment)+".npy", all_divs_for_attack)
         np.save("../diffae/attack_qualitative_untargeted_univ_quantitative/deviations_p/adv_recons_DiffAE_attack_type"+str(attack_types[j])+"_norm_bound_"+str(desired_norm_l_inf)+"_segment_"+str(source_segment)+".npy", all_recon_loss)
         np.save("../diffae/attack_qualitative_untargeted_univ_quantitative/deviations_p/adv_divs_wass_DiffAE_attack_type"+str(attack_types[j])+"_norm_bound_"+str(desired_norm_l_inf)+"_segment_"+str(source_segment)+".npy", all_adv_div_wass)
         np.save("../diffae/attack_qualitative_untargeted_univ_quantitative/deviations_p/adv_divs_abs_DiffAE_attack_type"+str(attack_types[j])+"_norm_bound_"+str(desired_norm_l_inf)+"_segment_"+str(source_segment)+".npy", all_adv_abs_deviation)
         np.save("../diffae/attack_qualitative_untargeted_univ_quantitative/deviations_p/adv_divs_wass_DiffAE_attack_type"+str(attack_types[j])+"_norm_bound_"+str(desired_norm_l_inf)+"_segment_"+str(source_segment)+".npy", all_adv_wass_deviation)
         np.save("../diffae/attack_qualitative_untargeted_univ_quantitative/deviations_p/ssim_DiffAE_attack_type"+str(attack_types[j])+"_norm_bound_"+str(desired_norm_l_inf)+"_segment_"+str(source_segment)+".npy", all_ssim_value)
-        np.save("../diffae/attack_qualitative_untargeted_univ_quantitative/deviations_p/psnr_DiffAE_attack_type"+str(attack_types[j])+"_norm_bound_"+str(desired_norm_l_inf)+"_segment_"+str(source_segment)+".npy", all_psnr_value)'''
+        np.save("../diffae/attack_qualitative_untargeted_univ_quantitative/deviations_p/psnr_DiffAE_attack_type"+str(attack_types[j])+"_norm_bound_"+str(desired_norm_l_inf)+"_segment_"+str(source_segment)+".npy", all_psnr_value)
 
 

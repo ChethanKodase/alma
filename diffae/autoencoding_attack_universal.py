@@ -11,21 +11,69 @@ conda activate dt2
 python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.35 --attck_type la_l2 --which_gpu 7 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
 
 
+####################################################################################################################################################################################################################################################################################
+### universal attacks start
 
 conda activate dt2
 python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.31 --attck_type la_l2 --which_gpu 3 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
 python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.31 --attck_type la_wass --which_gpu 5 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
 python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.31 --attck_type la_skl --which_gpu 6 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
-python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.32 --attck_type la_cos --which_gpu 2 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.21 --attck_type la_cos --which_gpu 7 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
 
-python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.31 --attck_type alma_l2 --which_gpu 7 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
-python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.27 --attck_type alma_wass --which_gpu 1 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
-python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.27 --attck_type alma_skl --which_gpu 2 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
-python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.35 --attck_type alma_cos --which_gpu 7 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.31 --attck_type grill_l2 --which_gpu 7 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.27 --attck_type grill_wass --which_gpu 1 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.27 --attck_type grill_skl --which_gpu 2 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.21 --attck_type grill_cos --which_gpu 7 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+
+to plot
+python diffae/attack_universal_quantitative.py --desired_norm_l_inf 0.33 --which_gpu 1 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad --noise_directory ../diffae/attack_run_time_univ/attack_noise
+python diffae/attack_convergence_epsilon_variation_better_plots.py --epsilon_list 0.27 0.28 0.29 0.3 0.31 0.32 0.33
+
+
+### universal attacks end
+####################################################################################################################################################################################################################################################################################
+
+####################################################################################################################################################################################################################################################################################
+################################### weights abalation
+
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.33 --attck_type grill_cos_pr1 --which_gpu 1 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.33 --attck_type grill_cos_pr_rnd1 --which_gpu 2 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.33 --attck_type grill_cos_pr_unif1 --which_gpu 3 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+
+python diffae/review_plotting_abalation.py
+
+
+################################### weights abalation ends
+####################################################################################################################################################################################################################################################################################
 
 
 
+####################################################################################################################################################################################################################################################################################
+##################################################################### to get histograms
 
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.33 --attck_type la_cos_pr --which_gpu 4 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.33 --attck_type grill_cos_pr_rnd1 --which_gpu 2 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+python diffae/review_plotting.py
+
+##################################################################### to get histograms ends
+####################################################################################################################################################################################################################################################################################
+
+
+
+####################################################################################################################################################################################################################################################################################
+############# Adaptive attacks MCMC ################
+
+cd alma
+conda activate dt2
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.27 --attck_type la_cos_mcmc2 --which_gpu 4 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.27 --attck_type grill_cos_mcmc2 --which_gpu 5 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+
+python diffae/attack_universal_quantitative_adaptive.py --desired_norm_l_inf 0.33 --which_gpu 1 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad --noise_directory diffae/noise_storage
+python diffae/attack_convergence_epsilon_variation_adaptive.py --epsilon_list 0.27 0.3 0.33
+
+
+############# Adaptive attacks MCMC ################
+####################################################################################################################################################################################################################################################################################
 
 
 
@@ -35,6 +83,7 @@ python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.35 --attck
 from templates import *
 import matplotlib.pyplot as plt
 import torch.optim as optim
+import matplotlib.ticker as ticker
 
 from torch.nn import DataParallel
 import torch.nn.functional as F
@@ -43,6 +92,8 @@ from torch.utils.data import DataLoader
 from conditioning import get_layer_pert_recon
 
 import argparse
+from torch.cuda.amp import autocast, GradScaler
+scaler = GradScaler()
 
 parser = argparse.ArgumentParser(description='DiffAE celebA training')
 
@@ -107,12 +158,34 @@ source_im = data[0]['img'][None].to(device)
 
 
 import matplotlib.pyplot as plt
+import os
+# Construct the file path
+#file_path = f"diffae/noise_storage/DiffAE_attack_type{attck_type}_norm_bound_{desired_norm_l_inf}_.pt"
 
-noise_addition = torch.rand(source_im.shape).to(device)
-noise_addition = noise_addition * (source_im.max() - source_im.min()) + source_im.min()  
+source_segment = 0
+file_path = f"/data1/chethan/diffae/attack_run_time_univ/attack_noise/DiffAE_attack_typelatent_cosine_norm_bound_"+str(desired_norm_l_inf)+"_segment_"+str(source_segment)+".pt"
 
+# Check if the file exists
+if (attck_type=="gcr_cos" and os.path.exists(file_path)):
+    noise_addition = torch.load(file_path).to(device)
+    noise_addition = noise_addition.clone().detach().requires_grad_(True)
+
+    print("file exists")
+if(attck_type=="random_init_la_cos"):
+    noise_addition = torch.rand(source_im.shape).to(device)
+    print("no file, so random initialization")
+
+    noise_addition = noise_addition * (source_im.max() - source_im.min()) + source_im.min()  
+    noise_addition = noise_addition.clone().detach().requires_grad_(True)
+else:
+    noise_addition = torch.rand(source_im.shape).to(device)
+    print("no file, so random initialization")
+
+    noise_addition = noise_addition * (source_im.max() - source_im.min()) + source_im.min()  
+    noise_addition = noise_addition.clone().detach().requires_grad_(True)
+
+#noise_addition.requires_grad = True
 optimizer = optim.Adam([noise_addition], lr=0.0001)
-noise_addition.requires_grad = True
 source_im.requires_grad = True
 
 adv_alpha = 0.5
@@ -126,6 +199,20 @@ from geomloss import SamplesLoss
 with torch.no_grad():
     cond_nums_normalized = get_layer_pert_recon(model)
     print("cond_nums_normalized", cond_nums_normalized)
+
+print("cond_nums_normalized.shape", cond_nums_normalized.shape)
+print("cond_nums_normalized.max()", cond_nums_normalized.max())
+print("cond_nums_normalized.min()", cond_nums_normalized.min())
+
+cond_nums_rand = np.random.rand(29)
+
+print("cond_nums_rand", cond_nums_rand)
+
+cond_nums_unif = np.full((29,), 1 / 29)
+
+print(cond_nums_unif)
+print("Sum:", np.sum(cond_nums_unif))
+
 #################################################################################################################
 
 def cos(a, b):
@@ -193,6 +280,10 @@ def get_symmetric_KLDivergence(input1, input2):
     symmetric_kl = (kl_1_to_2 + kl_2_to_1) / 2
     return symmetric_kl
 
+
+
+
+
 def run_time_plots_and_saves(step, total_loss, l2_distortion, l_inf_distortion, deviation, normalized_attacked, optimized_noise, adv_gen):
     print(f"Step {step}, Loss: {total_loss.item()}, distortion L-2: {l2_distortion}, distortion L-inf: {l_inf_distortion}, deviation: {deviation}")
     print()
@@ -212,9 +303,9 @@ def run_time_plots_and_saves(step, total_loss, l2_distortion, l_inf_distortion, 
         ax[2].set_title('Attack reconstruction')
         ax[2].axis('off')
         plt.show()
-        plt.savefig("diffae/runtime_plots/DiffAE_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_.png")
-    torch.save(optimized_noise, "diffae/noise_storage/DiffAE_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_.pt")
-    #np.save("../diffae/attack_run_time_univ/adv_div_convergence/DiffAE_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_.npy", adv_div_list)
+        plt.savefig("diffae/runtime_plots/DiffAE_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_.png")   #####this
+    torch.save(optimized_noise, "diffae/noise_storage/DiffAE_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_.pt")   #####this
+    np.save("../diffae/attack_run_time_univ/adv_div_convergence/DiffAE_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_.npy", adv_div_list)
 
 def get_latent_space_l2_loss(normalized_attacked, source_im):
     embed = model.encode(source_im.to(device))
@@ -373,6 +464,409 @@ def get_combined_cosine_loss_cond(normal_x, source_x):
         #print("block_count", block_count)
 
     return encoder_lip_sum * (cos(source_x, normal_x)-1)**2 
+
+
+
+def get_pseudo_decoder(normal_x, source_x):
+
+    for i, block in enumerate(model.ema_model.encoder.out):
+        normal_x = block(normal_x)
+        source_x = block(source_x)
+
+    return normal_x, source_x
+
+def get_hmc_lat1(normal_x, source_x):
+    z = normal_x#.clone().detach().requires_grad_(True)  # Start point for MCMC
+    #x = normalized_attacked#.detach()              # Adversarial input
+    #source_x = source
+    step_size = 0.2
+    n_steps = 20
+    leapfrog_steps = 15
+
+    #samples = []
+    for i in range(n_steps):
+        p = torch.randn_like(z)  # Sample momentum
+        z_new = z.clone()
+        p_new = p.clone()
+
+        x_mean, x = get_pseudo_decoder(normal_x, source_x)
+
+
+        x_flat, x_mean_flat = x.view(x.size(0), -1), x_mean.view(x.size(0), -1)
+
+        log_p_x = -((x_flat - x_mean_flat) ** 2).sum(dim=1) / 2  # assuming Gaussian decoder
+
+        log_p_z = -0.5 * (z_new.view(z_new.size(0), -1) ** 2).sum(dim=1)                # standard normal prior
+        log_post = (log_p_x + log_p_z).sum()
+        grad = torch.autograd.grad(log_post, z_new)[0]
+
+        # Leapfrog integration
+        p_new = p_new + 0.5 * step_size * grad
+        for _ in range(leapfrog_steps):
+            z_new = z_new + step_size * p_new
+            z_new = z_new#.detach().requires_grad_(True)
+
+            x_mean, x = get_pseudo_decoder(normal_x, source_x)
+
+            x_flat, x_mean_flat = x.view(x.size(0), -1), x_mean.view(x.size(0), -1)
+            log_p_x = -((x_flat - x_mean_flat) ** 2).sum(dim=1) / 2
+            log_p_z = -0.5 * (z_new.view(z_new.size(0), -1) ** 2).sum(dim=1)
+            log_post = (log_p_x + log_p_z).sum()
+            grad = torch.autograd.grad(log_post, z_new)[0]
+            p_new = p_new + step_size * grad
+        p_new = p_new + 0.5 * step_size * grad
+        p_new = -p_new  # Make symmetric
+
+        z_decode = get_pseudo_decoder(normal_x, source_x)[0]
+        z_new_decode = get_pseudo_decoder(z_new, source_x)[0]
+
+        logp_current = -0.5 * (z.view(x.size(0), -1) ** 2).sum(dim=1) - ((x.view(x.size(0), -1) - z_decode.view(x.size(0), -1)) ** 2).sum(dim=1) / 2
+        logp_new = -0.5 * (z_new.view(x.size(0), -1) ** 2).sum(dim=1) - ((x.view(x.size(0), -1) - z_new_decode.view(x.size(0), -1)) ** 2).sum(dim=1) / 2
+
+        accept_ratio = torch.exp(logp_new - logp_current).clamp(max=1.0)
+        mask = torch.rand_like(accept_ratio) < accept_ratio
+        z = torch.where(mask.unsqueeze(1), z_new.view(x.size(0), -1), z.view(x.size(0), -1))
+        z_new = z_new.view_as(source_x)
+        z = z#.detach().requires_grad_(True)  # Prepare for next iteration
+        z = z.view_as(source_x)
+        #samples.append(z)
+
+    z_mcmc = z #.detach()  # Final robust latent sample
+    return z_mcmc
+
+import time
+
+def get_pseudo_decoder2(attacked_embed):
+    xT_ad = model.encode_stochastic(normalized_attacked.to(device), attacked_embed, T=2)
+    adv_gen = model.render(xT_ad, attacked_embed, T=2)
+    return adv_gen
+
+def get_hmc_lat2(z, x):
+    #z = z1#.clone().detach().requires_grad_(True)  # Start point for MCMC
+
+    #x = normalized_attacked#.detach()              # Adversarial input
+    x_flat = x.view(x.size(0), -1)
+
+    step_size = 0.008
+    n_steps = 1
+    leapfrog_steps = 1
+
+    with autocast(): 
+        #samples = []
+        for i in range(n_steps):
+            p = torch.randn_like(z)  # Sample momentum
+            z_new = z.clone()
+            p_new = p.clone()
+            x_mean = get_pseudo_decoder2(z_new)
+
+            #print("x_mean.shape", x_mean.shape)
+            #plt.imshow(x_mean[0].cpu().detach().permute(1, 2, 0).cpu().numpy())
+            #plt.savefig('/data1/chethan/alma/testing/check.png')
+            #x_flat, x_mean_flat = x.view(x.size(0), -1), x_mean.view(x.size(0), -1)
+            x_mean_flat = x_mean.view(x.size(0), -1)
+
+            log_p_x = -((x_flat - x_mean_flat) ** 2).sum(dim=1) / 2  # assuming Gaussian decoder
+            log_p_z = -0.5 * (z_new ** 2).sum(dim=1)                # standard normal prior
+            log_post = (log_p_x + log_p_z).sum()
+            grad = torch.autograd.grad(log_post, z_new)[0]
+
+            # Leapfrog integration
+            p_new = p_new + 0.5 * step_size * grad
+            for _ in range(leapfrog_steps):
+                z_new = z_new + step_size * p_new
+                z_new = z_new#.detach().requires_grad_(True)
+                x_mean = get_pseudo_decoder2(z_new)
+                x_mean_flat = x_mean.view(x.size(0), -1)
+                #x_flat, x_mean_flat = x.view(x.size(0), -1), x_mean.view(x.size(0), -1)
+                log_p_x = -((x_flat - x_mean_flat) ** 2).sum(dim=1) / 2
+                log_p_z = -0.5 * (z_new ** 2).sum(dim=1)
+                log_post = (log_p_x + log_p_z).sum()
+                grad = torch.autograd.grad(log_post, z_new)[0]
+                p_new = p_new + step_size * grad
+            p_new = p_new + 0.5 * step_size * grad
+            p_new = -p_new  # Make symmetric
+
+            with torch.no_grad():
+                logp_current = -0.5 * (z ** 2).sum(dim=1) - ((x.view(x.size(0), -1) - get_pseudo_decoder2(z).view(x.size(0), -1)) ** 2).sum(dim=1) / 2
+                #logp_new = -0.5 * (z_new ** 2).sum(dim=1) - ((x.view(x.size(0), -1) - get_pseudo_decoder2(z_new).view(x.size(0), -1)) ** 2).sum(dim=1) / 2
+                logp_new = -0.5 * (z_new ** 2).sum(dim=1) - ((x.view(x.size(0), -1) - x_mean.view(x.size(0), -1)) ** 2).sum(dim=1) / 2
+
+
+            accept_ratio = torch.exp(logp_new - logp_current).clamp(max=1.0)
+            #print("accept_ratio", accept_ratio)
+            #print("torch.rand_like(accept_ratio) ", torch.rand_like(accept_ratio))
+            mask = torch.rand_like(accept_ratio) < accept_ratio
+            z = torch.where(mask.unsqueeze(1), z_new, z)
+            #z = z#.detach().requires_grad_(True)  # Prepare for next iteration
+            #samples.append(z)
+        z_mcmc = z#.detach()  # Final robust latent sample
+        #print("z_mcmc.shape", z_mcmc.shape)
+    return z_mcmc
+
+
+
+
+def get_combined_cosine_loss_mcmc2(normal_x, source_x):
+
+    encoder_lip_sum = 0
+    block_count = 0
+    normalized_attacked = normal_x
+    #source = source_x
+
+    with autocast():
+        for i, block in enumerate(model.ema_model.encoder.input_blocks):
+            source_x = block(source_x)
+            normal_x = block(normal_x)
+            encoder_lip_sum += (cos(source_x, normal_x)-1)**2 * (cond_nums_normalized[block_count])
+            block_count+=1
+
+        for i, block in enumerate(model.ema_model.encoder.middle_block):
+            source_x = block(source_x)
+            normal_x = block(normal_x)
+            encoder_lip_sum += (cos(source_x, normal_x)-1)**2  * (cond_nums_normalized[block_count])
+            block_count+=1
+
+
+        for i, block in enumerate(model.ema_model.encoder.out):
+            source_x = block(source_x)
+            normal_x = block(normal_x)
+            encoder_lip_sum += (cos(source_x, normal_x)-1)**2  * (cond_nums_normalized[block_count])
+            block_count+=1
+
+        normal_x = get_hmc_lat2(normal_x, normalized_attacked)
+        #normal_x = get_hmc_lat2(source_x, source)
+
+    return encoder_lip_sum * (cos(source_x, normal_x)-1)**2 
+
+
+
+def get_la_cosine_loss_mcmc2(normal_x, source_x):
+
+    #encoder_lip_sum = 0
+    #block_count = 0
+    normalized_attacked = normal_x
+    #source = source_x
+
+    with autocast():
+        for i, block in enumerate(model.ema_model.encoder.input_blocks):
+            source_x = block(source_x)
+            normal_x = block(normal_x)
+            #encoder_lip_sum += (cos(source_x, normal_x)-1)**2 * (cond_nums_normalized[block_count])
+            #block_count+=1
+
+        for i, block in enumerate(model.ema_model.encoder.middle_block):
+            source_x = block(source_x)
+            normal_x = block(normal_x)
+            #encoder_lip_sum += (cos(source_x, normal_x)-1)**2  * (cond_nums_normalized[block_count])
+            #block_count+=1
+
+
+        for i, block in enumerate(model.ema_model.encoder.out):
+            source_x = block(source_x)
+            normal_x = block(normal_x)
+            #encoder_lip_sum += (cos(source_x, normal_x)-1)**2  * (cond_nums_normalized[block_count])
+            #block_count+=1
+
+        normal_x = get_hmc_lat2(normal_x, normalized_attacked)
+        #normal_x = get_hmc_lat2(source_x, source)
+
+    return (cos(source_x, normal_x)-1)**2 
+
+
+
+def get_combined_cosine_loss_mcmc(normal_x, source_x):
+
+    encoder_lip_sum = 0
+    block_count = 0
+    #normalized_attacked = normal_x
+    #source = source_x
+    for i, block in enumerate(model.ema_model.encoder.input_blocks):
+        source_x = block(source_x)
+        normal_x = block(normal_x)
+        encoder_lip_sum += (cos(source_x, normal_x)-1)**2 * (cond_nums_normalized[block_count])
+        block_count+=1
+
+    for i, block in enumerate(model.ema_model.encoder.middle_block):
+        source_x = block(source_x)
+        normal_x = block(normal_x)
+        encoder_lip_sum += (cos(source_x, normal_x)-1)**2  * (cond_nums_normalized[block_count])
+        block_count+=1
+
+    normal_x = get_hmc_lat1(normal_x, source_x)
+
+    for i, block in enumerate(model.ema_model.encoder.out):
+        source_x = block(source_x)
+        normal_x = block(normal_x)
+        encoder_lip_sum += (cos(source_x, normal_x)-1)**2  * (cond_nums_normalized[block_count])
+        block_count+=1
+
+    return encoder_lip_sum * (cos(source_x, normal_x)-1)**2 
+
+
+
+def get_combined_cosine_loss1(normal_x, source_x):
+
+    encoder_lip_sum = 0
+    block_count = 0
+    #normalized_attacked = normal_x
+    #source = source_x
+    for i, block in enumerate(model.ema_model.encoder.input_blocks):
+        source_x = block(source_x)
+        normal_x = block(normal_x)
+        encoder_lip_sum += (cos(source_x, normal_x)-1)**2 * (cond_nums_normalized[block_count])
+        block_count+=1
+
+    for i, block in enumerate(model.ema_model.encoder.middle_block):
+        source_x = block(source_x)
+        normal_x = block(normal_x)
+        encoder_lip_sum += (cos(source_x, normal_x)-1)**2  * (cond_nums_normalized[block_count])
+        block_count+=1
+
+    #normal_x = get_hmc_lat1(normal_x, source_x)
+
+    for i, block in enumerate(model.ema_model.encoder.out):
+        source_x = block(source_x)
+        normal_x = block(normal_x)
+        encoder_lip_sum += (cos(source_x, normal_x)-1)**2  * (cond_nums_normalized[block_count])
+        block_count+=1
+
+    return encoder_lip_sum * (cos(source_x, normal_x)-1)**2 
+
+
+
+def get_la_cosine_loss_mcmc(normal_x, source_x):
+
+    #encoder_lip_sum = 0
+    #block_count = 0
+    #normalized_attacked = normal_x
+    #source = source_x
+    for i, block in enumerate(model.ema_model.encoder.input_blocks):
+        source_x = block(source_x)
+        normal_x = block(normal_x)
+        #encoder_lip_sum += (cos(source_x, normal_x)-1)**2 * (cond_nums_normalized[block_count])
+        #block_count+=1
+
+    for i, block in enumerate(model.ema_model.encoder.middle_block):
+        source_x = block(source_x)
+        normal_x = block(normal_x)
+        #encoder_lip_sum += (cos(source_x, normal_x)-1)**2  * (cond_nums_normalized[block_count])
+        #block_count+=1
+
+    normal_x = get_hmc_lat1(normal_x, source_x)
+
+    for i, block in enumerate(model.ema_model.encoder.out):
+        source_x = block(source_x)
+        normal_x = block(normal_x)
+        #encoder_lip_sum += (cos(source_x, normal_x)-1)**2  * (cond_nums_normalized[block_count])
+        #block_count+=1
+
+    return (cos(source_x, normal_x)-1)**2 
+
+
+def get_la_cosine_loss1(normal_x, source_x):
+
+
+    for i, block in enumerate(model.ema_model.encoder.input_blocks):
+        source_x = block(source_x)
+        normal_x = block(normal_x)
+
+    for i, block in enumerate(model.ema_model.encoder.middle_block):
+        source_x = block(source_x)
+        normal_x = block(normal_x)
+
+    for i, block in enumerate(model.ema_model.encoder.out):
+        source_x = block(source_x)
+        normal_x = block(normal_x)
+
+    return (cos(source_x, normal_x)-1)**2 
+
+
+def get_combined_cosine_loss_cond_rnd(normal_x, source_x):
+
+    encoder_lip_sum = 0
+    block_count = 0
+    for i, block in enumerate(model.ema_model.encoder.input_blocks):
+        source_x = block(source_x)
+        normal_x = block(normal_x)
+        encoder_lip_sum += (cos(source_x, normal_x)-1)**2 * (cond_nums_rand[block_count])
+        block_count+=1
+
+    for i, block in enumerate(model.ema_model.encoder.middle_block):
+        source_x = block(source_x)
+        normal_x = block(normal_x)
+        encoder_lip_sum += (cos(source_x, normal_x)-1)**2  * (cond_nums_rand[block_count])
+        block_count+=1
+
+    for i, block in enumerate(model.ema_model.encoder.out):
+        source_x = block(source_x)
+        normal_x = block(normal_x)
+        encoder_lip_sum += (cos(source_x, normal_x)-1)**2  * (cond_nums_rand[block_count])
+        block_count+=1
+        #print("block_count", block_count)
+
+    return encoder_lip_sum * (cos(source_x, normal_x)-1)**2 
+
+
+def get_combined_cosine_loss_cond_unif(normal_x, source_x):
+
+    encoder_lip_sum = 0
+    block_count = 0
+    for i, block in enumerate(model.ema_model.encoder.input_blocks):
+        source_x = block(source_x)
+        normal_x = block(normal_x)
+        encoder_lip_sum += (cos(source_x, normal_x)-1)**2 * (cond_nums_unif[block_count])
+        block_count+=1
+
+    for i, block in enumerate(model.ema_model.encoder.middle_block):
+        source_x = block(source_x)
+        normal_x = block(normal_x)
+        encoder_lip_sum += (cos(source_x, normal_x)-1)**2  * (cond_nums_unif[block_count])
+        block_count+=1
+
+    for i, block in enumerate(model.ema_model.encoder.out):
+        source_x = block(source_x)
+        normal_x = block(normal_x)
+        encoder_lip_sum += (cos(source_x, normal_x)-1)**2  * (cond_nums_unif[block_count])
+        block_count+=1
+        #print("block_count", block_count)
+
+    return encoder_lip_sum * (cos(source_x, normal_x)-1)**2 
+
+
+
+def get_combined_cosine_loss_gcr(normal_x, source_x):
+
+    encoder_lip_sum = 0
+    block_count = 0
+    layer_loss_list = []
+    for i, block in enumerate(model.ema_model.encoder.input_blocks):
+        source_x = block(source_x)
+        normal_x = block(normal_x)
+        encoder_lip_sum = (cos(source_x, normal_x)-1)**2 #* (cond_nums_normalized[block_count])
+        layer_loss_list.append(encoder_lip_sum)
+        #block_count+=1
+
+    for i, block in enumerate(model.ema_model.encoder.middle_block):
+        source_x = block(source_x)
+        normal_x = block(normal_x)
+        encoder_lip_sum = (cos(source_x, normal_x)-1)**2  #* (cond_nums_normalized[block_count])
+        layer_loss_list.append(encoder_lip_sum)
+        #block_count+=1
+
+    for i, block in enumerate(model.ema_model.encoder.out):
+        source_x = block(source_x)
+        normal_x = block(normal_x)
+        encoder_lip_sum = (cos(source_x, normal_x)-1)**2  #* (cond_nums_normalized[block_count])
+        layer_loss_list.append(encoder_lip_sum)
+        #block_count+=1
+        #print("block_count", block_count)
+    #encoder_lip_sum = (cos(source_x, normal_x)-1)**2  #* (cond_nums_normalized[block_count])
+
+    embed = model.encode(source_im.to(device))
+    attacked_embed = model.encode(normalized_attacked.to(device))
+
+    return (cos(embed, attacked_embed)-1)**2 , layer_loss_list
+
 
 
 def get_combined_wasserstein_loss(normalized_attacked, source_im):
@@ -534,7 +1028,7 @@ if(attck_type == "la_cos"):
             optimizer.step()
             optimizer.zero_grad()
         print("step", step)
-        if(step%50==0):
+        if(step%50==0  and step!=0):
             with torch.no_grad():
                 attacked_embed = model.encode(normalized_attacked.to(device))
                 xT_ad = model.encode_stochastic(normalized_attacked.to(device), attacked_embed, T=250)
@@ -545,7 +1039,101 @@ if(attck_type == "la_cos"):
                 get_em = run_time_plots_and_saves(step, total_loss, l2_distortion, l_inf_distortion, deviation, normalized_attacked, scaled_noise, adv_gen)
 
 
-if(attck_type == "alma_cos"):
+
+
+
+
+
+if(attck_type == "la_cos_pr"):
+    adv_div_list = []
+    all_grad_norms = []
+    for step in range(155):
+        batch_step = 0
+        count_batch = 0
+        for source_im in big_tensor:
+            current_L_inf_norm = torch.norm(noise_addition, p=float('inf'))
+            scaled_noise = noise_addition * (desired_norm_l_inf / current_L_inf_norm) 
+            attacked = (source_im + scaled_noise)
+            normalized_attacked = ( source_im.max() - source_im.min() ) * ((attacked-attacked.min())/(attacked.max()-attacked.min()))  + source_im.min() 
+
+            loss_to_maximize = (get_latent_space_cosine_loss(normalized_attacked, source_im)-1.0)**2 
+
+            total_loss = -1 * loss_to_maximize
+            total_loss.backward()
+            if (step%5 ==0 and count_batch==0):
+                print("noise_addition.grad.shape", noise_addition.grad.shape)
+                print("noise_addition.max()", noise_addition.max())
+                print("noise_addition.max()", noise_addition.min())
+                grad_l2_norm = torch.norm(noise_addition.grad, p=2)
+                all_grad_norms.append(grad_l2_norm.item())
+                np.save("/data1/chethan/alma/diffae/grad_distribution/grad_norms_list_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", all_grad_norms)
+
+                print("grad_l2_norm", grad_l2_norm)
+                plt.figure(figsize=(8, 5))
+                plt.plot(all_grad_norms, marker='o', linestyle='-')
+                plt.title("L2 Norm of Gradient Over Optimization Steps")
+                plt.xlabel("Step")
+                plt.ylabel("L2 Norm of ∇(loss) w.r.t noise_addition")
+                plt.grid(True)
+                plt.tight_layout()
+                plt.savefig("/data1/chethan/alma/diffae/grad_distribution/GradL2Norm_vs_Steps_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".png")
+                plt.show()
+                plt.close()
+
+                grad_values = noise_addition.grad.detach().cpu().numpy().flatten()
+                np.save("/data1/chethan/alma/diffae/grad_distribution/grad_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", grad_values)
+
+                grad_matrix = noise_addition.grad.view(256, -1).detach().cpu().numpy()  # shape (3, 256*256)
+                U, S, Vt = np.linalg.svd(grad_matrix, full_matrices=False)
+
+                plt.semilogy(S)
+                #plt.plot(S)
+                plt.title("Singular Values of Gradient")
+                plt.xlabel("Component")
+                plt.ylabel("Singular Value (log scale)")
+                plt.grid(True)
+                plt.show()
+                plt.savefig("/data1/chethan/alma/diffae/grad_distribution/SVD_stretch_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
+                plt.close()
+
+                np.save("/data1/chethan/alma/diffae/grad_distribution/stretch_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", S)
+
+
+                plt.figure(figsize=(8, 5))
+                plt.hist(grad_values, bins=100, range=(-0.001, 0.001), density=False, alpha=0.75)
+                plt.title("Gradient Distribution of loss wrt perturbation tensor")
+                plt.xlabel("Gradient Value")
+                plt.ylabel("Frequency")
+                plt.grid(True)
+
+                ax = plt.gca()
+                ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%.0e'))  # Formats as 1e-4, 1e-5, etc.
+
+                plt.xticks(rotation=45)
+
+                plt.show()
+                plt.savefig("/data1/chethan/alma/diffae/grad_distribution/Histogram_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
+                plt.close()
+
+            count_batch+=1
+            optimizer.step()
+            optimizer.zero_grad()
+        print("step", step)
+        if(step%50==0  and step!=0):
+            with torch.no_grad():
+                attacked_embed = model.encode(normalized_attacked.to(device))
+                xT_ad = model.encode_stochastic(normalized_attacked.to(device), attacked_embed, T=250)
+                adv_gen = model.render(xT_ad, attacked_embed, T=20)
+                l_inf_distortion = torch.norm(scaled_noise, p=float('inf'))
+                l2_distortion = torch.norm(scaled_noise, p=2)
+                deviation = torch.norm(adv_gen - source_im, p=2)
+                get_em = run_time_plots_and_saves(step, total_loss, l2_distortion, l_inf_distortion, deviation, normalized_attacked, scaled_noise, adv_gen)
+
+
+
+
+
+if(attck_type == "grill_cos"):
     adv_div_list = []
     for step in range(155):
         for source_im in big_tensor:
@@ -556,7 +1144,7 @@ if(attck_type == "alma_cos"):
             optimizer.step()
             optimizer.zero_grad()
         print("step", step)
-        if(step%50==0):
+        if(step%1==0  and step!=0):
             with torch.no_grad():
                 attacked_embed = model.encode(normalized_attacked.to(device))
                 xT_ad = model.encode_stochastic(normalized_attacked.to(device), attacked_embed, T=250)
@@ -568,7 +1156,593 @@ if(attck_type == "alma_cos"):
                 get_em = run_time_plots_and_saves(step, total_loss, l2_distortion, l_inf_distortion, deviation, normalized_attacked, scaled_noise, adv_gen)
 
 
-if(attck_type == "alma_l2"):
+
+if(attck_type == "grill_cos_mcmc"):
+    adv_div_list = []
+    for step in range(155):
+        for source_im in big_tensor:
+            normalized_attacked = (source_im + (noise_addition * (desired_norm_l_inf / (torch.norm(noise_addition, p=float('inf')))) ))
+            normalized_attacked = ( source_im.max() - source_im.min() ) * ((normalized_attacked-normalized_attacked.min())/(normalized_attacked.max()-normalized_attacked.min()))  + source_im.min() 
+            total_loss = -1 * get_combined_cosine_loss_mcmc(normalized_attacked, source_im)
+            total_loss.backward()
+            optimizer.step()
+            optimizer.zero_grad()
+        print("step", step)
+        if(step%5==0):
+            with torch.no_grad():
+                attacked_embed = model.encode(normalized_attacked.to(device))
+                xT_ad = model.encode_stochastic(normalized_attacked.to(device), attacked_embed, T=250)
+                adv_gen = model.render(xT_ad, attacked_embed, T=20)
+                scaled_noise = noise_addition * (desired_norm_l_inf / (torch.norm(noise_addition, p=float('inf')))) 
+                l_inf_distortion = torch.norm(scaled_noise, p=float('inf'))
+                l2_distortion = torch.norm(scaled_noise, p=2)
+                deviation = torch.norm(adv_gen - source_im, p=2)
+                get_em = run_time_plots_and_saves(step, total_loss, l2_distortion, l_inf_distortion, deviation, normalized_attacked, scaled_noise, adv_gen)
+
+
+if(attck_type == "grill_cos_mcmc2"):
+    adv_div_list = []
+    for step in range(155):
+        for source_im in big_tensor:
+            normalized_attacked = (source_im + (noise_addition * (desired_norm_l_inf / (torch.norm(noise_addition, p=float('inf')))) ))
+            normalized_attacked = ( source_im.max() - source_im.min() ) * ((normalized_attacked-normalized_attacked.min())/(normalized_attacked.max()-normalized_attacked.min()))  + source_im.min() 
+
+            with autocast():
+                total_loss = -1 * get_combined_cosine_loss_mcmc2(normalized_attacked, source_im)
+            scaler.scale(total_loss).backward()
+            scaler.step(optimizer)
+            scaler.update()
+            optimizer.zero_grad()
+
+            '''total_loss = -1 * get_combined_cosine_loss_mcmc2(normalized_attacked, source_im)
+            total_loss.backward()
+            optimizer.step()
+            optimizer.zero_grad()'''
+        print("step", step)
+        if(step%5==0 and not step==0):
+            with torch.no_grad():
+                attacked_embed = model.encode(normalized_attacked.to(device))
+                xT_ad = model.encode_stochastic(normalized_attacked.to(device), attacked_embed, T=250)
+                adv_gen = model.render(xT_ad, attacked_embed, T=20)
+                scaled_noise = noise_addition * (desired_norm_l_inf / (torch.norm(noise_addition, p=float('inf')))) 
+                l_inf_distortion = torch.norm(scaled_noise, p=float('inf'))
+                l2_distortion = torch.norm(scaled_noise, p=2)
+                deviation = torch.norm(adv_gen - source_im, p=2)
+                get_em = run_time_plots_and_saves(step, total_loss, l2_distortion, l_inf_distortion, deviation, normalized_attacked, scaled_noise, adv_gen)
+
+
+if(attck_type == "la_cos_mcmc2"):
+    adv_div_list = []
+    for step in range(155):
+        for source_im in big_tensor:
+            normalized_attacked = (source_im + (noise_addition * (desired_norm_l_inf / (torch.norm(noise_addition, p=float('inf')))) ))
+            normalized_attacked = ( source_im.max() - source_im.min() ) * ((normalized_attacked-normalized_attacked.min())/(normalized_attacked.max()-normalized_attacked.min()))  + source_im.min() 
+
+            with autocast():
+                total_loss = -1 * get_la_cosine_loss_mcmc2(normalized_attacked, source_im)
+            scaler.scale(total_loss).backward()
+            scaler.step(optimizer)
+            scaler.update()
+            optimizer.zero_grad()
+
+            '''total_loss = -1 * get_combined_cosine_loss_mcmc2(normalized_attacked, source_im)
+            total_loss.backward()
+            optimizer.step()
+            optimizer.zero_grad()'''
+        print("step", step)
+        if(step%5==0 and not step==0):
+            with torch.no_grad():
+                attacked_embed = model.encode(normalized_attacked.to(device))
+                xT_ad = model.encode_stochastic(normalized_attacked.to(device), attacked_embed, T=250)
+                adv_gen = model.render(xT_ad, attacked_embed, T=20)
+                scaled_noise = noise_addition * (desired_norm_l_inf / (torch.norm(noise_addition, p=float('inf')))) 
+                l_inf_distortion = torch.norm(scaled_noise, p=float('inf'))
+                l2_distortion = torch.norm(scaled_noise, p=2)
+                deviation = torch.norm(adv_gen - source_im, p=2)
+                get_em = run_time_plots_and_saves(step, total_loss, l2_distortion, l_inf_distortion, deviation, normalized_attacked, scaled_noise, adv_gen)
+
+
+if(attck_type == "grill_cos1"):
+    adv_div_list = []
+    for step in range(155):
+        for source_im in big_tensor:
+            normalized_attacked = (source_im + (noise_addition * (desired_norm_l_inf / (torch.norm(noise_addition, p=float('inf')))) ))
+            normalized_attacked = ( source_im.max() - source_im.min() ) * ((normalized_attacked-normalized_attacked.min())/(normalized_attacked.max()-normalized_attacked.min()))  + source_im.min() 
+            total_loss = -1 * get_combined_cosine_loss1(normalized_attacked, source_im)
+            total_loss.backward()
+            optimizer.step()
+            optimizer.zero_grad()
+        print("step", step)
+        if(step%5==0):
+            with torch.no_grad():
+                attacked_embed = model.encode(normalized_attacked.to(device))
+                xT_ad = model.encode_stochastic(normalized_attacked.to(device), attacked_embed, T=250)
+                adv_gen = model.render(xT_ad, attacked_embed, T=20)
+                scaled_noise = noise_addition * (desired_norm_l_inf / (torch.norm(noise_addition, p=float('inf')))) 
+                l_inf_distortion = torch.norm(scaled_noise, p=float('inf'))
+                l2_distortion = torch.norm(scaled_noise, p=2)
+                deviation = torch.norm(adv_gen - source_im, p=2)
+                get_em = run_time_plots_and_saves(step, total_loss, l2_distortion, l_inf_distortion, deviation, normalized_attacked, scaled_noise, adv_gen)
+
+
+
+if(attck_type == "la_cos_mcmc"):
+    adv_div_list = []
+    for step in range(155):
+        for source_im in big_tensor:
+            normalized_attacked = (source_im + (noise_addition * (desired_norm_l_inf / (torch.norm(noise_addition, p=float('inf')))) ))
+            normalized_attacked = ( source_im.max() - source_im.min() ) * ((normalized_attacked-normalized_attacked.min())/(normalized_attacked.max()-normalized_attacked.min()))  + source_im.min() 
+            total_loss = -1 * get_la_cosine_loss_mcmc(normalized_attacked, source_im)
+            total_loss.backward()
+            optimizer.step()
+            optimizer.zero_grad()
+        print("step", step)
+        if(step%5==0):
+            with torch.no_grad():
+                attacked_embed = model.encode(normalized_attacked.to(device))
+                xT_ad = model.encode_stochastic(normalized_attacked.to(device), attacked_embed, T=250)
+                adv_gen = model.render(xT_ad, attacked_embed, T=20)
+                scaled_noise = noise_addition * (desired_norm_l_inf / (torch.norm(noise_addition, p=float('inf')))) 
+                l_inf_distortion = torch.norm(scaled_noise, p=float('inf'))
+                l2_distortion = torch.norm(scaled_noise, p=2)
+                deviation = torch.norm(adv_gen - source_im, p=2)
+                get_em = run_time_plots_and_saves(step, total_loss, l2_distortion, l_inf_distortion, deviation, normalized_attacked, scaled_noise, adv_gen)
+
+
+
+
+if(attck_type == "la_cos1"):
+    adv_div_list = []
+    for step in range(155):
+        for source_im in big_tensor:
+            normalized_attacked = (source_im + (noise_addition * (desired_norm_l_inf / (torch.norm(noise_addition, p=float('inf')))) ))
+            normalized_attacked = ( source_im.max() - source_im.min() ) * ((normalized_attacked-normalized_attacked.min())/(normalized_attacked.max()-normalized_attacked.min()))  + source_im.min() 
+            total_loss = -1 * get_la_cosine_loss1(normalized_attacked, source_im)
+            total_loss.backward()
+            optimizer.step()
+            optimizer.zero_grad()
+        print("step", step)
+        if(step%5==0):
+            with torch.no_grad():
+                attacked_embed = model.encode(normalized_attacked.to(device))
+                xT_ad = model.encode_stochastic(normalized_attacked.to(device), attacked_embed, T=250)
+                adv_gen = model.render(xT_ad, attacked_embed, T=20)
+                scaled_noise = noise_addition * (desired_norm_l_inf / (torch.norm(noise_addition, p=float('inf')))) 
+                l_inf_distortion = torch.norm(scaled_noise, p=float('inf'))
+                l2_distortion = torch.norm(scaled_noise, p=2)
+                deviation = torch.norm(adv_gen - source_im, p=2)
+                get_em = run_time_plots_and_saves(step, total_loss, l2_distortion, l_inf_distortion, deviation, normalized_attacked, scaled_noise, adv_gen)
+
+
+
+
+if(attck_type == "grill_cos_pr1"):
+    adv_div_list = []
+    all_grad_norms = []
+    for step in range(155):
+        count_batch = 0
+        for source_im in big_tensor:
+            normalized_attacked = (source_im + (noise_addition * (desired_norm_l_inf / (torch.norm(noise_addition, p=float('inf')))) ))
+            normalized_attacked = ( source_im.max() - source_im.min() ) * ((normalized_attacked-normalized_attacked.min())/(normalized_attacked.max()-normalized_attacked.min()))  + source_im.min() 
+            total_loss = -1 * get_combined_cosine_loss_cond(normalized_attacked, source_im)
+            total_loss.backward()
+
+            if (step%5 ==0 and count_batch==0):
+                print("noise_addition.grad.shape", noise_addition.grad.shape)
+                print("noise_addition.max()", noise_addition.max())
+                print("noise_addition.max()", noise_addition.min())
+                grad_l2_norm = torch.norm(noise_addition.grad, p=2)
+                print("grad_l2_norm", grad_l2_norm)
+                all_grad_norms.append(grad_l2_norm.item())
+                np.save("/data1/chethan/alma/diffae/grad_distribution/grad_norms_list_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", all_grad_norms)
+                print("grad_l2_norm", grad_l2_norm)
+                plt.figure(figsize=(8, 5))
+                plt.plot(all_grad_norms, marker='o', linestyle='-')
+                plt.title("L2 Norm of Gradient Over Optimization Steps")
+                plt.xlabel("Step")
+                plt.ylabel("L2 Norm of ∇(loss) w.r.t noise_addition")
+                plt.grid(True)
+                plt.tight_layout()
+                plt.savefig("/data1/chethan/alma/diffae/grad_distribution/GradL2Norm_vs_Steps_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".png")
+                plt.show()
+                plt.close()
+
+
+
+                grad_values = noise_addition.grad.detach().cpu().numpy().flatten()
+                np.save("/data1/chethan/alma/diffae/grad_distribution/grad_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", grad_values)
+
+                grad_matrix = noise_addition.grad.view(256, -1).detach().cpu().numpy()  # shape (3, 256*256)
+                U, S, Vt = np.linalg.svd(grad_matrix, full_matrices=False)
+
+                plt.semilogy(S)
+                #plt.plot(S)
+                plt.title("Singular Values of Gradient")
+                plt.xlabel("Component")
+                plt.ylabel("Singular Value (log scale)")
+                plt.grid(True)
+                plt.show()
+                plt.savefig("/data1/chethan/alma/diffae/grad_distribution/SVD_stretch_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
+                plt.close()
+
+                np.save("/data1/chethan/alma/diffae/grad_distribution/stretch_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", S)
+
+                plt.figure(figsize=(8, 5))
+                plt.hist(grad_values, bins=100, range=(-0.001, 0.001), density=False, alpha=0.75)
+                plt.title("Gradient Distribution of loss wrt perturbation tensor")
+                plt.xlabel("Gradient Value")
+                plt.ylabel("Frequency")
+                plt.grid(True)
+
+                ax = plt.gca()
+                ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%.0e'))  # Formats as 1e-4, 1e-5, etc.
+
+                plt.xticks(rotation=45)
+
+                plt.tight_layout()  # Adjust layout to avoid overlap
+
+                plt.show()
+                plt.savefig("/data1/chethan/alma/diffae/grad_distribution/Histogram_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
+                plt.close()
+
+            count_batch+=1
+            optimizer.step()
+            optimizer.zero_grad()
+        print("step", step)
+        if(step%10==0):
+            print("step", step)
+            with torch.no_grad():
+                attacked_embed = model.encode(normalized_attacked.to(device))
+                xT_ad = model.encode_stochastic(normalized_attacked.to(device), attacked_embed, T=250)
+                adv_gen = model.render(xT_ad, attacked_embed, T=20)
+
+                source_embed = model.encode(source_im.to(device))
+                xT_sc = model.encode_stochastic(source_im.to(device), source_embed, T=250)
+                sc_gen = model.render(xT_sc, source_embed, T=20)
+
+                scaled_noise = noise_addition * (desired_norm_l_inf / (torch.norm(noise_addition, p=float('inf')))) 
+                l_inf_distortion = torch.norm(scaled_noise, p=float('inf'))
+                l2_distortion = torch.norm(scaled_noise, p=2)
+                #deviation = torch.norm(adv_gen - source_im, p=2)
+                per_image_l2 = torch.norm(adv_gen - sc_gen, p=2, dim=(1, 2, 3))
+                deviation = per_image_l2.mean()
+                print("deviation", deviation)
+                get_em = run_time_plots_and_saves(step, total_loss, l2_distortion, l_inf_distortion, deviation, normalized_attacked, scaled_noise, adv_gen)
+
+            ####### post reviews ###########
+
+
+
+
+
+if(attck_type == "grill_cos_pr_rnd1"):
+    adv_div_list = []
+    all_grad_norms = []
+    for step in range(155):
+        count_batch = 0
+        for source_im in big_tensor:
+            normalized_attacked = (source_im + (noise_addition * (desired_norm_l_inf / (torch.norm(noise_addition, p=float('inf')))) ))
+            normalized_attacked = ( source_im.max() - source_im.min() ) * ((normalized_attacked-normalized_attacked.min())/(normalized_attacked.max()-normalized_attacked.min()))  + source_im.min() 
+            total_loss = -1 * get_combined_cosine_loss_cond_rnd(normalized_attacked, source_im)
+            total_loss.backward()
+
+            if (step%5 ==0 and count_batch==0):
+                print("noise_addition.grad.shape", noise_addition.grad.shape)
+                print("noise_addition.max()", noise_addition.max())
+                print("noise_addition.max()", noise_addition.min())
+                grad_l2_norm = torch.norm(noise_addition.grad, p=2)
+                print("grad_l2_norm", grad_l2_norm)
+                all_grad_norms.append(grad_l2_norm.item())
+                np.save("/data1/chethan/alma/diffae/grad_distribution/grad_norms_list_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", all_grad_norms)
+                print("grad_l2_norm", grad_l2_norm)
+                plt.figure(figsize=(8, 5))
+                plt.plot(all_grad_norms, marker='o', linestyle='-')
+                plt.title("L2 Norm of Gradient Over Optimization Steps")
+                plt.xlabel("Step")
+                plt.ylabel("L2 Norm of ∇(loss) w.r.t noise_addition")
+                plt.grid(True)
+                plt.tight_layout()
+                plt.savefig("/data1/chethan/alma/diffae/grad_distribution/GradL2Norm_vs_Steps_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".png")
+                plt.show()
+                plt.close()
+
+
+
+                grad_values = noise_addition.grad.detach().cpu().numpy().flatten()
+                np.save("/data1/chethan/alma/diffae/grad_distribution/grad_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", grad_values)
+
+                grad_matrix = noise_addition.grad.view(256, -1).detach().cpu().numpy()  # shape (3, 256*256)
+                U, S, Vt = np.linalg.svd(grad_matrix, full_matrices=False)
+
+                plt.semilogy(S)
+                #plt.plot(S)
+                plt.title("Singular Values of Gradient")
+                plt.xlabel("Component")
+                plt.ylabel("Singular Value (log scale)")
+                plt.grid(True)
+                plt.show()
+                plt.savefig("/data1/chethan/alma/diffae/grad_distribution/SVD_stretch_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
+                plt.close()
+
+                np.save("/data1/chethan/alma/diffae/grad_distribution/stretch_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", S)
+
+                plt.figure(figsize=(8, 5))
+                plt.hist(grad_values, bins=100, range=(-0.001, 0.001), density=False, alpha=0.75)
+                plt.title("Gradient Distribution of loss wrt perturbation tensor")
+                plt.xlabel("Gradient Value")
+                plt.ylabel("Frequency")
+                plt.grid(True)
+
+                ax = plt.gca()
+                ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%.0e'))  # Formats as 1e-4, 1e-5, etc.
+
+                plt.xticks(rotation=45)
+
+                plt.tight_layout()  # Adjust layout to avoid overlap
+
+                plt.show()
+                plt.savefig("/data1/chethan/alma/diffae/grad_distribution/Histogram_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
+                plt.close()
+
+            count_batch+=1
+            optimizer.step()
+            optimizer.zero_grad()
+        print("step", step)
+        if(step%10==0):
+            with torch.no_grad():
+                attacked_embed = model.encode(normalized_attacked.to(device))
+                xT_ad = model.encode_stochastic(normalized_attacked.to(device), attacked_embed, T=250)
+                adv_gen = model.render(xT_ad, attacked_embed, T=20)
+
+                source_embed = model.encode(source_im.to(device))
+                xT_sc = model.encode_stochastic(source_im.to(device), source_embed, T=250)
+                sc_gen = model.render(xT_sc, source_embed, T=20)
+
+                scaled_noise = noise_addition * (desired_norm_l_inf / (torch.norm(noise_addition, p=float('inf')))) 
+                l_inf_distortion = torch.norm(scaled_noise, p=float('inf'))
+                l2_distortion = torch.norm(scaled_noise, p=2)
+                #deviation = torch.norm(adv_gen - source_im, p=2)
+                per_image_l2 = torch.norm(adv_gen - sc_gen, p=2, dim=(1, 2, 3))
+                deviation = per_image_l2.mean()
+                get_em = run_time_plots_and_saves(step, total_loss, l2_distortion, l_inf_distortion, deviation, normalized_attacked, scaled_noise, adv_gen)
+
+            ####### post reviews ###########
+
+
+
+
+if(attck_type == "grill_cos_pr_unif1"):
+    adv_div_list = []
+    all_grad_norms = []
+    for step in range(155):
+        count_batch = 0
+        for source_im in big_tensor:
+            normalized_attacked = (source_im + (noise_addition * (desired_norm_l_inf / (torch.norm(noise_addition, p=float('inf')))) ))
+            normalized_attacked = ( source_im.max() - source_im.min() ) * ((normalized_attacked-normalized_attacked.min())/(normalized_attacked.max()-normalized_attacked.min()))  + source_im.min() 
+            total_loss = -1 * get_combined_cosine_loss_cond_unif(normalized_attacked, source_im)
+            total_loss.backward()
+
+            if (step%5 ==0 and count_batch==0):
+                print("noise_addition.grad.shape", noise_addition.grad.shape)
+                print("noise_addition.max()", noise_addition.max())
+                print("noise_addition.max()", noise_addition.min())
+                grad_l2_norm = torch.norm(noise_addition.grad, p=2)
+                print("grad_l2_norm", grad_l2_norm)
+                all_grad_norms.append(grad_l2_norm.item())
+                np.save("/data1/chethan/alma/diffae/grad_distribution/grad_norms_list_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", all_grad_norms)
+                print("grad_l2_norm", grad_l2_norm)
+                plt.figure(figsize=(8, 5))
+                plt.plot(all_grad_norms, marker='o', linestyle='-')
+                plt.title("L2 Norm of Gradient Over Optimization Steps")
+                plt.xlabel("Step")
+                plt.ylabel("L2 Norm of ∇(loss) w.r.t noise_addition")
+                plt.grid(True)
+                plt.tight_layout()
+                plt.savefig("/data1/chethan/alma/diffae/grad_distribution/GradL2Norm_vs_Steps_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".png")
+                plt.show()
+                plt.close()
+
+
+
+                grad_values = noise_addition.grad.detach().cpu().numpy().flatten()
+                np.save("/data1/chethan/alma/diffae/grad_distribution/grad_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", grad_values)
+
+                grad_matrix = noise_addition.grad.view(256, -1).detach().cpu().numpy()  # shape (3, 256*256)
+                U, S, Vt = np.linalg.svd(grad_matrix, full_matrices=False)
+
+                plt.semilogy(S)
+                #plt.plot(S)
+                plt.title("Singular Values of Gradient")
+                plt.xlabel("Component")
+                plt.ylabel("Singular Value (log scale)")
+                plt.grid(True)
+                plt.show()
+                plt.savefig("/data1/chethan/alma/diffae/grad_distribution/SVD_stretch_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
+                plt.close()
+
+                np.save("/data1/chethan/alma/diffae/grad_distribution/stretch_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", S)
+
+                plt.figure(figsize=(8, 5))
+                plt.hist(grad_values, bins=100, range=(-0.001, 0.001), density=False, alpha=0.75)
+                plt.title("Gradient Distribution of loss wrt perturbation tensor")
+                plt.xlabel("Gradient Value")
+                plt.ylabel("Frequency")
+                plt.grid(True)
+
+                ax = plt.gca()
+                ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%.0e'))  # Formats as 1e-4, 1e-5, etc.
+
+                plt.xticks(rotation=45)
+
+                plt.tight_layout()  # Adjust layout to avoid overlap
+
+                plt.show()
+                plt.savefig("/data1/chethan/alma/diffae/grad_distribution/Histogram_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
+                plt.close()
+
+            count_batch+=1
+            optimizer.step()
+            optimizer.zero_grad()
+        print("step", step)
+        if(step%10==0):
+            with torch.no_grad():
+                attacked_embed = model.encode(normalized_attacked.to(device))
+                xT_ad = model.encode_stochastic(normalized_attacked.to(device), attacked_embed, T=250)
+                adv_gen = model.render(xT_ad, attacked_embed, T=20)
+
+                source_embed = model.encode(source_im.to(device))
+                xT_sc = model.encode_stochastic(source_im.to(device), source_embed, T=250)
+                sc_gen = model.render(xT_sc, source_embed, T=20)
+
+                scaled_noise = noise_addition * (desired_norm_l_inf / (torch.norm(noise_addition, p=float('inf')))) 
+                l_inf_distortion = torch.norm(scaled_noise, p=float('inf'))
+                l2_distortion = torch.norm(scaled_noise, p=2)
+                #deviation = torch.norm(adv_gen - source_im, p=2)
+                per_image_l2 = torch.norm(adv_gen - sc_gen, p=2, dim=(1, 2, 3))
+                deviation = per_image_l2.mean()
+                get_em = run_time_plots_and_saves(step, total_loss, l2_distortion, l_inf_distortion, deviation, normalized_attacked, scaled_noise, adv_gen)
+
+            ####### post reviews ###########
+
+
+
+
+balance = 0.3
+if(attck_type == "gcr_cos"):
+    adv_div_list = []
+    for step in range(155):
+        for source_im in big_tensor:
+            normalized_attacked = (source_im + (noise_addition * (desired_norm_l_inf / (torch.norm(noise_addition, p=float('inf')))) ))
+            normalized_attacked = ( source_im.max() - source_im.min() ) * ((normalized_attacked-normalized_attacked.min())/(normalized_attacked.max()-normalized_attacked.min()))  + source_im.min() 
+            last_layer_loss, layer_loss_list = get_combined_cosine_loss_gcr(normalized_attacked, source_im)
+            latent_loss = last_layer_loss * -1
+            #print("latent_loss", latent_loss)
+            #print("layer_loss_list", layer_loss_list)
+            #print("len(layer_loss_list)", len(layer_loss_list))
+            latent_grad = torch.autograd.grad(outputs=last_layer_loss, inputs=noise_addition, retain_graph=True, create_graph=False)[0]
+
+            alignment = 0
+            for i in range(len(layer_loss_list)):
+                grads = torch.autograd.grad(outputs=layer_loss_list[i], inputs=noise_addition, retain_graph=True, create_graph=False)[0]
+                alignment += (cos(latent_grad, grads) - 1.0)**2
+                #print("alignment", alignment)
+                #print("grads[0].shape", grads[0].shape)
+            total_loss = latent_loss * (1-balance) + alignment * balance
+            total_loss.backward()
+            #gradient_vector = noise_addition.grad.detach().clone()
+            #print("gradient_vector.shape", gradient_vector.shape)
+            optimizer.step()
+            optimizer.zero_grad()
+
+
+            for i, block in enumerate(model.ema_model.encoder.input_blocks):
+                print("block.grad.shape", block.grad.shape)
+
+
+        print("step", step)
+        if(step%20==0):
+            with torch.no_grad():
+                attacked_embed = model.encode(normalized_attacked.to(device))
+                xT_ad = model.encode_stochastic(normalized_attacked.to(device), attacked_embed, T=250)
+                adv_gen = model.render(xT_ad, attacked_embed, T=20)
+                scaled_noise = noise_addition * (desired_norm_l_inf / (torch.norm(noise_addition, p=float('inf')))) 
+                l_inf_distortion = torch.norm(scaled_noise, p=float('inf'))
+                l2_distortion = torch.norm(scaled_noise, p=2)
+                deviation = torch.norm(adv_gen - source_im, p=2)
+                get_em = run_time_plots_and_saves(step, total_loss, l2_distortion, l_inf_distortion, deviation, normalized_attacked, scaled_noise, adv_gen)
+
+
+if(attck_type == "gcr_test"):
+    adv_div_list = []
+    for step in range(305):
+        for source_im in big_tensor:
+            normalized_attacked = (source_im + (noise_addition * (desired_norm_l_inf / (torch.norm(noise_addition, p=float('inf')))) ))
+            normalized_attacked = ( source_im.max() - source_im.min() ) * ((normalized_attacked-normalized_attacked.min())/(normalized_attacked.max()-normalized_attacked.min()))  + source_im.min() 
+            last_layer_loss, layer_loss_list = get_combined_cosine_loss_gcr(normalized_attacked, source_im)
+            latent_loss = last_layer_loss * -1
+
+            if(step%5==0):
+                latent_grad = torch.autograd.grad(outputs=last_layer_loss, inputs=noise_addition, retain_graph=True, create_graph=False)[0]
+                alignment = 0
+                all_alignments = []
+                for i in range(len(layer_loss_list)):
+                    grads = torch.autograd.grad(outputs=layer_loss_list[i], inputs=noise_addition, retain_graph=True, create_graph=False)[0]
+                    alignment = (cos(latent_grad, grads) - 1.0)**2
+                    all_alignments.append(alignment.item())
+                plt.plot(all_alignments)
+                indices = list(range(len(all_alignments)))  # X-axis positions
+                plt.bar(indices, all_alignments)
+                plt.xlabel("Index")
+                plt.ylabel("Value")
+                plt.title("Bar Chart of Values")
+                plt.xticks(indices)  # Set x-axis ticks to match the data index
+                plt.ylim(0, max(all_alignments) + 1e-4)
+                plt.savefig("diffae/runtime_plots/bar_chart"+str(step)+".png", dpi=300, bbox_inches='tight')  # Save as PNG
+                plt.close()
+
+            latent_loss.backward()
+            optimizer.step()
+            optimizer.zero_grad()
+        print("step", step)
+        if(step%20==0):
+            with torch.no_grad():
+                attacked_embed = model.encode(normalized_attacked.to(device))
+                xT_ad = model.encode_stochastic(normalized_attacked.to(device), attacked_embed, T=250)
+                adv_gen = model.render(xT_ad, attacked_embed, T=20)
+                scaled_noise = noise_addition * (desired_norm_l_inf / (torch.norm(noise_addition, p=float('inf')))) 
+                l_inf_distortion = torch.norm(scaled_noise, p=float('inf'))
+                l2_distortion = torch.norm(scaled_noise, p=2)
+                deviation = torch.norm(adv_gen - source_im, p=2)
+                get_em = run_time_plots_and_saves(step, latent_loss, l2_distortion, l_inf_distortion, deviation, normalized_attacked, scaled_noise, adv_gen)
+
+
+
+if(attck_type == "random_init_la_cos"):
+    adv_div_list = []
+    for step in range(305):
+        for source_im in big_tensor:
+            normalized_attacked = (source_im + (noise_addition * (desired_norm_l_inf / (torch.norm(noise_addition, p=float('inf')))) ))
+            normalized_attacked = ( source_im.max() - source_im.min() ) * ((normalized_attacked-normalized_attacked.min())/(normalized_attacked.max()-normalized_attacked.min()))  + source_im.min() 
+            last_layer_loss, layer_loss_list = get_combined_cosine_loss_gcr(normalized_attacked, source_im)
+            latent_loss = last_layer_loss * -1
+
+            if(step%5==0):
+                latent_grad = torch.autograd.grad(outputs=last_layer_loss, inputs=noise_addition, retain_graph=True, create_graph=False)[0]
+                alignment = 0
+                all_alignments = []
+                for i in range(len(layer_loss_list)):
+                    grads = torch.autograd.grad(outputs=layer_loss_list[i], inputs=noise_addition, retain_graph=True, create_graph=False)[0]
+                    alignment = (cos(latent_grad, grads) - 1.0)**2
+                    all_alignments.append(alignment.item())
+                plt.plot(all_alignments)
+                indices = list(range(len(all_alignments)))  # X-axis positions
+                plt.bar(indices, all_alignments)
+                plt.xlabel("Index")
+                plt.ylabel("Value")
+                plt.title("Bar Chart of Values")
+                plt.xticks(indices)  # Set x-axis ticks to match the data index
+                plt.ylim(0, max(all_alignments) + 1e-4)
+                plt.savefig("diffae/runtime_plots/bar_chart"+str(step)+".png", dpi=300, bbox_inches='tight')  # Save as PNG
+                plt.close()
+
+            latent_loss.backward()
+            optimizer.step()
+            optimizer.zero_grad()
+        print("step", step)
+        if(step%20==0):
+            with torch.no_grad():
+                attacked_embed = model.encode(normalized_attacked.to(device))
+                xT_ad = model.encode_stochastic(normalized_attacked.to(device), attacked_embed, T=250)
+                adv_gen = model.render(xT_ad, attacked_embed, T=20)
+                scaled_noise = noise_addition * (desired_norm_l_inf / (torch.norm(noise_addition, p=float('inf')))) 
+                l_inf_distortion = torch.norm(scaled_noise, p=float('inf'))
+                l2_distortion = torch.norm(scaled_noise, p=2)
+                deviation = torch.norm(adv_gen - source_im, p=2)
+                get_em = run_time_plots_and_saves(step, latent_loss, l2_distortion, l_inf_distortion, deviation, normalized_attacked, scaled_noise, adv_gen)
+
+
+
+if(attck_type == "grill_l2"):
     adv_div_list = []
     for step in range(155):
         batch_step = 0
@@ -595,7 +1769,7 @@ if(attck_type == "alma_l2"):
                 deviation = torch.norm(adv_gen - source_im, p=2)
                 get_em = run_time_plots_and_saves(step, total_loss, l2_distortion, l_inf_distortion, deviation, normalized_attacked, scaled_noise, adv_gen)
 
-if(attck_type == "alma_wass"):
+if(attck_type == "grill_wass"):
     adv_div_list = []
     for step in range(155):
         batch_step = 0
@@ -622,7 +1796,7 @@ if(attck_type == "alma_wass"):
                 get_em = run_time_plots_and_saves(step, total_loss, l2_distortion, l_inf_distortion, deviation, normalized_attacked, scaled_noise, adv_gen)
 
 
-if(attck_type == "alma_skl"):
+if(attck_type == "grill_skl"):
     adv_div_list = []
     for step in range(155):
         batch_step = 0

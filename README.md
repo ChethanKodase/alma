@@ -287,29 +287,71 @@ Optimized noise will be saved in `alma/diffae/noise_storage`
 
 
 ![DiffAE Qualitative](diffae/showcase/paperDiffAE_all_attacks_norm_bound_0.08_segment_3.png)
-*Qualitative comparision of DiffAE, c = 0.05*
-
-#### To get a comparative box plot of all the adversarial attack methods for fiven perturbation norm run : 
-
-<pre>
-```
-python diffae/attack_universal_quantitative.py --desired_norm_l_inf 0.31 --which_gpu 7 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad --noise_directory ../diffae/attack_run_time_univ/attack_noise
-python diffae/attack_convergence_compare_universal_quantitative_box_plots.py  --desired_norm_l_inf 0.31 --which_gpu 7 
-```
-</pre>
-
-
-![DiffAE Qualitative](diffae/showcase/diffAE_al.png)
-*Comparison of universal adversarial attacks on NVAE under 0.27 ≤ c ≤ 0.33*
-
-
-
+*Qualitative comparision of DiffAE, c = 0.33*
 
 #### To plot adversrial reconstruction loss distribution for all attack methods for a set of L-infinity norms 
 
 <pre>
 ```
+python diffae/attack_universal_quantitative.py --desired_norm_l_inf 0.31 --which_gpu 7 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad --noise_directory ../diffae/attack_run_time_univ/attack_noise
 python diffae/attack_convergence_epsilon_variation.py --epsilon_list 0.27 0.28 0.29 0.3 0.31 0.32 0.33
 ```
 </pre>
 
+
+
+![DiffAE Qualitative](diffae/showcase/diffAE_al.png)
+*Comparison of universal adversarial attacks on DiffAE under 0.27 ≤ c ≤ 0.33*
+
+
+#### To run adaptive attacks and plot the results
+
+<pre>
+```
+cd alma
+conda activate dt2
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.27 --attck_type la_cos_mcmc2 --which_gpu 4 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.27 --attck_type grill_cos_mcmc2 --which_gpu 5 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+
+python diffae/attack_universal_quantitative_adaptive.py --desired_norm_l_inf 0.33 --which_gpu 1 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad --noise_directory diffae/noise_storage
+python diffae/attack_convergence_epsilon_variation_adaptive.py --epsilon_list 0.27 0.3 0.33
+
+
+```
+</pre>
+
+#### To compare the gradient norms of Existing attacks and GRILL.
+
+
+<pre>
+```
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.33 --attck_type grill_cos_pr1 --which_gpu 1 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.33 --attck_type grill_cos_pr_rnd1 --which_gpu 2 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.33 --attck_type grill_cos_pr_unif1 --which_gpu 3 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+
+python diffae/review_plotting_abalation.py
+```
+</pre>
+
+
+#### To compare the histograms norms of Existing attacks and GRILL.
+
+
+<pre>
+```
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.33 --attck_type la_cos_pr --which_gpu 4 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.33 --attck_type grill_cos_pr_rnd1 --which_gpu 2 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
+python diffae/review_plotting.py
+```
+</pre>
+
+
+#### For sample specific attacks
+
+<pre>
+```
+cd alma
+conda activate dt2
+python autoencoding_attack.py --source_segment 10 --desired_norm_l_inf 0.08 --attck_type latent_l2 --which_gpu 2
+```
+</pre>
