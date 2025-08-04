@@ -191,7 +191,13 @@ python nvae/nvae_all_condition_analysis.py --nvae_checkpoint_path ../NVAE/pretra
 ```
 cd alma/
 source nvaeenv/bin/activate
-python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_checkpoint_directory
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_wass" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_check_point_path
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_skl" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_check_point_path
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_cos" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_check_point_path
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_l2" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_check_point_path
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_wass" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_check_point_path
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_skl" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_check_point_path
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_cos" --desired_norm_l_inf 0.035 --data_directory your_data_directory --nvae_checkpoint_path your_check_point_path
 ```
 </pre>
 
@@ -211,7 +217,8 @@ python nvae/nvae_all_convergence_qualitative_plots_universal_box_plots.py --data
 
 <pre>
 ```
-python nvae/nvae_all_convergence_epsilon_variation.py --data_directory data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint --uni_noise_path ../NVAE/attack_run_time_univ/attack_noise
+python nvae/nvae_all_convergence_epsilon_variation.py --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint --uni_noise_path ../NVAE/attack_run_time_univ/attack_noise
+
 ```
 </pre>
 
@@ -219,23 +226,40 @@ python nvae/nvae_all_convergence_epsilon_variation.py --data_directory data_cel1
 ![NVAE Qualitative](nvae/showcase/nvae_all.png)
 *Comparison of universal adversarial attacks on NVAE under 0.03 ≤ c ≤ 0.05*
 
-#### To train Adversarial Filter Plugin(AFP) for NVAE
+
+#### To perform universal adaptive attacks for NVAE and plot the results
 
 <pre>
 ```
-python nvae/nvae_all_filtration.py --feature_no 2 --source_segment 0 --attck_type "combi_l2_cond" --nvae_checkpoint_path ../NVAE/pretrained_checkpoint --data_directory data_cel1  --uni_noise_path ../NVAE/attack_run_time_univ/attack_noise --desired_norm_l_inf 0.05 --filter_location nvae/filter_storage
+python nvae/nvae_all_kids_of_attacks_universal_adaptive.py --attck_type "grill_l2_mcmc" --desired_norm_l_inf 0.035 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
+python nvae/nvae_all_kids_of_attacks_universal_adaptive.py --attck_type "grill_l2_mcmc" --desired_norm_l_inf 0.04 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
+python nvae/nvae_all_kids_of_attacks_universal_adaptive.py --attck_type "grill_l2_mcmc" --desired_norm_l_inf 0.05 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
+
+python nvae/nvae_all_kids_of_attacks_universal_adaptive.py --attck_type "la_wass_mcmc" --desired_norm_l_inf 0.035 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
+python nvae/nvae_all_kids_of_attacks_universal_adaptive.py --attck_type "la_wass_mcmc" --desired_norm_l_inf 0.04 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
+python nvae/nvae_all_kids_of_attacks_universal_adaptive.py --attck_type "la_wass_mcmc" --desired_norm_l_inf 0.05 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
+
+
+python nvae/nvae_all_convergence_epsilon_variation_adaptive.py --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint --uni_noise_path nvae/univ_attack_storage/
+
+
 ```
 </pre>
 
 
-#### To get filtered reconstructions using Adversarial Filter Plugin(AFP) for NVAE and compare 
+#### To compare the gradient norms and loss gradients' partial derivate histograms of Existing attacks and GRILL for NVAE.
+
 
 <pre>
 ```
-python nvae/nvae_all_filtration_analysis.py --feature_no 2 --source_segment 0 --attck_type "combi_l2_cond" --data_directory data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint --afp_plugin_location ../NVAE/filtration/filter_model --uni_noise_path ../NVAE/attack_run_time_univ/attack_noise --compare_plots_storage nvae/filter_storage/analysis_comparision
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2_pr" --desired_norm_l_inf 0.05 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
+python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_l2_pr" --desired_norm_l_inf 0.05 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
+
+python nvae/reviews_plotting_grad_norms_histograms.py
+
+
 ```
 </pre>
-
 
 # Code of DiffAE attacks
 
