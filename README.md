@@ -355,3 +355,5 @@ conda activate dt2
 python autoencoding_attack.py --source_segment 10 --desired_norm_l_inf 0.08 --attck_type latent_l2 --which_gpu 2 
 ```
 </pre>
+
+Read me updates
