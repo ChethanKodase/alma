@@ -60,7 +60,7 @@ for i in range(100):
 #attack_types = ["latent_l2", "latent_wasserstein", "latent_SKL", "la_cos1", "combi_l2", "combi_wasserstein", "combi_SKL", "alma_cos1"]
 
 #attack_types = ["latent_l2", "latent_wasserstein", "latent_SKL", "21", "combi_l2", "combi_wasserstein", "combi_SKL", "alma_cos_mcmc2"]
-attack_types = ["latent_l2", "latent_wasserstein", "latent_SKL", "la_cos_mcmc2", "combi_l2", "combi_wasserstein", "combi_SKL", "alma_cos_mcmc2"]
+attack_types = ["latent_l2", "latent_wasserstein", "latent_SKL", "la_cos_mcmc2", "combi_l2", "combi_wasserstein", "combi_SKL", "grill_cos_mcmc2"]
 
 
 import seaborn as sns

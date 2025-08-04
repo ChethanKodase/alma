@@ -53,9 +53,9 @@ import matplotlib.pyplot as plt
 
 all_metric_types = ["adv_recons", "adv_divs", "adv_divs_wass", "adv_divs_abs", "adv_divs_wass", "ssim", "psnr"]
 
-objective_names = ["LA,l-2", "LA, wasserst.", "LA, SKL", "LA, cosine", "ALMA, l-2", "ALMA, wasserst.", "ALMA, SKL", "ALMA, cosine"]
+objective_names = ["LA,l-2", "LA, wasserst.", "LA, SKL", "LA, cosine", "GRILL, l-2", "GRILL, wasserst.", "GRILL, SKL", "GRILL, cosine"]
 
-#objective_names = ["LA, cosine",  "ALMA, cosine"]
+#objective_names = ["LA, cosine",  "GRILL, cosine"]
 
 
 metric_type = all_metric_types[1]
