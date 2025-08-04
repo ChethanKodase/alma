@@ -163,7 +163,9 @@ import os
 #file_path = f"diffae/noise_storage/DiffAE_attack_type{attck_type}_norm_bound_{desired_norm_l_inf}_.pt"
 
 source_segment = 0
-file_path = f"/data1/chethan/diffae/attack_run_time_univ/attack_noise/DiffAE_attack_typelatent_cosine_norm_bound_"+str(desired_norm_l_inf)+"_segment_"+str(source_segment)+".pt"
+
+../diffae
+file_path = f"../diffae/attack_run_time_univ/attack_noise/DiffAE_attack_typelatent_cosine_norm_bound_"+str(desired_norm_l_inf)+"_segment_"+str(source_segment)+".pt"
 
 # Check if the file exists
 if (attck_type=="gcr_cos" and os.path.exists(file_path)):
@@ -559,10 +561,6 @@ def get_hmc_lat2(z, x):
             p_new = p.clone()
             x_mean = get_pseudo_decoder2(z_new)
 
-            #print("x_mean.shape", x_mean.shape)
-            #plt.imshow(x_mean[0].cpu().detach().permute(1, 2, 0).cpu().numpy())
-            #plt.savefig('/data1/chethan/alma/testing/check.png')
-            #x_flat, x_mean_flat = x.view(x.size(0), -1), x_mean.view(x.size(0), -1)
             x_mean_flat = x_mean.view(x.size(0), -1)
 
             log_p_x = -((x_flat - x_mean_flat) ** 2).sum(dim=1) / 2  # assuming Gaussian decoder
@@ -1066,7 +1064,7 @@ if(attck_type == "la_cos_pr"):
                 print("noise_addition.max()", noise_addition.min())
                 grad_l2_norm = torch.norm(noise_addition.grad, p=2)
                 all_grad_norms.append(grad_l2_norm.item())
-                np.save("/data1/chethan/alma/diffae/grad_distribution/grad_norms_list_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", all_grad_norms)
+                np.save("diffae/grad_distribution/grad_norms_list_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", all_grad_norms)
 
                 print("grad_l2_norm", grad_l2_norm)
                 plt.figure(figsize=(8, 5))
@@ -1076,12 +1074,12 @@ if(attck_type == "la_cos_pr"):
                 plt.ylabel("L2 Norm of ∇(loss) w.r.t noise_addition")
                 plt.grid(True)
                 plt.tight_layout()
-                plt.savefig("/data1/chethan/alma/diffae/grad_distribution/GradL2Norm_vs_Steps_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".png")
+                plt.savefig("diffae/grad_distribution/GradL2Norm_vs_Steps_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".png")
                 plt.show()
                 plt.close()
 
                 grad_values = noise_addition.grad.detach().cpu().numpy().flatten()
-                np.save("/data1/chethan/alma/diffae/grad_distribution/grad_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", grad_values)
+                np.save("diffae/grad_distribution/grad_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", grad_values)
 
                 grad_matrix = noise_addition.grad.view(256, -1).detach().cpu().numpy()  # shape (3, 256*256)
                 U, S, Vt = np.linalg.svd(grad_matrix, full_matrices=False)
@@ -1093,10 +1091,10 @@ if(attck_type == "la_cos_pr"):
                 plt.ylabel("Singular Value (log scale)")
                 plt.grid(True)
                 plt.show()
-                plt.savefig("/data1/chethan/alma/diffae/grad_distribution/SVD_stretch_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
+                plt.savefig("diffae/grad_distribution/SVD_stretch_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
                 plt.close()
 
-                np.save("/data1/chethan/alma/diffae/grad_distribution/stretch_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", S)
+                np.save("diffae/grad_distribution/stretch_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", S)
 
 
                 plt.figure(figsize=(8, 5))
@@ -1112,7 +1110,7 @@ if(attck_type == "la_cos_pr"):
                 plt.xticks(rotation=45)
 
                 plt.show()
-                plt.savefig("/data1/chethan/alma/diffae/grad_distribution/Histogram_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
+                plt.savefig("diffae/grad_distribution/Histogram_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
                 plt.close()
 
             count_batch+=1
@@ -1334,7 +1332,7 @@ if(attck_type == "grill_cos_pr1"):
                 grad_l2_norm = torch.norm(noise_addition.grad, p=2)
                 print("grad_l2_norm", grad_l2_norm)
                 all_grad_norms.append(grad_l2_norm.item())
-                np.save("/data1/chethan/alma/diffae/grad_distribution/grad_norms_list_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", all_grad_norms)
+                np.save("diffae/grad_distribution/grad_norms_list_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", all_grad_norms)
                 print("grad_l2_norm", grad_l2_norm)
                 plt.figure(figsize=(8, 5))
                 plt.plot(all_grad_norms, marker='o', linestyle='-')
@@ -1343,14 +1341,14 @@ if(attck_type == "grill_cos_pr1"):
                 plt.ylabel("L2 Norm of ∇(loss) w.r.t noise_addition")
                 plt.grid(True)
                 plt.tight_layout()
-                plt.savefig("/data1/chethan/alma/diffae/grad_distribution/GradL2Norm_vs_Steps_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".png")
+                plt.savefig("diffae/grad_distribution/GradL2Norm_vs_Steps_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".png")
                 plt.show()
                 plt.close()
 
 
 
                 grad_values = noise_addition.grad.detach().cpu().numpy().flatten()
-                np.save("/data1/chethan/alma/diffae/grad_distribution/grad_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", grad_values)
+                np.save("diffae/grad_distribution/grad_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", grad_values)
 
                 grad_matrix = noise_addition.grad.view(256, -1).detach().cpu().numpy()  # shape (3, 256*256)
                 U, S, Vt = np.linalg.svd(grad_matrix, full_matrices=False)
@@ -1362,10 +1360,10 @@ if(attck_type == "grill_cos_pr1"):
                 plt.ylabel("Singular Value (log scale)")
                 plt.grid(True)
                 plt.show()
-                plt.savefig("/data1/chethan/alma/diffae/grad_distribution/SVD_stretch_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
+                plt.savefig("diffae/grad_distribution/SVD_stretch_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
                 plt.close()
 
-                np.save("/data1/chethan/alma/diffae/grad_distribution/stretch_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", S)
+                np.save("diffae/grad_distribution/stretch_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", S)
 
                 plt.figure(figsize=(8, 5))
                 plt.hist(grad_values, bins=100, range=(-0.001, 0.001), density=False, alpha=0.75)
@@ -1382,7 +1380,7 @@ if(attck_type == "grill_cos_pr1"):
                 plt.tight_layout()  # Adjust layout to avoid overlap
 
                 plt.show()
-                plt.savefig("/data1/chethan/alma/diffae/grad_distribution/Histogram_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
+                plt.savefig("diffae/grad_distribution/Histogram_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
                 plt.close()
 
             count_batch+=1
@@ -1433,7 +1431,7 @@ if(attck_type == "grill_cos_pr_rnd1"):
                 grad_l2_norm = torch.norm(noise_addition.grad, p=2)
                 print("grad_l2_norm", grad_l2_norm)
                 all_grad_norms.append(grad_l2_norm.item())
-                np.save("/data1/chethan/alma/diffae/grad_distribution/grad_norms_list_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", all_grad_norms)
+                np.save("diffae/grad_distribution/grad_norms_list_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", all_grad_norms)
                 print("grad_l2_norm", grad_l2_norm)
                 plt.figure(figsize=(8, 5))
                 plt.plot(all_grad_norms, marker='o', linestyle='-')
@@ -1442,14 +1440,14 @@ if(attck_type == "grill_cos_pr_rnd1"):
                 plt.ylabel("L2 Norm of ∇(loss) w.r.t noise_addition")
                 plt.grid(True)
                 plt.tight_layout()
-                plt.savefig("/data1/chethan/alma/diffae/grad_distribution/GradL2Norm_vs_Steps_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".png")
+                plt.savefig("diffae/grad_distribution/GradL2Norm_vs_Steps_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".png")
                 plt.show()
                 plt.close()
 
 
 
                 grad_values = noise_addition.grad.detach().cpu().numpy().flatten()
-                np.save("/data1/chethan/alma/diffae/grad_distribution/grad_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", grad_values)
+                np.save("diffae/grad_distribution/grad_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", grad_values)
 
                 grad_matrix = noise_addition.grad.view(256, -1).detach().cpu().numpy()  # shape (3, 256*256)
                 U, S, Vt = np.linalg.svd(grad_matrix, full_matrices=False)
@@ -1461,10 +1459,10 @@ if(attck_type == "grill_cos_pr_rnd1"):
                 plt.ylabel("Singular Value (log scale)")
                 plt.grid(True)
                 plt.show()
-                plt.savefig("/data1/chethan/alma/diffae/grad_distribution/SVD_stretch_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
+                plt.savefig("diffae/grad_distribution/SVD_stretch_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
                 plt.close()
 
-                np.save("/data1/chethan/alma/diffae/grad_distribution/stretch_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", S)
+                np.save("diffae/grad_distribution/stretch_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", S)
 
                 plt.figure(figsize=(8, 5))
                 plt.hist(grad_values, bins=100, range=(-0.001, 0.001), density=False, alpha=0.75)
@@ -1481,7 +1479,7 @@ if(attck_type == "grill_cos_pr_rnd1"):
                 plt.tight_layout()  # Adjust layout to avoid overlap
 
                 plt.show()
-                plt.savefig("/data1/chethan/alma/diffae/grad_distribution/Histogram_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
+                plt.savefig("diffae/grad_distribution/Histogram_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
                 plt.close()
 
             count_batch+=1
@@ -1529,7 +1527,7 @@ if(attck_type == "grill_cos_pr_unif1"):
                 grad_l2_norm = torch.norm(noise_addition.grad, p=2)
                 print("grad_l2_norm", grad_l2_norm)
                 all_grad_norms.append(grad_l2_norm.item())
-                np.save("/data1/chethan/alma/diffae/grad_distribution/grad_norms_list_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", all_grad_norms)
+                np.save("diffae/grad_distribution/grad_norms_list_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", all_grad_norms)
                 print("grad_l2_norm", grad_l2_norm)
                 plt.figure(figsize=(8, 5))
                 plt.plot(all_grad_norms, marker='o', linestyle='-')
@@ -1538,14 +1536,14 @@ if(attck_type == "grill_cos_pr_unif1"):
                 plt.ylabel("L2 Norm of ∇(loss) w.r.t noise_addition")
                 plt.grid(True)
                 plt.tight_layout()
-                plt.savefig("/data1/chethan/alma/diffae/grad_distribution/GradL2Norm_vs_Steps_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".png")
+                plt.savefig("diffae/grad_distribution/GradL2Norm_vs_Steps_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".png")
                 plt.show()
                 plt.close()
 
 
 
                 grad_values = noise_addition.grad.detach().cpu().numpy().flatten()
-                np.save("/data1/chethan/alma/diffae/grad_distribution/grad_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", grad_values)
+                np.save("diffae/grad_distribution/grad_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", grad_values)
 
                 grad_matrix = noise_addition.grad.view(256, -1).detach().cpu().numpy()  # shape (3, 256*256)
                 U, S, Vt = np.linalg.svd(grad_matrix, full_matrices=False)
@@ -1557,10 +1555,10 @@ if(attck_type == "grill_cos_pr_unif1"):
                 plt.ylabel("Singular Value (log scale)")
                 plt.grid(True)
                 plt.show()
-                plt.savefig("/data1/chethan/alma/diffae/grad_distribution/SVD_stretch_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
+                plt.savefig("diffae/grad_distribution/SVD_stretch_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
                 plt.close()
 
-                np.save("/data1/chethan/alma/diffae/grad_distribution/stretch_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", S)
+                np.save("diffae/grad_distribution/stretch_values_"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+".npy", S)
 
                 plt.figure(figsize=(8, 5))
                 plt.hist(grad_values, bins=100, range=(-0.001, 0.001), density=False, alpha=0.75)
@@ -1577,7 +1575,7 @@ if(attck_type == "grill_cos_pr_unif1"):
                 plt.tight_layout()  # Adjust layout to avoid overlap
 
                 plt.show()
-                plt.savefig("/data1/chethan/alma/diffae/grad_distribution/Histogram_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
+                plt.savefig("diffae/grad_distribution/Histogram_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_step_"+str(step)+"_.png")   #####this
                 plt.close()
 
             count_batch+=1

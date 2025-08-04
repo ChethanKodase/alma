@@ -53,13 +53,13 @@ for i in range(100):
 
 
 #attack_types = ["latent_cosine", "combi_l2", "combi_wasserstein", "combi_SKL", "combi_cos_cond_dir_cap"]
-#attack_types = ["la_cos_mcmc", "alma_cos_mcmc"]
+#attack_types = ["la_cos_mcmc", "GRILL_cos_mcmc"]
 
-#attack_types = ["latent_l2", "latent_wasserstein", "latent_SKL", "la_cos_mcmc", "combi_l2", "combi_wasserstein", "combi_SKL", "alma_cos_mcmc"]
+#attack_types = ["latent_l2", "latent_wasserstein", "latent_SKL", "la_cos_mcmc", "combi_l2", "combi_wasserstein", "combi_SKL", "GRILL_cos_mcmc"]
 
-#attack_types = ["latent_l2", "latent_wasserstein", "latent_SKL", "la_cos1", "combi_l2", "combi_wasserstein", "combi_SKL", "alma_cos1"]
+#attack_types = ["latent_l2", "latent_wasserstein", "latent_SKL", "la_cos1", "combi_l2", "combi_wasserstein", "combi_SKL", "GRILL_cos1"]
 
-#attack_types = ["latent_l2", "latent_wasserstein", "latent_SKL", "21", "combi_l2", "combi_wasserstein", "combi_SKL", "alma_cos_mcmc2"]
+#attack_types = ["latent_l2", "latent_wasserstein", "latent_SKL", "21", "combi_l2", "combi_wasserstein", "combi_SKL", "GRILL_cos_mcmc2"]
 attack_types = ["latent_l2", "latent_wasserstein", "latent_SKL", "la_cos_mcmc2", "combi_l2", "combi_wasserstein", "combi_SKL", "grill_cos_mcmc2"]
 
 
@@ -69,9 +69,9 @@ import matplotlib.pyplot as plt
 
 all_metric_types = ["adv_recons", "adv_divs", "adv_divs_wass", "adv_divs_abs", "adv_divs_wass", "ssim", "psnr"]
 
-objective_names = ["LA,l-2", "LA, wasserst.", "LA, SKL", "LA, cosine", "ALMA, l-2", "ALMA, wasserst.", "ALMA, SKL", "ALMA, cosine"]
+objective_names = ["LA,l-2", "LA, wasserst.", "LA, SKL", "LA, cosine", "GRILL, l-2", "GRILL, wasserst.", "GRILL, SKL", "GRILL, cosine"]
 
-#objective_names = ["LA, cosine adaptive",  "ALMA, cosine adaptive"]
+#objective_names = ["LA, cosine adaptive",  "GRILL, cosine adaptive"]
 
 
 metric_type = all_metric_types[1]

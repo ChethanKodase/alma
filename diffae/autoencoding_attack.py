@@ -6,8 +6,8 @@
 
 '''
 
-cd /mdadm0/chethan_krishnamurth/diffae
-conda activate /mdadm0/chethan_krishnamurth/miniconda3/envs/dt2
+cd /diffae
+conda activate /miniconda3/envs/dt2
 python autoencoding_attack.py --source_segment 10 --desired_norm_l_inf 0.08 --attck_type latent_l2 --which_gpu 2
 python autoencoding_attack.py --source_segment 10 --desired_norm_l_inf 0.08 --attck_type latent_SKL --which_gpu 2
 python autoencoding_attack.py --source_segment 10 --desired_norm_l_inf 0.08 --attck_type latent_wasserstein --which_gpu 2
@@ -84,7 +84,7 @@ model.ema_model.to(device);
 
 #print("model.ema_model.encoder", model.ema_model.encoder)
 #print("model.encode", model.encode)
-sensitivities = np.load("/mdadm0/chethan_krishnamurth/diffae/a_sensitivity_test/sensitivity_list/sensitivity.npy")
+sensitivities = np.load("/diffae/a_sensitivity_test/sensitivity_list/sensitivity.npy")
 sens_array = np.array(sensitivities)
 
 layer_wise_weights = sens_array/np.sum(sens_array)
@@ -105,9 +105,9 @@ print("{len(data)}", len(data))
 source_im = data[source_segment]['img'][None].to(device)
 plt.imshow(source_im[0].permute(1, 2, 0).cpu().numpy())
 plt.show()
-plt.savefig('/mdadm0/chethan_krishnamurth/diffae/attack_run_time/attack_plot/see.png')
+plt.savefig('/diffae/attack_run_time/attack_plot/see.png')
 
-torch.save(source_im, "/mdadm0/chethan_krishnamurth/diffae/attack_run_time/attacked_image/DiffAE_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_segment_"+str(source_segment)+".pt")
+torch.save(source_im, "/diffae/attack_run_time/attacked_image/DiffAE_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_segment_"+str(source_segment)+".pt")
 
 
 print("source_im.max()", source_im.max())
@@ -288,11 +288,11 @@ def run_time_plots_and_saves(step, total_loss, l2_distortion, l_inf_distortion, 
         ax[2].set_title('Attack reconstruction')
         ax[2].axis('off')
         plt.show()
-        plt.savefig("/mdadm0/chethan_krishnamurth/diffae/attack_run_time/attack_plot/DiffAE_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_segment_"+str(source_segment)+".png")
+        plt.savefig("/diffae/attack_run_time/attack_plot/DiffAE_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_segment_"+str(source_segment)+".png")
 
     optimized_noise = scaled_noise
-    torch.save(optimized_noise, "/mdadm0/chethan_krishnamurth/diffae/attack_run_time/attack_noise/DiffAE_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_segment_"+str(source_segment)+".pt")
-    np.save("/mdadm0/chethan_krishnamurth/diffae/attack_run_time/adv_div_convergence/DiffAE_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_segment_"+str(source_segment)+".npy", adv_div_list)
+    torch.save(optimized_noise, "/diffae/attack_run_time/attack_noise/DiffAE_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_segment_"+str(source_segment)+".pt")
+    np.save("/diffae/attack_run_time/adv_div_convergence/DiffAE_attack_type"+str(attck_type)+"_norm_bound_"+str(desired_norm_l_inf)+"_segment_"+str(source_segment)+".npy", adv_div_list)
 
 def get_latent_space_l2_loss(normalized_attacked, source_im):
 
