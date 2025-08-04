@@ -324,7 +324,8 @@ python diffae/attack_convergence_epsilon_variation.py --epsilon_list 0.27 0.28 0
 
 
 
-![DiffAE Qualitative](diffae/showcase/diffAE_al.png)
+![DiffAE Distortion distribution](diffae/showcase/diffAEvar1.png)
+![DiffAE Layerwise condition numbers](diffae/showcase/diffaecond.png)
 *Comparison of universal adversarial attacks on DiffAE under 0.27 ≤ c ≤ 0.33*
 
 
