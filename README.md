@@ -20,8 +20,8 @@ To clone the repository, cd into the repository and create and activate the envi
 
 <pre>
 ```
-git clone https://github.com/ChethanKodase/alma.git
-cd alma
+git clone git clone https://github.com/ChethanKodase/grill.git
+cd grill
 conda env create -f environment1.yml
 conda activate your_env
 ```
