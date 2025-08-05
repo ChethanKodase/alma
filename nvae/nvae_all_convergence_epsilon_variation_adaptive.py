@@ -22,7 +22,7 @@ export CUDA_VISIBLE_DEVICES=7
 cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
-cd alma/
+cd grill/
 python nvae/nvae_all_convergence_epsilon_variation_adaptive.py --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint --uni_noise_path nvae/univ_attack_storage/
 
 
@@ -89,10 +89,10 @@ desired_norm_l_inf = 0.03  # Worked very well
 
 #attck_types = ["combi_l2", "combi_wasserstein", "combi_SKL", "combi_cos", "hlatent_l2", "hlatent_wasserstein", "hlatent_SKL", "hlatent_cos"]
 
-#attck_types = ["la_skl_mcmc", "alma_l2_mcmc"]
+#attck_types = ["la_skl_mcmc", "grill_l2_mcmc"]
 
 
-#attck_types = ["alma_l2_mcmc", "alma_wass_mcmc"]
+#attck_types = ["grill_l2_mcmc", "grill_wass_mcmc"]
 
 attck_types = ["la_wass_mcmc", "grill_l2_mcmc"]
 
@@ -235,7 +235,7 @@ epsilon = desired_norm_l_infs
 
 
 
-#objective_names = ["LA,l-2", "LA, wasserst.", "LA, SKL", "LA, cosine", "ALMA, l-2", "ALMA, wasserst.", "ALMA, SKL", "ALMA, cosine"]
+#objective_names = ["LA,l-2", "LA, wasserst.", "LA, SKL", "LA, cosine", "grill, l-2", "grill, wasserst.", "grill, SKL", "grill, cosine"]
 objective_names = ["LA, SKL", "GRILL, l-2"]
 
 

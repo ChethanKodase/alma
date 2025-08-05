@@ -39,7 +39,7 @@ export CUDA_VISIBLE_DEVICES=7
 cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
-cd alma/
+cd grill/
 python nvae/all_qualitative_plots_univ_classic_univ_adaptive.py --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint --uni_noise_path nvae/univ_attack_storage/
 
 
@@ -110,7 +110,7 @@ desired_norm_l_inf = 0.03  # Worked very well
 #attck_types = ["hlatent_l2", "hlatent_wasserstein", "hlatent_SKL", "hlatent_cos", "combi_l2_cond", "combi_wasserstein_cond", "combi_SKL_cond", "combi_cos_cond"] old
 
 if adaptive_noise:
-    attck_types = ["la_skl_mcmc", "alma_l2_mcmc"]
+    attck_types = ["la_skl_mcmc", "grill_l2_mcmc"]
 else:
     attck_types = ["hlatent_SKL", "combi_l2_cond"]
 

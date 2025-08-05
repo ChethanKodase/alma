@@ -24,7 +24,7 @@ export CUDA_VISIBLE_DEVICES=2
 cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
-cd alma/
+cd grill/
 python nvae/nvae_all_condition_analysis.py --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
 
 

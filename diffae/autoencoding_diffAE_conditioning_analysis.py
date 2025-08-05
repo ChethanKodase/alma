@@ -9,7 +9,7 @@
 
 
 
-cd alma
+cd grill
 conda activate dt2
 python diffae/autoencoding_diffAE_conditioning_analysis.py --which_gpu 5 --diffae_checkpoint ../diffae/checkpoints
 

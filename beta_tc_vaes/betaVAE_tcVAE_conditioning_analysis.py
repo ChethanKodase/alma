@@ -20,7 +20,7 @@ import matplotlib.ticker as ticker
 
 conda deactivate
 conda deactivate
-cd alma
+cd grill
 conda activate /home/luser/anaconda3/envs/inn
 python beta_tc_vaes/betaVAE_tcVAE_conditioning_analysis.py  --which_gpu 1 --beta_value 5.0 --which_model VAE --checkpoint_storage vae_checkpoints
 
@@ -30,7 +30,7 @@ python beta_tc_vaes/betaVAE_tcVAE_conditioning_analysis.py  --which_gpu 1 --beta
 
 conda deactivate
 conda deactivate
-cd alma
+cd grill
 conda activate /home/luser/anaconda3/envs/inn
 python beta_tc_vaes/betaVAE_tcVAE_conditioning_analysis.py  --which_gpu 1 --beta_value 5.0 --which_model TCVAE --checkpoint_storage vae_checkpoints
 
@@ -83,7 +83,7 @@ model.load_state_dict(torch.load(''+checkpoint_storage+'/celebA_CNN_'+model_type
 #model.load_state_dict(torch.load('/home/luser/autoencoder_attacks/saved_celebA/checkpoints/celebA_CNN_'+model_type+''+str(beta_value)+'_big_trainSize'+str(train_data_size)+'_epochs'+str(epochs)+'.torch'))
 
 
-'''checkpoint_storage = '/home/luser/alma/vae_checkpoints'
+'''checkpoint_storage = '/home/luser/grill/vae_checkpoints'
 
 torch.save(model.state_dict(), ''+checkpoint_storage+'/celebA_CNN_'+model_type+''+str(beta_value)+'_big_trainSize'+str(train_data_size)+'_epochs'+str(epochs)+'.torch')
 

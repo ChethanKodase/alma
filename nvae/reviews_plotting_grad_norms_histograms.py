@@ -7,7 +7,7 @@ export CUDA_VISIBLE_DEVICES=7
 cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
-cd alma/
+cd grill/
 python nvae/reviews_plotting_grad_norms_histograms.py
 
 '''
@@ -39,7 +39,7 @@ colors = ['blue', 'orange', 'green', 'red', 'lime', 'teal', 'indigo', 'gold']
 
 plt.figure(figsize=(6, 5))  # Adjust the width and height as needed
 
-plt.plot(all_grad_norms1, linestyle='-', label='ALMA(L-2)', color = 'lime')
+plt.plot(all_grad_norms1, linestyle='-', label='grill(L-2)', color = 'lime')
 plt.plot(all_grad_norms2, linestyle='-', label='LA(L-2)', color='blue')
 
 #plt.title("L2 Norm of Gradient Over Optimization Steps")

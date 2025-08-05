@@ -10,7 +10,7 @@ export CUDA_VISIBLE_DEVICES=3
 cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
-cd alma/
+cd grill/
 python nvae/nvae_actual_ablation_plots.py
 
 '''
@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 
 
-attck_types = ["alma_l2_mcmc", "alma_l2_mcmc1", "alma_l2_mcmc2"]
+attck_types = ["grill_l2_mcmc", "grill_l2_mcmc1", "grill_l2_mcmc2"]
 
 
 

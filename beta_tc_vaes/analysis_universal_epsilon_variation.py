@@ -3,7 +3,7 @@
 
 conda deactivate
 conda deactivate
-cd /home/luser/alma
+cd /home/luser/grill
 conda activate /home/luser/anaconda3/envs/inn
 python beta_tc_vaes/analysis_universal_epsilon_variation.py --which_gpu 1 --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --which_model VAE --model_location vae_checkpoints --uni_noise_directory beta_tc_vaes/univ_attack_storage --damage_distributions_address damage_distributions_variation
 
@@ -189,8 +189,8 @@ epsilon = all_perturbation_norms
 
 
 
-objective_names = ["LA,l-2", "LA, wasserst.", "LA, SKL", "LA, cosine", "OA, l-2", "OA, wasserst.", "OA, SKL", "OA, cosine", "LMA, l-2", "LMA, wasserst.", "LMA, SKL", "LMA, cosine", "ALMA, l-2", "ALMA, wasserst.", "ALMA, SKL", "ALMA, cosine"]
-#objective_names = ["LA,l-2", "LA, wasserst.", "LA, SKL", "LA, cosine", "OA, l-2", "OA, wasserst.", "OA, SKL", "OA, cosine", "ALMA, l-2", "ALMA, wasserst.", "ALMA, SKL", "ALMA, cosine"]
+objective_names = ["LA,l-2", "LA, wasserst.", "LA, SKL", "LA, cosine", "OA, l-2", "OA, wasserst.", "OA, SKL", "OA, cosine", "LMA, l-2", "LMA, wasserst.", "LMA, SKL", "LMA, cosine", "GRILL, l-2", "GRILL, wasserst.", "GRILL, SKL", "GRILL, cosine"]
+#objective_names = ["LA,l-2", "LA, wasserst.", "LA, SKL", "LA, cosine", "OA, l-2", "OA, wasserst.", "OA, SKL", "OA, cosine", "GRILL, l-2", "GRILL, wasserst.", "GRILL, SKL", "GRILL, cosine"]
 
 
 # Simulated distributions (mean and standard deviation)

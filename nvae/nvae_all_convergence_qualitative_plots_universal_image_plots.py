@@ -22,7 +22,7 @@ export CUDA_VISIBLE_DEVICES=3
 cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
-cd alma/
+cd grill/
 python nvae/nvae_all_convergence_qualitative_plots_universal_image_plots.py --data_directory data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint --uni_noise_path ../NVAE/attack_run_time_univ/attack_noise --desired_norm_l_inf 0.05
 
 
@@ -158,7 +158,7 @@ with torch.no_grad():
     num_ims = len(all_row_ims)
 
 
-column_labels = ["Original \nImage", "LA \nL-2", "LA \nWasserstein", "LA \nSKL", "LA \nCosine", "ALMA \nL-2", "ALMA \nWasserstein", "ALMA \nSKL", "ALMA \nCosine"]
+column_labels = ["Original \nImage", "LA \nL-2", "LA \nWasserstein", "LA \nSKL", "LA \nCosine", "grill \nL-2", "grill \nWasserstein", "grill \nSKL", "grill \nCosine"]
 
 for ch in range(15):
 
@@ -181,7 +181,7 @@ for ch in range(15):
         #plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
         plt.show()
         plt.show()
-        plt.savefig("/mdadm0/chethan_krishnamurth/alma/universal_qualitative/paperInd_"+str(ch)+"_universal_NVAE_attacks_norm_bound_"+str(desired_norm_l_inf)+"feature_"+str(select_feature_dd)+"_source_segment_.png", bbox_inches='tight')
+        plt.savefig("/universal_qualitative/paperInd_"+str(ch)+"_universal_NVAE_attacks_norm_bound_"+str(desired_norm_l_inf)+"feature_"+str(select_feature_dd)+"_source_segment_.png", bbox_inches='tight')
         plt.close()
 
 

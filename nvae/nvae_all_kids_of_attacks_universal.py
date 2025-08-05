@@ -26,7 +26,7 @@ export CUDA_VISIBLE_DEVICES=6
 cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
-cd alma/
+cd grill/
 python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2_dir_cap" --desired_norm_l_inf 0.04 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
 
 
@@ -37,7 +37,7 @@ export CUDA_VISIBLE_DEVICES=1
 cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
-cd alma/
+cd grill/
 python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2_dir_cap_2" --desired_norm_l_inf 0.04 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
 
 
@@ -49,7 +49,7 @@ export CUDA_VISIBLE_DEVICES=0
 cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
-cd alma/
+cd grill/
 python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2_dir_cap_1" --desired_norm_l_inf 0.04 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
 
 
@@ -60,7 +60,7 @@ export CUDA_VISIBLE_DEVICES=6
 cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
-cd alma/
+cd grill/
 python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2" --desired_norm_l_inf 0.04 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
 
 
@@ -71,7 +71,7 @@ export CUDA_VISIBLE_DEVICES=0
 cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
-cd alma/
+cd grill/
 python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2_rcom" --desired_norm_l_inf 0.04 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
 
 
@@ -84,7 +84,7 @@ export CUDA_VISIBLE_DEVICES=5
 cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
-cd alma/
+cd grill/
 python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2_rand" --desired_norm_l_inf 0.04 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
 
 
@@ -95,7 +95,7 @@ export CUDA_VISIBLE_DEVICES=4
 cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
-cd alma/
+cd grill/
 python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2_eq" --desired_norm_l_inf 0.04 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
 
 
@@ -124,7 +124,7 @@ export CUDA_VISIBLE_DEVICES=7
 cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
-cd alma/
+cd grill/
 python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2_pr" --desired_norm_l_inf 0.05 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
 
 
@@ -138,7 +138,7 @@ export CUDA_VISIBLE_DEVICES=6
 cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
-cd alma/
+cd grill/
 python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_l2_pr" --desired_norm_l_inf 0.05 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
 
 
@@ -149,7 +149,7 @@ export CUDA_VISIBLE_DEVICES=7
 cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
-cd alma/
+cd grill/
 python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_skl_pr" --desired_norm_l_inf 0.05 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
 
 
@@ -165,7 +165,7 @@ export CUDA_VISIBLE_DEVICES=4
 cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
-cd alma/
+cd grill/
 python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2_grad" --desired_norm_l_inf 0.05 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
 
 
@@ -179,7 +179,7 @@ export CUDA_VISIBLE_DEVICES=5
 cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
-cd alma/
+cd grill/
 python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_wass_mcmc" --desired_norm_l_inf 0.035 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
 
 
@@ -191,7 +191,7 @@ export CUDA_VISIBLE_DEVICES=7
 cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
-cd alma/
+cd grill/
 python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2_mcmc" --desired_norm_l_inf 0.035 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
 
 python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2_mcmc_eqwts" --desired_norm_l_inf 0.035 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
@@ -207,7 +207,7 @@ export CUDA_VISIBLE_DEVICES=7
 cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
-cd alma/
+cd grill/
 python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "grill_l2_mcmc" --desired_norm_l_inf 0.035 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
 python nvae/nvae_all_kids_of_attacks_universal.py --attck_type "la_wass_mcmc" --desired_norm_l_inf 0.035 --data_directory ../data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint
 

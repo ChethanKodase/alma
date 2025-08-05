@@ -5,15 +5,15 @@
 
 cd ../diffae
 
-cd alma
+cd grill
 conda activate dt2
 python diffae/attack_universal_quantitative_adaptive.py --desired_norm_l_inf 0.33 --which_gpu 1 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad --noise_directory diffae/noise_storage
 
-cd alma
+cd grill
 conda activate dt2
 python diffae/attack_universal_quantitative_adaptive.py --desired_norm_l_inf 0.3 --which_gpu 2 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad --noise_directory diffae/noise_storage
 
-cd alma
+cd grill
 conda activate dt2
 python diffae/attack_universal_quantitative_adaptive.py --desired_norm_l_inf 0.27 --which_gpu 3 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad --noise_directory diffae/noise_storage
 

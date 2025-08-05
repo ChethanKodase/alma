@@ -23,7 +23,7 @@ from vae import VAE, VAE_big, VAE_big_b
 
 
 conda deactivate
-cd alma
+cd grill
 conda activate /home/luser/anaconda3/envs/inn
 python beta_tc_vaes/vae_celebA_training.py --which_gpu 1 --beta_value 5.0 --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --batch_size 64 --epochs 200 --lr 1e-4 --run_time_plot_dir a_training_runtime --checkpoint_storage vae_checkpoints
 

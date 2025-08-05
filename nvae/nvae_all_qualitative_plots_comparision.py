@@ -22,7 +22,7 @@ export CUDA_VISIBLE_DEVICES=3
 cd NVAE/
 source nvaeenv1/bin/activate
 cd ..
-cd alma/
+cd grill/
 python nvae/nvae_all_qualitative_plots_comparision.py --data_directory data_cel1 --nvae_checkpoint_path ../NVAE/pretrained_checkpoint --uni_noise_path ../NVAE/attack_run_time_univ/attack_noise --desired_norm_l_inf 0.05
 
 
@@ -158,7 +158,7 @@ with torch.no_grad():
     num_ims = len(all_row_ims)
 
 
-column_labels = ["Original \nImage", "LA \nL-2", "LA \nWasserstein", "LA \nSKL", "LA \nCosine", "ALMA \nL-2", "ALMA \nWasserstein", "ALMA \nSKL", "ALMA \nCosine"]
+column_labels = ["Original \nImage", "LA \nL-2", "LA \nWasserstein", "LA \nSKL", "LA \nCosine", "grill \nL-2", "grill \nWasserstein", "grill \nSKL", "grill \nCosine"]
 
 for ch in range(15):
 

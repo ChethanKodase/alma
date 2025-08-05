@@ -3,9 +3,9 @@
 
 conda deactivate
 conda deactivate
-cd alma
+cd grill
 conda activate /home/luser/anaconda3/envs/inn
-python beta_tc_vaes/analysis_universal_image_plots.py --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --model_location /home/luser/autoencoder_attacks/saved_celebA/checkpoints --qualitative_plots_directory /home/luser/alma/universal_qualitative --uni_noise_directory /home/luser/autoencoder_attacks/robustness_eval_saves_univ/relevancy_test/layerwise_maximum_damage_attack
+python beta_tc_vaes/analysis_universal_image_plots.py --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --model_location /home/luser/autoencoder_attacks/saved_celebA/checkpoints --qualitative_plots_directory /home/luser/grill/universal_qualitative --uni_noise_directory /home/luser/autoencoder_attacks/robustness_eval_saves_univ/relevancy_test/layerwise_maximum_damage_attack
 
 
 pending things : Output attack 3 metrics : Output attack for VQ-VAE is not feasible because of problems with discrete latent space and gradient calculation issues
@@ -158,8 +158,8 @@ num_ims = len(all_row_ims)
 column_labels = ['Original Image'] + attack_types
 column_labels = [f"Label {i+1}" for i in range(num_ims // 2)]
 
-#column_labels = ["Original \nImage", "LA \nL-2", "LA \nWasserstein", "LA \nSKL", "LA \nCosine", "OA \nL-2", "OA \nWasserstein", "OA \nSKL", "LMA \nL-2", "LMA \nWasserstein", "LMA \nSKL", "ALMA \nL-2", "ALMA \nWasserstein", "ALMA \nSKL", "ALMA \nCosine", "ALMA \nL-2snesi", "ALMA \nL-2sn_corr", "ACLMA \nL-2sn_deco"]
-column_labels = ["Original \nImage", "LA \nL-2", "LA \nWasserstein", "LA \nSKL", "LA \nCosine", "OA \nL-2", "OA \nWasserstein", "OA \nSKL", "LMA \nL-2", "LMA \nWasserstein", "LMA \nSKL", "ALMA \nL-2", "ALMA \nWasserstein", "ALMA \nSKL", "ALMA \nCosine"] #, "ALMA \nL-2snesi", "ALMA \nL-2sn_corr", "ACLMA \nL-2sn_deco"]
+#column_labels = ["Original \nImage", "LA \nL-2", "LA \nWasserstein", "LA \nSKL", "LA \nCosine", "OA \nL-2", "OA \nWasserstein", "OA \nSKL", "LMA \nL-2", "LMA \nWasserstein", "LMA \nSKL", "GRILL \nL-2", "GRILL \nWasserstein", "GRILL \nSKL", "GRILL \nCosine", "GRILL \nL-2snesi", "GRILL \nL-2sn_corr", "ACLMA \nL-2sn_deco"]
+column_labels = ["Original \nImage", "LA \nL-2", "LA \nWasserstein", "LA \nSKL", "LA \nCosine", "OA \nL-2", "OA \nWasserstein", "OA \nSKL", "LMA \nL-2", "LMA \nWasserstein", "LMA \nSKL", "GRILL \nL-2", "GRILL \nWasserstein", "GRILL \nSKL", "GRILL \nCosine"] #, "GRILL \nL-2snesi", "GRILL \nL-2sn_corr", "ACLMA \nL-2sn_deco"]
 
 with torch.no_grad():
 

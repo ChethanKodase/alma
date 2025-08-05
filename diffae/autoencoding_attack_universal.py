@@ -6,7 +6,7 @@
 
 '''
 
-cd alma
+cd grill
 conda activate dt2
 python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.35 --attck_type la_l2 --which_gpu 7 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
 
@@ -63,7 +63,7 @@ python diffae/review_plotting.py
 ####################################################################################################################################################################################################################################################################################
 ############# Adaptive attacks MCMC ################
 
-cd alma
+cd grill
 conda activate dt2
 python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.27 --attck_type la_cos_mcmc2 --which_gpu 4 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
 python diffae/autoencoding_attack_universal.py --desired_norm_l_inf 0.27 --attck_type grill_cos_mcmc2 --which_gpu 5 --diffae_checkpoint ../diffae/checkpoints --ffhq_images_directory ../diffae/imgs_align_uni_ad
