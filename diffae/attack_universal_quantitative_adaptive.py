@@ -316,7 +316,6 @@ def get_hmc_lat2(z, x):
 
             #print("x_mean.shape", x_mean.shape)
             #plt.imshow(x_mean[0].cpu().detach().permute(1, 2, 0).cpu().numpy())
-            #plt.savefig('/data1/chethan/alma/testing/check.png')
             #x_flat, x_mean_flat = x.view(x.size(0), -1), x_mean.view(x.size(0), -1)
             x_mean_flat = x_mean.view(x.size(0), -1)
 
