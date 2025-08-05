@@ -98,10 +98,25 @@ for idx, (image, label) in enumerate(testLoader):
     source_im, label = image.to(device), label.to(device)
     break
 
-attack_types = ["latent_l2", "latent_wasserstein", "latent_SKL", "latent_cosine", "output_attack_l2", "output_attack_wasserstein", "output_attack_SKL", "output_attack_cosine", "weighted_combi_k_eq_latent_l2", "weighted_combi_k_eq_latent_wasserstein", "weighted_combi_k_eq_latent_SKL", "weighted_combi_k_eq_latent_cosine", "aclmd_l2a_cond", "aclmd_wasserstein_cond", "aclmd_SKL_cond", "aclmd_cosine_cond"] #, "acmld_sens_l2", "acmld_sens_l2_corr", "acmld_sens_l2_deco"]
+#attack_types = ["latent_l2", "latent_wasserstein", "latent_SKL", "latent_cosine", "output_attack_l2", "output_attack_wasserstein", "output_attack_SKL", "output_attack_cosine", "weighted_combi_k_eq_latent_l2", "weighted_combi_k_eq_latent_wasserstein", "weighted_combi_k_eq_latent_SKL", "weighted_combi_k_eq_latent_cosine", "aclmd_l2a_cond", "aclmd_wasserstein_cond", "aclmd_SKL_cond", "aclmd_cosine_cond"] # this is the list I used 
 #attack_types = ["latent_l2", "latent_wasserstein", "latent_SKL", "latent_cosine", "output_attack_l2", "output_attack_wasserstein", "output_attack_SKL", "output_attack_cosine", "aclmd_l2f_cond", "aclmd_wasserstein_cond", "aclmd_SKL_cond", "aclmd_cosine_cond"] #, "acmld_sens_l2", "acmld_sens_l2_corr", "acmld_sens_l2_deco"]
 
 #attack_types = ["aclmd_l2f_cond", "aclmd_wasserstein_cond"] #, "acmld_sens_l2", "acmld_sens_l2_corr", "acmld_sens_l2_deco"]
+
+attack_types = [
+    "latent_l2",
+    "latent_wasserstein",
+    "latent_cosine",
+    "output_attack_l2",
+    "output_attack_wasserstein",
+    "output_attack_cosine",
+    "lgr_l2",
+    "lgr_wass",
+    "lgr_cos",
+    "grill_l2",
+    "grill_wass",
+    "grill_cos"
+]
 
 
 #all_perturbation_norms = [0.04, 0.05, 0.06, 0.07, 0.09]
