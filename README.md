@@ -114,10 +114,10 @@ python beta_tc_vaes/analysis_universal_image_plots.py --data_directory /home/lus
 ```
 </pre>
 
-![beta-VAE Qualitative](beta_tc_vaes/showcase/beta_VAE_all.png)
+![beta-VAE Qualitative](beta_tc_vaes/showcase/beta_VAE_quanti.png)
 *Comparison of universal adversarial attacks on β-VAE under 0.04 ≤ c ≤ 0.07*
 
-![beta-VAE Qualitative](beta_tc_vaes/showcase/tc_VAE_all.png)
+![beta-VAE Qualitative](beta_tc_vaes/showcase/tc_VAE_quanti.png)
 *Comparison of universal adversarial attacks on TC-VAE under 0.04 ≤ c ≤ 0.07*
 
 
