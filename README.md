@@ -87,11 +87,11 @@ Change `--desired_norm_l_inf` value to required L-inf norm bound on the perturba
 Change the arguments for `--attck_type` to `latent_l2, latent_wasserstein, latent_cosine, output_attack_l2, output_attack_wasserstein, output_attack_cosine, lma_l2, lma_wass, lma_cos, grill_l2, grill_wass, grill_cos` to run attacks using rest of all the methods
 
 
-![beta-VAE Qualitative](sample_specific_show/paperVAE_beta5.0_norm_bound_0.05_segment_2.png)
+![beta-VAE Qualitative](sample_specific_show/betavae_qual.png)
 *Qualitative comparision of β-VAE, c = 0.05*
 
 
-![TC-VAE Qualitative](sample_specific_show/paperTCVAE_beta5.0_norm_bound_0.05_segment_0.png)
+![TC-VAE Qualitative](sample_specific_show/tcvae_qual.png)
 *Qualitative comparision of TC-VAE, c = 0.05*
 
 
@@ -120,13 +120,6 @@ python beta_tc_vaes/analysis_universal_image_plots.py --data_directory /home/lus
 ![beta-VAE Qualitative](beta_tc_vaes/showcase/tc_VAE_all.png)
 *Comparison of universal adversarial attacks on TC-VAE under 0.04 ≤ c ≤ 0.07*
 
-##### To train adversarial filter plugin
-
-<pre>
-```
-python beta_tc_vaes/betaVAE_tcVAE_attack_filter.py  --which_gpu 0 --beta_value 5.0 --which_model VAE --desired_norm_l_inf 0.09 --model_location /home/luser/autoencoder_attacks/saved_celebA/checkpoints --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --num_steps 300 --filter_location /home/luser/alma/beta_tc_vaes/filter_storage --uni_noise_directory /home/luser/autoencoder_attacks/robustness_eval_saves_univ/relevancy_test/layerwise_maximum_damage_attack
-```
-</pre>
 
 ##### To plot damage distribution for all epsilon values
 
@@ -135,6 +128,20 @@ python beta_tc_vaes/betaVAE_tcVAE_attack_filter.py  --which_gpu 0 --beta_value 5
 python beta_tc_vaes/analysis_universal_epsilon_variation.py --which_gpu 1 --data_directory /home/luser/autoencoder_attacks/train_aautoencoders/data_cel1 --which_model TCVAE --model_location /home/luser/autoencoder_attacks/saved_celebA/checkpoints --uni_noise_directory /home/luser/autoencoder_attacks/robustness_eval_saves_univ/relevancy_test/layerwise_maximum_damage_attack --damage_distributions_address /home/luser/alma/damage_distributions_variation
 ```
 </pre>
+
+#### To generate adaptive attacks
+
+<pre>
+```
+python beta_tc_vaes/betaVAE_all_kinds_of_attacks_universal_adaptive.py --which_gpu 0 --beta_value 5.0 --attck_type latent_l2_mcmc --which_model VAE --desired_norm_l_inf 0.05
+python beta_tc_vaes/betaVAE_all_kinds_of_attacks_universal_adaptive.py  --which_gpu 0 --beta_value 5.0 --attck_type grill_l2_mcmc --which_model VAE --desired_norm_l_inf 0.05
+
+python beta_tc_vaes/betaVAE_all_kinds_of_attacks_universal_adaptive.py --which_gpu 1 --beta_value 5.0 --attck_type output_wass_mcmc --which_model TCVAE --desired_norm_l_inf 0.05
+python beta_tc_vaes/betaVAE_all_kinds_of_attacks_universal_adaptive.py  --which_gpu 0 --beta_value 5.0 --attck_type grill_l2_mcmc --which_model TCVAE --desired_norm_l_inf 0.05
+
+```
+</pre>
+
 
 # Code for NVAE attacks
 
